@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'main',
     'accounts',
     'friends',
+    'photospots',
     'django_bootstrap5',
     'django_extensions',
     'django_shortcuts',
