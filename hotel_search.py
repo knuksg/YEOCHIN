@@ -11,15 +11,16 @@ import pandas as pd
 resion_list = [
     'Daegu_Metropolitan_City', 'Busan_Province', 
     'Seoul', 'Jeju_Province', 
-    'Incheon_Metropolitan_City', 'Gyeongju',
-    'Gangneung', 
+    'Incheon_Metropolitan_City', 'Jeonju',
+    'Gangneung', 'Daejeon_Metropolitan_City',
+
     ]
 
 # 검색어 설정
-resion = 'Busan_Province'
+resion = 'Daejeon_Metropolitan_City'
 url = 'https://hotels.naver.com/list?placeFileName=place%3A' + resion + '&adultCnt=2&checkIn=2022-11-16&checkOut=2022-11-17&sortField=popularityKR&sortDirection=descending'
-resion = '부산'
-detail_resion = '부산'
+resion = '충청도'
+detail_resion = '대전'
 
 # 크롬 구동
 driver = webdriver.Chrome('/opt/homebrew/bin/chromedriver')
@@ -70,13 +71,12 @@ for i in range(len(hotel_name_list)):
         hotel_name_list[i] = '오류'
         hotel_url_list[i] = '오류'
         continue
-print('수집')
 
 # 오류 제거
 while '오류' in hotel_name_list or '오류' in hotel_url_list:
     hotel_name_list.remove('오류')
     hotel_url_list.remove('오류')
-print('오류제거')
+
 # 데이터프레임으로 만들기
 new_df = pd.DataFrame({
     'region': hotel_region_list,
@@ -91,6 +91,7 @@ new_df = pd.DataFrame({
     'image': hotel_image_list,
     })
 print(new_df)
+
 # 기존 데이터프레임 불러오기
 df = pd.read_excel('hotel_list.xlsx', engine='openpyxl')
 print(df)
