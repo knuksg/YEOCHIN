@@ -1,4 +1,22 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5%}
+{% load imagekit %}
 {% block body %}
 
+<div class="container d-flex flex-column">
+  <h1>인생사진 포토스팟</h1>
+  <!-- 작성 -->
+  <a href="{% url 'photospots:create' %}">create</a>
+  <!-- 썸네일 -->
+  <div class="row">
+      {% for photospot in photospots %}
+        <div class="col-12 col-sm-6 col-md-4 d-flex justify-content-center">
+          {% thumbnail "300x300" photospot.photo_img as thumb %}
+          <img src="{{ thumb.url }}" width="{{ thumb.width }}" height="{{ thumb.height }}" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' photospot.pk %}';">
+        </div>
+      {% empty %}
+        게시글 없음
+      {% endfor %}
+  </div>
+</div>
 {% endblock body %}

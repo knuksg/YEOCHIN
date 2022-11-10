@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5%}
+{% block body %}
+
+<div class="container d-flex flex-column">
+  <!-- 생성/수정 폼 -->
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form photospot_form %}
+    <button class="btn btn-dark" type="submit">제출하기</button>
+  </form>
+</div>
+
+{% endblock body %}
