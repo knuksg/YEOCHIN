@@ -19,6 +19,7 @@ django-imagekit==4.1.0
 django-shortcuts==1.6
 django-summernote==0.8.20.0
 django-widget-tweaks==1.4.12
+et-xmlfile==1.1.0
 exceptiongroup==1.0.1
 executing==1.1.1
 gunicorn==20.1.0
@@ -29,6 +30,7 @@ jedi==0.18.1
 matplotlib-inline==0.1.6
 mypy-extensions==0.4.3
 numpy==1.23.4
+openpyxl==3.0.10
 outcome==1.2.0
 pandas==1.5.1
 parso==0.8.3
