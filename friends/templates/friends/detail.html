@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block body %}
+  <h1>디테일</h1>
+
+  <p>
+    <p>{{ friend.pk }}번 게시글</p>
+    <p>{{ friend.title }}</p>
+    <p>{{ friend.content }}</p>
+    <p>{{ friend.created_at }}</p>
+    <p>{{ friend.updated_at }}</p>
+  </p>
+  <a href="{% url 'friends:update' friend.pk %}">업데이트</a>
+  <a href="{% url 'friends:delete' friend.pk %}">삭제</a>
+
+  <form action="{% url 'friends:comment_create' friend.pk %}" method="post">
+    {% csrf_token %}
+    {% bootstrap_form comment_form %}
+    <button type="submit" class="btn btn-dark">제출</button>
+  </form>
+
+  {% for comment in comments %}
+    <span>{{comment.pk}}번 댓글</span>
+    댓글 내용:{{comment.content}}
+    <a href="{% url "friends:comment_delete" friend.pk comment.pk %}">삭제</a>
+    <br>
+
+  {% endfor %}
+
+{% endblock body %}

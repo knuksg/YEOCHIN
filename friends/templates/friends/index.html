@@ -1,4 +1,16 @@
 {% extends 'base.html' %}
 {% block body %}
+  <h1>인덱스</h1>
+  <a href="{% url 'friends:create' %}">
+    <h2>글쓰기</h2>
+  </a>
+
+  {% for friend in friends %}
+    <p>
+      {{ friend.pk }}
+      <a href="{% url 'friends:detail' friend.pk %}">{{ friend.title }}</a>
+      {{ friend.context }}
+    </p>
+  {% endfor %}
 
 {% endblock body %}
