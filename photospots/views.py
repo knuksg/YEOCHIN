@@ -21,19 +21,11 @@ def create(request):
             photospot = photospot_form.save(commit=False)
             photospot.user = request.user
             photospot.save()
-            return redirect("photospots:detail", photospot.pk)
+            return redirect("photospots:index")
     else:
         photospot_form = PhotospotForm()
     context = {"photospot_form": photospot_form}
     return render(request, "photospots/form.html", context)
-
-
-def detail(request, photospot_pk):
-    photospot = Photospot.objects.get(pk=photospot_pk)
-    context = {
-        "photospot": photospot,
-    }
-    return render(request, "photospots/detail.html", context)
 
 
 @login_required
@@ -43,7 +35,7 @@ def update(request, photospot_pk):
         photospot_form = PhotospotForm(request.POST, request.FILES, instance=photospot)
         if photospot_form.is_valid():
             photospot_form.save()
-            return redirect("photospots:detail", photospot.pk)
+            return redirect("photospots:index")
     else:
         photospot_form = PhotospotForm(instance=photospot)
     context = {"photospot_form": photospot_form}
