@@ -13,6 +13,17 @@
   <a href="{% url 'friends:update' friend.pk %}">업데이트</a>
   <a href="{% url 'friends:delete' friend.pk %}">삭제</a>
 
+  <a href="{% url 'friends:like' friend.pk %}">
+    <button>
+      {% if request.user in friend.like_user.all %}
+        ♥
+      {% else %}
+        ♡
+      {% endif %}
+    </button>
+  </a>
+  <span>{{ friend.like_user.count }}</span>
+
   <form action="{% url 'friends:comment_create' friend.pk %}" method="post">
     {% csrf_token %}
     {% bootstrap_form comment_form %}
@@ -20,8 +31,15 @@
   </form>
 
   {% for comment in comments %}
+    {% if user.profile.image %}
+      <img src="{{ user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="48px">
+    {% else %}
+      <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="48px">
+    {% endif %}
+
     <span>{{comment.pk}}번 댓글</span>
-    댓글 내용:{{comment.content}}
+    {{ comment.user }}
+    {{comment.content}}
     <a href="{% url "friends:comment_delete" friend.pk comment.pk %}">삭제</a>
     <br>
 
