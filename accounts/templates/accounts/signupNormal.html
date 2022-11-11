@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block body %}
+<h3 class="fw-bold text-center" style="padding-top: 50px">회원가입</h3>
+<div class="container mt-5" style="width: 420px">
+  <div>
+    <h5 style="font-weight: bold">
+      입력사항<span style="color: #00ce7c">(필수)</span>
+    </h5>
+  </div>
+  <form action="{% url 'accounts:signupNormal' %}" method="POST">
+    {% csrf_token %}
+    <div class="signinInpBox">
+      <div class="my-3">
+        <input
+          class="signupInp"
+          type="text"
+          name="username"
+          placeholder="아이디"
+          "
+        />
+      </div>
+
+      <div class="my-3 ">
+        <input
+          class="signupInp"
+          type="password"
+          name="password1"
+          placeholder="비밀번호(8자~12자, 영문+숫자+특수문자 사용)"
+        />
+      </div>
+
+      <div class="my-3">
+        <input
+          class="signupInp"
+          type="password"
+          name="password2"
+          placeholder="비밀번호 확인"
+          style="
+            padding: 12px 14px;
+            background-color: rgb(255, 255, 255);
+            border-color: 1px solid rgb(233, 233, 233);
+          "
+        />
+      </div>
+
+      <div class="my-3">
+        <input
+          class="signupInp"
+          type="text"
+          name="nickname"
+          placeholder="닉네임"
+          style="
+            padding: 12px 14px;
+            background-color: rgb(255, 255, 255);
+            border-color: 1px solid rgb(233, 233, 233);
+          "
+        />
+      </div>
+    </div>
+    <div class="pt-3">
+      <input
+        type="submit"
+        class="signupBtn btn fw-bold"
+        style="background-color: #00ce7c; color: white"
+        value="회원가입"
+      />
+    </div>
+  </form>
+  <hr />
+  <div class="d-flex justify-content-center">
+    <p style="color: rgba(194, 200, 204, 1)">
+      이미 회원이라면?
+      <a
+        class="text-decoration-none"
+        style="color: #00ce7c"
+        href="{% url 'accounts:login' %}"
+        >로그인</a
+      >
+    </p>
+  </div>
+</div>
+{% endblock body %}
