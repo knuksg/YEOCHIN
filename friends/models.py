@@ -1,5 +1,9 @@
 from django.db import models
 import datetime
+from django.contrib.auth import get_user_model
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
+
 
 # Create your models here.
 class Friend(models.Model):
@@ -9,11 +13,26 @@ class Friend(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     start_at = models.DateField()
     end_at = models.DateField(null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    like_user = models.ManyToManyField(get_user_model(), related_name="like_friend")
+
+    image = models.ImageField(upload_to="image/", blank=True)
+    thumbnail = ProcessedImageField(
+        upload_to="image/",
+        blank=True,
+        processors=[ResizeToFill(100, 100)],
+        format="JPEG",
+        options={"quality": 80},
+    )
 
 class Friend_Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     friend =  models.ForeignKey(Friend, on_delete=models.CASCADE)
+    
+
+    
     
 
 
