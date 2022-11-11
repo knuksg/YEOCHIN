@@ -14,8 +14,10 @@ from django.http import JsonResponse
 
 # Create your views here.
 
-
 def signup(request):
+    return render(request, 'accounts/signup.html')
+
+def signupNormal(request):
     if request.user.is_authenticated:
         return redirect("main:index")
 
@@ -25,14 +27,16 @@ def signup(request):
             user = form.save()
             Profile.objects.create(user=user)  # 프로필 생성
             auth_login(request, user)
-            return redirect("main:index")
+            return redirect("accounts:login")
     else:
         form = CustomUserCreationForm()
     context = {"form": form}
-    return render(request, "accounts/signup.html", context)
-
+    return render(request, "accounts/signupNormal.html", context)
 
 def login(request):
+    return render(request, 'accounts/login.html')
+
+def loginNormal(request):
     if request.user.is_authenticated:
         return redirect("main:index")
 
@@ -44,7 +48,8 @@ def login(request):
     else:
         form = AuthenticationForm()
     context = {"form": form}
-    return render(request, "accounts/login.html", context)
+    return render(request, "accounts/loginNormal.html", context)
+
 
 
 def logout(request):

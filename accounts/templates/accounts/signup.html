@@ -1,14 +1,51 @@
-{% extends 'base.html' %}
-{% load django_bootstrap5 %}
-
+{% extends 'base.html' %}{% load static %}
+{% block title %} 여행친구 로그인
+{%endblock%}
 {% block body %}
-<div class="container mt-3 mb-3">
-    <h1>회원가입</h1>
-<form action="" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="OK" %}
-    {% comment %}  {% endcomment %}
-</form>
-</div>
+<section class="container">
+  <div class="box">
+    <p class="boxText fw-bold">동행부터 숙소 구하기까지</p>
+    <p class="boxText fw-bold">마음에 쏙 드는 여행 찾기 어려우시죠?</p>
+    <div>
+      <img src="{%static 'image/말풍선.png'%}" alt="" />
+    </div>
+    <div>
+      <p class="fw-bold" style="font-size: 1.3vw">여행친구가 찾아드릴게요</p>
+    </div>
+    <div class="loginBtnSection">
+      <div style="padding: 10px 3vw">
+        <a href="{% url 'accounts:signupNormal'%}"
+          ><button class="btnYclogin text-white fw-bord">
+            <i class="fa-solid fa-user-plus"></i> 여행친구로 가입하기
+          </button></a
+        >
+      </div>
+      <div style="padding: 10px 3vw">
+        <a href="{% url 'accounts:login'%}">
+          <button
+            class="btnYclogin text-white fw-bord"
+            style="background-color: rgb(254, 229, 0)"
+          >
+            <i style="color: rgb(28, 16, 0)" class="fa-solid fa-comment"></i
+            ><span
+              style="font-weight: bold; color: rgb(28, 16, 0); padding: 5px"
+              >카카오로 가입하기</span
+            >
+          </button></a
+        >
+      </div>
+      <div class="py-1">
+        <hr />
+        <div class="d-flex justify-content-center">
+          <p style="color: rgba(194, 200, 204, 1)">
+            이미 계정이 있으신가요?
+            <a style="color: black" href="{% url 'accounts:login' %}"
+              >로그인</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock body %}

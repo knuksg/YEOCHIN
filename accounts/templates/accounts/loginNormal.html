@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% load static %} {%block body %}
+<h3 class="fw-bold text-center" style="padding-top: 50px">로그인</h3>
+<div class="container mt-5" style="width: 420px">
+  <form action="{% url 'accounts:loginNormal' %}" method="POST">
+    {% csrf_token %}
+    <div class="signinInpBox">
+      <div class="my-3">
+        <input
+          class="signupInp"
+          type="text"
+          name="username"
+          placeholder="아이디"
+        />
+      </div>
+  
+      <div class="my-3">
+        <input
+          class="signupInp"
+          type="password"
+          name="password"
+          placeholder="비밀번호"
+        />
+      </div>
+    </div>
+    <input
+      type="submit"
+      class="signupBtn btn py-2 form-control fw-bold"
+      style="background-color: #00ce7c; color: white"
+      value="로그인"
+    />
+  </form>
+  <hr />
+  <div class="d-flex justify-content-center">
+    <p>
+      <a
+        class="text-decoration-none"
+        style="color: black;"
+        href="{% url 'accounts:signup' %}"
+        >회원가입</a
+      >
+    </p>
+  </div>
+</div>
+
+{% endblock %}
