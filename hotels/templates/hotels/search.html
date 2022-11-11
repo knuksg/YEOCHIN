@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block body %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<div class="d-flex flex-column">
+  <div class="btn-group" role="group" aria-label="Vertical button group">
+    {% for region in regions %}
+    <button id="region_btn" type="button" class="btn btn-light">{{ region.name }}</button>
+    {% endfor %}
+  </div>
+  <div class="btn-group" role="group" aria-label="Vertical button group">
+    {% for region in regions %}
+      {% for detail_region in region.detailregion_set.all %}
+      <button id="detail_region_btn" type="button" class="btn btn-light d-none {{ region.name }}">{{ detail_region.name }}</button>
+      {% endfor %}
+    {% endfor %}
+  </div>
+  {% comment %} <form id="region_form">
+    {% csrf_token %}
+    <input type="hidden" id="region" name="region" value="없음">
+  </form> {% endcomment %}
+</div>
+
+<!-- Nav-Search -->
+<form class="d-flex align-items-center" action="{% url 'hotels:search' %}" method="POST">
+  {% csrf_token %}
+  <div class="">
+    <i class="fa-solid fa-magnifying-glass" style="color: #adb5bd;"></i>
+    <input type="text" id="search_kw" name="kw" value="{{ kw|default_if_none:'' }}" placeholder=" 호텔 검색" style="border: none;">
+  </div>
+  <input type="hidden" id="region" name="region" value="없음">
+  <input type="button" id="btn_search" value="CLEAR" style="cursor: default;">
+</form>
+
+<!-- Search -->
+<div>
+  <h1>{{ kw }} 호텔 인기 순위</h1>
+  <div>
+    {% for hotel in hotel_list %}
+    {{ hotel.name }}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 페이징처리 시작 -->
+<ul class="pagination justify-content-center">
+  <!-- 이전페이지 -->
+  {% if hotel_list.has_previous %}
+  <li class="page-item">
+      <a class="page-link" href="?page={{ hotel_list.previous_page_number }}">이전</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+      <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+  </li>
+  {% endif %}
+  <!-- 페이지리스트 -->
+  {% for page_number in hotel_list.paginator.page_range %}
+  {% if page_number == hotel_list.number %}
+  <li class="page-item active" aria-current="page">
+      <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+  </li>
+  {% else %}
+  <li class="page-item">
+      <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+  </li>
+  {% endif %}
+  {% endfor %}
+  <!-- 다음페이지 -->
+  {% if hotel_list.has_next %}
+  <li class="page-item">
+      <a class="page-link" href="?page={{ hotel_list.next_page_number }}">다음</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+      <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+  </li>
+  {% endif %}
+</ul>
+<!-- 페이징처리 끝 -->
+
+<!-- CDN axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- 지역 버튼 스크립트 -->
+<script>
+  const FirstRegionBtns = document.querySelector('#region_btn')
+  const FirstDetailRegionBtns = document.querySelector('#detail_region_btn')
+  const Region = document.querySelector('#region')
+  const RegionForm = document.querySelector('#region_form')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  FirstRegionBtns.classList.add('active')
+  FirstDetailRegionBtns.classList.remove('d-none')
+
+  const RegionBtns = document.querySelectorAll('#region_btn')
+  const DetailRegionBtns = document.querySelectorAll('#detail_region_btn')
+
+  RegionBtns.forEach((RegionBtn) => {
+    RegionBtn.addEventListener('click', function(e){
+      e.preventDefault()
+      <!--액티브 바꿔주기-->
+      if (! e.target.classList.contains('active')){
+        RegionBtns.forEach(
+          (RegionBtn) => {
+            RegionBtn.classList.remove('active')
+          }
+        )
+        e.target.classList.add('active')
+        DetailRegionBtns.forEach((DetailRegionBtn) => {
+          if (! DetailRegionBtn.classList.contains('d-none')){
+            DetailRegionBtn.classList.add('d-none')
+          }
+        })
+        DetailRegionBtns.forEach((DetailRegionBtn) => {
+          if (DetailRegionBtn.classList.contains(e.target.innerText)){
+            DetailRegionBtn.classList.remove('d-none')
+          }
+        })
+      }
+      <!--필터에 값 보내주기-->
+
+      Region.value = e.target.innerText
+      console.log(Region.value)
+
+      {% comment %} RegionForm.addEventListener('ValueChange', function(event){
+        event.preventDefault()
+        .axios({
+          method: 'post',
+          url: '/hotels/search/',
+          headers: {'X-CSRFToken': csrftoken},
+        })
+        .then((response) => {
+          console.log(response.data)
+        })
+      }) {% endcomment %}
+
+      
+
+    })
+  })
+</script>
+{% endblock body %}

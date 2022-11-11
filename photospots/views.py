@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import PhotospotForm
-from .models import Photospot
+from .forms import PhotospotForm, CommentForm
+from .models import Photospot, Photocomment
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
@@ -11,6 +11,17 @@ def index(request):
         "photospots": photospots,
     }
     return render(request, "photospots/index.html", context)
+
+
+def detail(request, photospot_pk):
+    photospot = Photospot.objects.get(pk=photospot_pk)
+    comment_form = CommentForm()
+    context = {
+        "photospot": photospot,
+        "comment_form": comment_form,
+        "comments": photospot.photocomment_set.all(),
+    }
+    return render(request, "photospots/detail.html", context)
 
 
 @login_required
@@ -63,3 +74,22 @@ def like(request, photospot_pk):
         "likeCount": photospot.like_users.count(),
     }
     return JsonResponse(data)
+
+
+@login_required
+def comment_create(request, photospot_pk):
+    photospot = Photospot.objects.get(pk=photospot_pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.photospot = photospot
+        comment.user = request.user
+        comment.save()
+    return redirect("photospots:detail", photospot.pk)
+
+
+@login_required
+def comment_delete(request, comment_pk, photospot_pk):
+    comment = Photocomment.objects.get(pk=comment_pk)
+    comment.delete()
+    return redirect("photospots:detail", photospot_pk)
