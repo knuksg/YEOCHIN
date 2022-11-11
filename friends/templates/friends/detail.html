@@ -1,48 +1,63 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block body %}
-  <h1>디테일</h1>
-
-  <p>
-    <p>{{ friend.pk }}번 게시글</p>
-    <p>{{ friend.title }}</p>
-    <p>{{ friend.content }}</p>
-    <p>{{ friend.created_at }}</p>
-    <p>{{ friend.updated_at }}</p>
-  </p>
-  <a href="{% url 'friends:update' friend.pk %}">업데이트</a>
-  <a href="{% url 'friends:delete' friend.pk %}">삭제</a>
-
-  <a href="{% url 'friends:like' friend.pk %}">
-    <button>
-      {% if request.user in friend.like_user.all %}
-        ♥
-      {% else %}
-        ♡
-      {% endif %}
-    </button>
-  </a>
-  <span>{{ friend.like_user.count }}</span>
-
-  <form action="{% url 'friends:comment_create' friend.pk %}" method="post">
-    {% csrf_token %}
-    {% bootstrap_form comment_form %}
-    <button type="submit" class="btn btn-dark">제출</button>
-  </form>
-
-  {% for comment in comments %}
-    {% if user.profile.image %}
-      <img src="{{ user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="48px">
+  <div class="container">
+    <h1>디테일</h1>
+    {% if friend.image %}
+      <div class="my-3 p-3 border border-3 bg-light" style="height:300px; background-image:url({{ friend.thumbnail.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
     {% else %}
-      <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="48px">
+      <div class="my-3 p-3 border border-3 bg-light" style="height:300px; background-image:url(https://cards.image.pokemonkorea.co.kr/data/wmimages/S/SI/SI_171.png); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
     {% endif %}
 
-    <span>{{comment.pk}}번 댓글</span>
-    {{ comment.user }}
-    {{comment.content}}
-    <a href="{% url "friends:comment_delete" friend.pk comment.pk %}">삭제</a>
-    <br>
+    <p>
+      {{ friend.title }}
+    </p>
+    {{ friend.pk }}
+    <div class="rounded-3 border border-5" style="width=100px height:100px">
+      <div class="m-3">
+        🗓️
+        {{friend.start_at}}~{{friend.end_at}}
+      </div>
+    </div>
+    d-day:{{ Dday }}
+    <p>{{ friend.content }}</p>
+    <a href="{% url 'friends:update' friend.pk %}">업데이트</a>
+    <a href="{% url 'friends:delete' friend.pk %}">삭제</a>
 
-  {% endfor %}
+    <a href="{% url 'friends:like' friend.pk %}">
+
+      {% if request.user in friend.like_user.all %}
+        <lord-icon src="https://cdn.lordicon.com/hqrgkqvs.json" trigger="loop-on-hover" style="width:32px;height:32px"></lord-icon>
+      {% else %}
+        <lord-icon src="https://cdn.lordicon.com/rjzlnunf.json" trigger="loop-on-hover" style="width:32px;height:32px"></lord-icon>
+      {% endif %}
+
+    </a>
+
+    <p>좋아요 수:{{ friend.like_user.count }}</p>
+    {{ friend.created_at }}
+    {{ friend.updated_at }}
+
+    <form action="{% url 'friends:comment_create' friend.pk %}" method="post">
+      {% csrf_token %}
+      {% bootstrap_form comment_form %}
+      <button type="submit" class="btn btn-dark">제출</button>
+    </form>
+
+    {% for comment in comments %}
+      {% if user.profile.image %}
+        <img src="{{ user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="48px">
+      {% else %}
+        <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="48px">
+      {% endif %}
+
+      <span>{{comment.pk}}번 댓글</span>
+      {{ comment.user }}
+      {{comment.content}}
+      <a href="{% url "friends:comment_delete" friend.pk comment.pk %}">삭제</a>
+      <br>
+
+    {% endfor %}
+  </div>
 
 {% endblock body %}

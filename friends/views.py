@@ -5,9 +5,15 @@ from django.http import HttpResponseForbidden
 
 # Create your views here.
 def index(request):
+    Ddays = []
     friends = Friend.objects.all()
+    for friend in friends:
+        Dday = (friend.end_at - friend.start_at).days
+        Ddays.append(Dday)
+        
     context = {
-        'friends':friends
+        'friends':friends,
+        'Ddays':Ddays,
     }
     return render(request, "friends/index.html",context)
 
@@ -33,11 +39,14 @@ def detail(request, pk):
     friend = Friend.objects.get(pk=pk)
     comments = friend.friend_comment_set.all()
     comment_form = Friend_CommentForm()
+    Dday = (friend.end_at - friend.start_at).days
+    
 
     context = {
         "friend":friend,
         "comments":comments,
         "comment_form":comment_form,
+        "Dday":Dday
     }
     return render(request,"friends/detail.html", context)
 
