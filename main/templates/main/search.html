@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block body %}
+<!-- Search -->
+<div>
+  <h1>{{ kw }} 호텔 인기 순위</h1>
+  <div>
+    {% for hotel in hotel_list %}
+    {{ hotel.name }}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 페이징처리 시작 -->
+<ul class="pagination justify-content-center">
+  <!-- 이전페이지 -->
+  {% if hotel_list.has_previous %}
+  <li class="page-item">
+      <a class="page-link" href="?page={{ hotel_list.previous_page_number }}">이전</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+      <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+  </li>
+  {% endif %}
+  <!-- 페이지리스트 -->
+  {% for page_number in hotel_list.paginator.page_range %}
+  {% if page_number == hotel_list.number %}
+  <li class="page-item active" aria-current="page">
+      <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+  </li>
+  {% else %}
+  <li class="page-item">
+      <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+  </li>
+  {% endif %}
+  {% endfor %}
+  <!-- 다음페이지 -->
+  {% if hotel_list.has_next %}
+  <li class="page-item">
+      <a class="page-link" href="?page={{ hotel_list.next_page_number }}">다음</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+      <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+  </li>
+  {% endif %}
+</ul>
+<!-- 페이징처리 끝 -->
+{% endblock body %}

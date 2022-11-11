@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block body %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+{% comment %} <div class="d-flex flex-column">
+  <div class="btn-group" role="group" aria-label="Vertical button group">
+    {% for region in region_names %}
+    <button id="region_btn" type="button" class="btn btn-light">{{ region.name }}</button>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+<input type="hidden" id="select_region" name="select_region" value="서울">
+
+
+<!-- 지역 버튼 스크립트 -->
+<script>
+  const FirstRegionBtns = document.querySelector('#region_btn')
+  const Region = document.querySelector('#region')
+  const RegionForm = document.querySelector('#region_form')
+  const SelectRegion = document.querySelector('#select_region')
+  
+  FirstRegionBtns.classList.add('active')
+
+  const RegionBtns = document.querySelectorAll('#region_btn')
+
+  RegionBtns.forEach((RegionBtn) => {
+    RegionBtn.addEventListener('click', function(e){
+      e.preventDefault()
+      <!--액티브 바꿔주기-->
+      if (! e.target.classList.contains('active')){
+        RegionBtns.forEach(
+          (RegionBtn) => {
+            RegionBtn.classList.remove('active')
+          }
+        )
+        e.target.classList.add('active')
+      }
+      SelectRegion.value = e.target.innerText
+    })
+  })
+</script> {% endcomment %}
+
+
+
+
+
+
+
+<div class="col-6">
+  <div class="input-group">
+      <input type="text" id="search_kw" class="form-control" value="{{ kw|default_if_none:'' }}">
+      <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+      </div>
+  </div>
+</div>
+
+<form id="searchForm" method="get" action="{% url 'hotels:test' %}">
+  <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
+  <input type="hidden" id="page" name="page" value="{{ page }}">
+  <input type="hidden" id="region" name="region" value="{{ region }}">
+</form>
+
+<!-- Search -->
+<div>
+  <h1>{{ kw }} 호텔 인기 순위</h1>
+  <div>
+    {% for hotel in hotel_list %}
+    <p>{{ hotel.name }}</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 페이징처리 시작 -->
+<ul class="pagination justify-content-center">
+  <!-- 이전페이지 -->
+  {% if hotel_list.has_previous %}
+  <li class="page-item">
+      <a class="page-link" data-page="{{ hotel_list.previous_page_number }}"
+         href="javascript:void(0)">이전</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+      <a class="page-link" tabindex="-1" aria-disabled="true"
+         href="javascript:void(0)">이전</a>
+  </li>
+  {% endif %}
+  <!-- 페이지리스트 -->
+  {% for page_number in hotel_list.paginator.page_range %}
+  {% if page_number >= hotel_list.number|add:-5 and page_number <= hotel_list.number|add:5 %}
+  {% if page_number == hotel_list.number %}
+  <li class="page-item active" aria-current="page">
+      <a class="page-link" data-page="{{ page_number }}"
+         href="javascript:void(0)">{{ page_number }}</a>
+  </li>
+  {% else %}
+  <li class="page-item">
+      <a class="page-link" data-page="{{ page_number }}"
+         href="javascript:void(0)">{{ page_number }}</a>
+  </li>
+  {% endif %}
+  {% endif %}
+  {% endfor %}
+  <!-- 다음페이지 -->
+  {% if hotel_list.has_next %}
+  <li class="page-item">
+      <a class="page-link" data-page="{{ hotel_list.next_page_number }}"
+         href="javascript:void(0)">다음</a>
+  </li>
+  {% else %}
+  <li class="page-item disabled">
+      <a class="page-link" tabindex="-1" aria-disabled="true"
+         href="javascript:void(0)">다음</a>
+  </li>
+  {% endif %}
+</ul>
+
+<!-- CDN axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script type='text/javascript'>
+const page_elements = document.getElementsByClassName("page-link");
+Array.from(page_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        document.getElementById('page').value = this.dataset.page;
+        {% comment %} document.getElementById('region').value = document.getElementById('region').value; {% endcomment %}
+        document.getElementById('searchForm').submit();
+    });
+});
+const btn_search = document.getElementById("btn_search");
+btn_search.addEventListener('click', function() {
+    document.getElementById('kw').value = document.getElementById('search_kw').value;
+    document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+    {% comment %} document.getElementById('region').value = document.getElementById('select_region').value; {% endcomment %}
+    document.getElementById('searchForm').submit();
+});
+</script>
+{% endblock body %}
