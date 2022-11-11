@@ -6,10 +6,12 @@ class PhotospotForm(forms.ModelForm):
     class Meta:
         model = Photospot
         fields = [
+            "place",
             "photo_img",
             "content",
         ]
         labels = {
+            "place": "장소",
             "photo_img": "인생사진",
             "content": "이야기",
         }
