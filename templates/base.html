@@ -29,6 +29,15 @@
       integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
       crossorigin="anonymous"
     />
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@300&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+      body, h1, h2, h3, h4, h5, h6, p, span {
+        font-family: 'Noto Sans KR'!important;
+      }
+    </style>
     <!-- navbar here -->
     <header class="p-3 mb-3 border-bottom">
       <div class="container">
@@ -36,7 +45,7 @@
           class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
         >
           <a
-            href="/"
+            href="{% url 'friends:index' %}"
             class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
           >
             <img class="logoImg" src="{% static 'image/임시.jpg'%}" alt="" />
@@ -44,10 +53,10 @@
           <ul
             class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
           >
-            <li class="nav_menu">
+            <li class="navMenuLeft">
               <a href="{% url 'friends:index' %}">동행친구 찾기</a>
             </li>
-            <li class="nav_menu">
+            <li class="navMenuLeft">
               <a href="{% url 'hotels:index' %}">숙소</a>
             </li>
           </ul>
@@ -69,6 +78,7 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
+            <!-- profile image -->
               <img
                 src="https://github.com/mdo.png"
                 alt="mdo"
@@ -77,18 +87,35 @@
                 class="rounded-circle"
               />
             </a>
-            <ul class="dropdown-menu text-small">
-              <li><a class="nav_menu dropdown-item" href="#">마이페이지</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="nav_menu dropdown-item" href="#">로그아웃</a></li>
-            </ul>
-            <button class="nav_button">글쓰기</button>
+              <ul class="dropdown-menu text-small">
+                <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}">마이페이지</a><span class="px-1">|</span></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:logout'%}">로그아웃</a><span class="px-2"></span></li>
+                <li><div class="dropdown">
+                  <button class="dropbtn">글쓰기</button>
+                  <div class="dropdown-content">
+                    <a href="{% url 'friend:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+                    <a href="#"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+                    <a href="#">Link 3</a>
+                  </div>
+                </div></li>
+              </ul>  
+
             {% else %}
-            <ul class="nav_ul m-0 p-0">
-              <li class="nav_menu"><a href="">회원가입</a></li>
-              <li class="nav_menu"><a href="">로그인</a></li>
-              <button class="nav_button">글쓰기</button>
-            </ul>
+              <ul class="nav_ul m-0">
+                <li class="navMenuRight p-2"><a href="{% url 'accounts:signup' %}">회원가입</a><span class="px-1">|</span></li>
+                <li class="navMenuRight p-2"><a href="{% url 'accounts:login' %}">로그인</a><span class="px-2"></span></li>
+                <li>
+                  <div class="dropdown">
+                    <button class="dropbtn">글쓰기</button>
+                    <div class="dropdown-content">
+                      <a href="{% url 'friends:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+                      <a href="#"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+                      <a href="#">Link 3</a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             {% endif %}
           </div>
         </div>
