@@ -59,6 +59,7 @@ def detail(request, pk):
     context = {
         "user": user,
     }
+    return render(request, "accounts/detail.html", context)
 
 
 @require_POST
@@ -179,3 +180,12 @@ def update(request, pk):
     }
 
     return render(request, "accounts/update.html", context)
+
+
+@login_required
+def articles(request, pk):
+    articles = all.Articles.objects.filter(user=request.user).order_by("-pk")
+    context = {
+        "articles": articles,
+    }
+    return render(request, "accounts/articles.html", context)
