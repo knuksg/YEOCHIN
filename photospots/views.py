@@ -62,6 +62,7 @@ def like(request, photospot_pk):
     photospot = Photospot.objects.get(pk=photospot_pk)
     if request.user in photospot.like_users.all():
         photospot.like_users.remove(request.user)
+        isLiked = False
     else:
         photospot.like_users.add(request.user)
         isLiked = True
