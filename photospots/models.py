@@ -12,3 +12,10 @@ class Photospot(models.Model):
         settings.AUTH_USER_MODEL, related_name="like_photospots"
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+class Photocomment(models.Model):
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    photospot = models.ForeignKey(Photospot, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
