@@ -48,7 +48,7 @@
             href="{% url 'friends:index' %}"
             class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
           >
-            <img class="logoImg" src="{% static 'image/임시.jpg'%}" alt="" />
+            <img class="logoImg" src="{% static 'image/logo1.png'%}" alt="" />
           </a>
           <ul
             class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
@@ -71,40 +71,43 @@
             </form>
           </div>
           {% if request.user.is_authenticated %}
-          <div class="dropdown text-end">
-            <a
-              href="#"
-              class="d-block link-dark text-decoration-none dropdown-toggle"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-            <!-- profile image -->
-              <img
-                src="https://github.com/mdo.png"
-                alt="mdo"
-                width="32"
-                height="32"
-                class="rounded-circle"
-              />
-            </a>
-              <ul class="dropdown-menu text-small">
-                <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}">마이페이지</a><span class="px-1">|</span></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:logout'%}">로그아웃</a><span class="px-2"></span></li>
-                <li><div class="dropdown">
-                  <button class="dropbtn">글쓰기</button>
-                  <div class="dropdown-content">
-                    <a href="{% url 'friend:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
-                    <a href="#"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
-                    <a href="#">Link 3</a>
+              <div>
+                <div class="dropdown text-end px-2">
+                  <a
+                    href="#"
+                    class="d-block link-dark text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                  <!-- profile image -->
+                    <img
+                      src="https://github.com/mdo.png"
+                      alt="mdo"
+                      width="32"
+                      height="32"
+                      class="rounded-circle"
+                    />
+                  </a>
+                    <ul class="dropdown-menu text-small">
+                      <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}">마이페이지</a></li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:logout'%}">로그아웃</a></li>
+                      <li></li>
+                    </ul>
                   </div>
-                </div></li>
-              </ul>  
-
+              </div>  
+              <div class="dropdown">
+                <button class="dropbtn">글쓰기</button>
+                <div class="dropdown-content">
+                  <a href="{% url 'friends:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+                  <a href="#"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+                  <a href="#">Link 3</a>
+                </div>
+              </div>
             {% else %}
               <ul class="nav_ul m-0">
-                <li class="navMenuRight p-2"><a href="{% url 'accounts:signup' %}">회원가입</a><span class="px-1">|</span></li>
-                <li class="navMenuRight p-2"><a href="{% url 'accounts:login' %}">로그인</a><span class="px-2"></span></li>
+                <li class="navMenuRight py-2"><a href="{% url 'accounts:signup' %}">회원가입</a><span style="padding:0px 2px;">|</span></li>
+                <li class="navMenuRight py-2"><a href="{% url 'accounts:login' %}">로그인</a><span class=""></span></li>
                 <li>
                   <div class="dropdown">
                     <button class="dropbtn">글쓰기</button>

@@ -28,9 +28,9 @@ form:hover,
 }
 
 .logoImg {
-  width: 150px;
-  height: 40px;
-  padding: 6px 12px;
+  width: 300x;
+  height: 80px;
+  padding: 4px 12px;
 }
 
 ul {
@@ -57,7 +57,7 @@ li {
   text-align: center;
   text-decoration: none;
   color: black;
-  padding: 0px 4px;
+  padding: 0px 12px;
 }
 
 .navMenuLeft a:hover {
