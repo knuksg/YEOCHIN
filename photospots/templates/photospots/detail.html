@@ -1,30 +1,147 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5%}
+{% load static %}
 {% block body %}
 
-<div class="container d-flex flex-column">
-  <h1>디테일 페이지</h1>
-  <!-- 내용 -->
-  <p>{{ photospot.user.username }}</p>
-  <img width="500;" src="{{ photospot.photo_img.url }}" alt="{{ photospot.photo_img }}">
-  <p>{{ photospot.content }}</p>
-  <!-- 좋아요 -->
-  <div class="d-flex align-items-center">
-    {% if request.user.is_authenticated %}
-      {% if request.user in photospot.like_users.all %}
-        <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart-fill" style="color:red; cursor: pointer;"></i>
-      {% else %}
-        <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart" style="color:red; cursor: pointer;"></i>
-      {% endif %}
-      <span id="like-count" > {{ photospot.like_users.count }}</span>
-    {% else %}
-      <i class="bi bi-heart-fill" style="color:red;"></i>
-      <span id="like-count" > {{ photospot.like_users.count }}</span>
-    {% endif %}
+<div class="mx-auto w-100">
+  <div class="photo-container lg:photo-container">
+    <div class="photo-box md:photo-box lg:photo-box">
+      <header class="px-3">
+        <a href="{% url 'photospots:index' %}" class="display-4 link-btn text-dark text-decoration-none" >
+          <i class="bi bi-arrow-left-short"></i>
+        </a>
+      </header>
+      <main class="photo-main px-3">
+        <div class="card photo-content border-0">
+          <div class="card-header bg-white border-bottom-0">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                {% if user.profile.image %}
+                <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+                {% else %}
+                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+                {% endif %}
+                <div class="d-flex flex-column">
+                  <p class="m-0">{{ photospot.user.nickname }}</p>
+                  <div class="d-flex">
+                    <p class="m-0 me-2 text-success">
+                      <i class="bi bi-geo-alt-fill"></i>
+                       {{ photospot.place }}
+                    </p>
+                    <p class="m-0 text-muted">{{ photospot.created_at | date:'Y년 m월 d일 H:i' }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                {% if request.user.is_authenticated %}
+                {% if request.user == photospot.user %}
+                <a class="me-3 text-decoration-none text-dark" href="{% url 'photospots:update' photospot.pk %}">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <a class="text-decoration-none text-dark" href="{% url 'photospots:delete' photospot.pk %}">
+                  <i class="bi bi-trash"></i>
+                </a>
+                {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="m-0">{{ photospot.content }}</p>
+          </div>
+          <img src="{{ photospot.photo_img.url }}">
+          <div class="card-footer bg-white border-top-0">
+            <div class="d-flex justify-content-end">
+              {% if request.user.is_authenticated %}
+              <p class="m-0 me-3">
+                {% if request.user in photospot.like_users.all %}
+                  <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart-fill" style="cursor: pointer;"></i>
+                {% else %}
+                  <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart" style="cursor: pointer;"></i>
+                {% endif %}
+                <span id="like-count"> {{ photospot.like_users.count }}</span>
+              </p>
+              {% else %}
+              <p class="m-0 me-3">
+                <i class="bi bi-heart"></i>
+                <span id="like-count"> {{ photospot.like_users.count }}</span>
+              </p>
+              {% endif %}
+              <p class="m-0">
+                <i class="bi bi-chat"></i>
+                <span>{{ photospot.photocomment_set.count }}</span>
+              </p>
+            </div>
+            <div class="d-flex flex-column">
+              <hr>
+              <form class="d-flex border rounded-5" action="{% url 'photospots:comment_create' photospot.pk %}" method="POST">
+                {% csrf_token %}
+                <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요 :)" class="form-control rounded-5 border-0 ms-3" required id="id_conent"></textarea>
+                <div class="d-flex flex-column justify-content-end">
+                  <button class="btn btn-link text-decoration-none text-success" type="submit">
+                    <i class="bi bi-send-fill"></i>
+                  </button>
+                </div>
+              </form>
+              <hr>
+              <h5 class="fw-bold">댓글 {{ photospot.photocomment_set.count }}</h5>
+              {% for comment in comments %}
+              <div class="px-1 py-3 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center">
+                    {% if comment.user.profile.image %}
+                    <img src="{{ comment.user.profile.image.url }}" alt="{{ comment.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+                    {% else %}
+                    <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+                    {% endif %}
+                    <p class="my-1 me-2 fw-bold">{{ comment.user.nickname }}</p>
+                    <p class="my-1 text-muted">{{ comment.created_at | date:'Y년 m월 d일 H:i' }}</p>
+                  </div>
+                  <div>
+                    {% if request.user.is_authenticated %}
+                    {% if request.user == comment.user %}
+                    <a class="text-decoration-none text-dark" href="{% url 'photospots:comment_delete' comment.pk photospot.pk %}">
+                      <i class="bi bi-trash"></i>
+                    </a>
+                    {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+                <p class='my-3'>{{ comment.content }}</p>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <aside class="border-start p-3 photo-aside lg:photo-aside">
+      <div>
+        <div class="d-flex flex-column mb-5">
+          <h3 class="fw-bold mb-3">베스트 게시글</h3>
+          <!-- 베스트 인생사진 for문 3~5개 -->
+          <div class="d-flex border-bottom py-2 w-100">
+            <div class="d-flex flex-column w-100">
+              <h6 class="fw-bold">누구 님의 인생사진</h6>
+              <p>내용...</p>
+            </div>
+            <img class="border" src="" alt="썸네일추가" width="75" height="75">
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <h3 class="fw-bold mb-3">최근 동행찾기</h3>
+          <!-- 최근 동행찾기 for문 3~5개 -->
+          <div class="d-flex border-bottom py-2 w-100">
+            <div class="d-flex flex-column w-100">
+              <h6 class="fw-bold">제목</h6>
+              <p>내용...</p>
+            </div>
+            <img class="border" src="" alt="썸네일추가" width="75" height="75">
+          </div>
+        </div>
+      </div>
+    </aside>
   </div>
-  <!-- 수정/삭제 -->
-  <a href="{% url 'photospots:update' photospot.pk %}">update</a>
-  <a href="{% url 'photospots:delete' photospot.pk %}">delete</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -42,7 +159,8 @@
       if (response.data.isLiked === true) {
         event.target.classList.add('bi-heart-fill')
         event.target.classList.remove('bi-heart')
-      } else {
+      }
+      else {
         event.target.classList.add('bi-heart')
         event.target.classList.remove('bi-heart-fill')
       }

@@ -3,13 +3,28 @@
   <h1>인덱스</h1>
   <a href="{% url 'friends:create' %}">
     <h2>글쓰기</h2>
+
   </a>
 
   {% for friend in friends %}
+    {% if friend.thumbnail %}
+      <div class=" my-3 p-3 rounded-3 border border-3 bg-light" style="width: 282px; height:282px; background-image:url({{ friend.image.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
+    {% else %}
+      <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-2 border border-1" height="282px" width="282px">
+    {% endif %}
     <p>
       {{ friend.pk }}
       <a href="{% url 'friends:detail' friend.pk %}">{{ friend.title }}</a>
-      {{ friend.context }}
+      <p>{{ friend.content|truncatechars:20 }}</p>
+
+      {% if friend.user.profile.image %}
+        <img src="{{ friend.user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="48px" width="48px">
+      {% else %}
+        <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="48px" width="48px">
+      {% endif %}
+      {{friend.user}}
+      <br>
+      Dday={{Ddays}}
     </p>
   {% endfor %}
 
