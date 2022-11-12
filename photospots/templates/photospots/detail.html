@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5%}
 {% load static %}
+{% load imagekit %}
 {% block body %}
 
 <div class="mx-auto w-100">
   <div class="photo-container lg:photo-container">
     <div class="photo-box md:photo-box lg:photo-box">
-      <header class="px-3">
-        <a href="{% url 'photospots:index' %}" class="display-4 link-btn text-dark text-decoration-none" >
-          <i class="bi bi-arrow-left-short"></i>
+      <header class="photo-header">
+        <a href="{% url 'photospots:index' %}" class="text-dark text-decoration-none" >
+          <h3 class="fw-bold m-0">
+            <i class="bi bi-chevron-left"></i>
+            돌아가기
+          </h3>
         </a>
       </header>
-      <main class="photo-main px-3">
+      <main class="photo-main lg:photo-main">
         <div class="card photo-content border-0">
           <div class="card-header bg-white border-bottom-0">
             <div class="d-flex justify-content-between align-items-center">
@@ -115,29 +119,49 @@
         </div>
       </main>
     </div>
-    <aside class="border-start p-3 photo-aside lg:photo-aside">
+    <aside class="photo-aside lg:photo-aside">
       <div>
         <div class="d-flex flex-column mb-5">
-          <h3 class="fw-bold mb-3">베스트 게시글</h3>
-          <!-- 베스트 인생사진 for문 3~5개 -->
-          <div class="d-flex border-bottom py-2 w-100">
-            <div class="d-flex flex-column w-100">
-              <h6 class="fw-bold">누구 님의 인생사진</h6>
-              <p>내용...</p>
-            </div>
-            <img class="border" src="" alt="썸네일추가" width="75" height="75">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <p class="fw-bold h5 m-0">최근 인생사진</p>
+            <a class="text-decoration-none text-dark" href="{% url 'photospots:index' %}">
+              전체 보기
+              <i class="bi bi-chevron-right"></i>
+            </a>
           </div>
+          {% for lately in lately_p %}
+          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' lately.pk %}';">
+            <div class="d-flex flex-column w-100">
+              <h6 class="fw-bold">{{ lately.user.nickname }} 님의 인생사진</h6>
+              <p class="photo-aside-text text-muted">{{ lately.content }}</p>
+            </div>
+            {% thumbnail "75x75" lately.photo_img as thumb %}
+            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
+          </div>
+          {% endfor %}
         </div>
         <div class="d-flex flex-column">
-          <h3 class="fw-bold mb-3">최근 동행찾기</h3>
-          <!-- 최근 동행찾기 for문 3~5개 -->
-          <div class="d-flex border-bottom py-2 w-100">
-            <div class="d-flex flex-column w-100">
-              <h6 class="fw-bold">제목</h6>
-              <p>내용...</p>
-            </div>
-            <img class="border" src="" alt="썸네일추가" width="75" height="75">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <p class="fw-bold h5 m-0">최근 동행찾기</p>
+            <a class="text-decoration-none text-dark" href="{% url 'friends:index' %}">
+              전체 보기
+              <i class="bi bi-chevron-right"></i>
+            </a>
           </div>
+          {% for lately in lately_f %}
+          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'friends:detail' lately.pk %}';">
+            <div class="d-flex flex-column w-100">
+              <h6 class="photo-aside-title fw-bold">{{ lately.title }}</h6>
+              <p class="photo-aside-text text-muted">{{ lately.content }}</p>
+            </div>
+            {% if lately.thumbnail %}
+            {% thumbnail "75x75" lately.thumbnail as thumb %}
+            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
+            {% else %}
+            <img class="border rounded-3" src="{% static 'image/no_image.jpg'%}" alt="썸네일" width="75" height="75">
+            {% endif %}
+          </div>
+          {% endfor %}
         </div>
       </div>
     </aside>

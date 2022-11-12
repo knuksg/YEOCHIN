@@ -192,12 +192,14 @@ input:focus {
   .lg\:photo-box {
     min-width: 680px;
     width: 680px;
+    margin-right: 30px;
+    border-right: solid 1px rgb(233, 233, 233);
   }
 }
 
 .photo-aside {
   display: none;
-  padding: 0 15px;
+
 }
 
 @media (min-width: 1280px) {
@@ -205,7 +207,16 @@ input:focus {
     display: block;
     position: sticky;
     width: 340px;
+    margin-left: 30px;
+    margin-top: 30px;
   }
+}
+
+.photo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 60px;
 }
 
 .photo-main {
@@ -213,11 +224,53 @@ input:focus {
   flex: 1 1 0%;
   flex-direction: column;
   min-width: 320px;
+  padding-bottom: 70px;
+}
+
+@media (min-width: 1280px) {
+  .lg\:photo-main {
+    margin: 24px 60px;
+  }
 }
 
 .photo-content {
   width: 100%;
   margin: 30px 0;
+}
+
+.photo-aside-content {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  min-width: 335px;
+  min-height: 91px;
+  border-bottom: solid 1px rgb(233, 233, 233);
+}
+
+.last\:photo-aside-content:last-child {
+  border-style: none;
+}
+
+.photo-aside-title {
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.photo-aside-text {
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin: 0;
 }
 
 /* login & signin */
@@ -231,6 +284,7 @@ input:focus {
 .boxText {
   font-size: 1vw;
 }
+
 .loginBtnSection {
   display: flex;
   flex-direction: column;
@@ -260,7 +314,7 @@ btnYclogin:focus {
 .signinInpBox {
   padding: 4px 14px;
   background-color: rgb(248, 248, 248);
-  border:1px solid  rgb(233, 233, 233);
+  border: 1px solid rgb(233, 233, 233);
 }
 
 .signupInp {
@@ -268,21 +322,19 @@ btnYclogin:focus {
   height: 52px;
   padding: 12px 14px;
   background-color: rgb(255, 255, 255);
-  border:1px solid  rgb(233, 233, 233);
+  border: 1px solid rgb(233, 233, 233);
   border-radius: 5px;
   font-size: 14px;
 }
 
-.signupBtn{
+.signupBtn {
   margin-top: 14px;
   width: 100%;
 }
 
 /* region-group */
 
-.region-btn:hover {
-  
-}
+.region-btn:hover {}
 
 .region-btn:focus {
   outline: none;

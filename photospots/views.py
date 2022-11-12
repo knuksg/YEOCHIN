@@ -1,23 +1,31 @@
 from django.shortcuts import render, redirect
 from .forms import PhotospotForm, CommentForm
 from .models import Photospot, Photocomment
+from friends.models import Friend
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
     photospots = Photospot.objects.order_by("-pk")
+    lately_f = Friend.objects.order_by("-pk")[:5]
     context = {
         "photospots": photospots,
+        "lately_p": photospots[:5],
+        "lately_f": lately_f,
     }
     return render(request, "photospots/index.html", context)
 
 
 def detail(request, photospot_pk):
     photospot = Photospot.objects.get(pk=photospot_pk)
+    lately_p = Photospot.objects.exclude(pk=photospot_pk).order_by("-pk")[:5]
+    lately_f = Friend.objects.order_by("-pk")[:5]
     comment_form = CommentForm()
     context = {
         "photospot": photospot,
+        "lately_p": lately_p,
+        "lately_f": lately_f,
         "comment_form": comment_form,
         "comments": photospot.photocomment_set.all(),
     }
