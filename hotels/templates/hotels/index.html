@@ -22,7 +22,7 @@
   <div class="d-flex gap-3">
     {% for hotel in hotels %}
     <div>
-      <a href="" class="text-decoration-none text-dark">
+      <a href="{% url 'hotels:detail' hotel.pk %}" class="text-decoration-none text-dark">
         <img src="{{ hotel.image }}" class="img-fluid rounded my-3" alt="{{ hotel.name }}">
         <div class="ms-1">
           <h5 class="fw-bold my-1">{{ hotel.name }}</h5>
