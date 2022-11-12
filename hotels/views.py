@@ -157,26 +157,31 @@ def test(request):
 def test2(request):
     regions = Region.objects.all()
     if request.method == 'POST':
-        # 폼 형태로 받은 데이터에서 region 가져오기
-        post_region = request.POST.get('region')
-        region = Region.objects.get(name=post_region)
+        # 폼 형태로 받은 데이터에서 detail-region이 있다면
+        post_detail_region = request.POST.get('detail-region', '')
+        if post_detail_region:
+            detail_region = DetailRegion.objects.get(name=post_detail_region)
+            hotels = Hotel.objects.filter(detail_region=detail_region)
 
-        detail_regions = DetailRegion.objects.filter(region=region)
-        hotels = Hotel.objects.filter(region=region)
+            context = {
+            'hotels': list(hotels.values())[:4],
+            }
+            return JsonResponse(context)
+        # region만 있다면
+        else:
+            post_region = request.POST.get('region')
+            region = Region.objects.get(name=post_region)
 
-        page = request.GET.get('page', '1')  # 페이지
-        paginator = Paginator(hotels, 4)  # 페이지당 4개씩 보여주기
-        page_obj = paginator.get_page(page)
-        page_obj = list(page_obj.object_list.values())
-        print(page_obj)
-        context = {
-            'detail_region_list': list(detail_regions.values()),
-            'hotels': list(hotels.values()),
-            'hotels_list': page_obj,
-            'page': page
-        }
-        return JsonResponse(context)
+            detail_regions = DetailRegion.objects.filter(region=region)
+            hotels = Hotel.objects.filter(region=region)
+
+            context = {
+                'detail_region_list': list(detail_regions.values()),
+                'hotels': list(hotels.values())[:4],
+            }
+            return JsonResponse(context)
     context = {
         'regions': regions,
+        'hotels': Hotel.objects.all()[:4],
     }
     return render(request, 'hotels/test2.html', context)

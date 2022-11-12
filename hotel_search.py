@@ -13,14 +13,14 @@ resion_list = [
     'Seoul', 'Jeju_Province', 
     'Incheon_Metropolitan_City', 'Jeonju',
     'Gangneung', 'Daejeon_Metropolitan_City',
-
+    'Gapyeong', 'Gyeongju',
     ]
 
 # 검색어 설정
-resion = 'Daejeon_Metropolitan_City'
+resion = 'Gyeongju'
 url = 'https://hotels.naver.com/list?placeFileName=place%3A' + resion + '&adultCnt=2&checkIn=2022-11-16&checkOut=2022-11-17&sortField=popularityKR&sortDirection=descending'
-resion = '충청도'
-detail_resion = '대전'
+resion = '경상도'
+detail_resion = '경주'
 
 # 크롬 구동
 driver = webdriver.Chrome('/opt/homebrew/bin/chromedriver')
