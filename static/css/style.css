@@ -277,3 +277,13 @@ btnYclogin:focus {
   margin-top: 14px;
   width: 100%;
 }
+
+/* region-group */
+
+.region-btn:hover {
+  outline: none;
+}
+
+.region-btn:focus {
+  outline: none;
+}
