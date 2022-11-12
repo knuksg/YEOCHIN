@@ -8,7 +8,7 @@ class FriendForm(forms.ModelForm):
 
     class Meta:
         model = Friend
-        fields = ['title', 'content','start_at', 'end_at']
+        fields = ['title', 'content','start_at', 'end_at', 'image','thumbnail']
         widgets = {
             'start_at':DateInput(),
             'end_at':DateInput(),

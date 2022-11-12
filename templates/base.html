@@ -1,27 +1,22 @@
-{% load django_bootstrap5 %} {% load static %}
+{% load django_bootstrap5 %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <script
-      src="https://kit.fontawesome.com/9dfbf66130.js"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U'%}" />
-    {% bootstrap_css %}
 
+  <head>
+    <title>
+      {% block title %}
+      여행친구
+      {% endblock title %}
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <script src="https://kit.fontawesome.com/9dfbf66130.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U'%}"/>
+    {% bootstrap_css %}
+    
     <!-- Bootstrap CSS v5.2.1 -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
@@ -29,6 +24,28 @@
       integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
       crossorigin="anonymous"
     />
+
+    <!-- Bootstrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@300&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+      body,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      span {
+        font-family: 'Noto Sans KR' !important;
+      }
+    </style>
+
     <!-- navbar here -->
     <header class="p-3 mb-3 border-bottom">
       <div class="container">
@@ -36,80 +53,97 @@
           class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
         >
           <a
-            href="/"
+            href="{% url 'friends:index' %}"
             class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"
           >
-            <img class="logoImg" src="{% static 'image/임시.jpg'%}" alt="" />
+            <img class="logoImg" src="{% static 'image/logo1.png'%}" alt="" />
           </a>
-          <ul
-            class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-          >
-            <li class="nav_menu">
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li class="navMenuLeft">
               <a href="{% url 'friends:index' %}">동행친구 찾기</a>
             </li>
-            <li class="nav_menu">
+            <li class="navMenuLeft">
               <a href="{% url 'hotels:index' %}">숙소</a>
             </li>
           </ul>
           <div class="mx-2 searchBox">
             <form class="p-1 search_form" action="" method="GET">
-              <span><i class="fa-solid fa-magnifying-glass"></i></span><input
-                class="header_input p-2"
-                placeholder="여행지나 숙소를 검색해보세요!"
-                name="kw"
-              />
-              <input type="submit" style="display: none" />
+              <span>
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </span><input class="header_input p-2" placeholder="여행지나 숙소를 검색해보세요!" name="kw"/>
+              <input type="submit" style="display: none"/>
             </form>
           </div>
           {% if request.user.is_authenticated %}
-          <div class="dropdown text-end">
-            <a
-              href="#"
-              class="d-block link-dark text-decoration-none dropdown-toggle"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <img
-                src="https://github.com/mdo.png"
-                alt="mdo"
-                width="32"
-                height="32"
-                class="rounded-circle"
-              />
-            </a>
-            <ul class="dropdown-menu text-small">
-              <li><a class="nav_menu dropdown-item" href="#">마이페이지</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="nav_menu dropdown-item" href="#">로그아웃</a></li>
-            </ul>
-            <button class="nav_button">글쓰기</button>
+
+              <div>
+                <div class="dropdown text-end px-2">
+                  <a
+                    href="#"
+                    class="d-block link-dark text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                  <!-- profile image -->
+                    <img
+                      src="https://github.com/mdo.png"
+                      alt="mdo"
+                      width="32"
+                      height="32"
+                      class="rounded-circle"
+                    />
+                  </a>
+                    <ul class="dropdown-menu text-small">
+                      <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}">마이페이지</a></li>
+                      <li><hr class="dropdown-divider" /></li>
+                      <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:logout'%}">로그아웃</a></li>
+                      <li></li>
+                    </ul>
+                  </div>
+              </div>  
+              <div class="dropdown">
+                <button class="dropbtn">글쓰기</button>
+                <div class="dropdown-content">
+                  <a href="{% url 'friends:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+                  <a href="#"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+                  <a href="#">Link 3</a>
+                </div>
+              </div>
             {% else %}
-            <ul class="nav_ul m-0 p-0">
-              <li class="nav_menu"><a href="">회원가입</a></li>
-              <li class="nav_menu"><a href="">로그인</a></li>
-              <button class="nav_button">글쓰기</button>
-            </ul>
+              <ul class="nav_ul m-0">
+                <li class="navMenuRight py-2"><a href="{% url 'accounts:signup' %}">회원가입</a><span style="padding:0px 2px;">|</span></li>
+                <li class="navMenuRight py-2"><a href="{% url 'accounts:login' %}">로그인</a><span class=""></span></li>
+                <li>
+                  <div class="dropdown">
+                    <button class="dropbtn">글쓰기</button>
+                    <div class="dropdown-content">
+                      <a href="{% url 'friends:create' %}">
+                        <i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+                      <a href="#">
+                        <i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+                      <a href="#">Link 3</a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+
             {% endif %}
           </div>
         </div>
       </div>
     </header>
-  <body>
-    <main>{% block body %} {% endblock body %}</main>
-    <footer>
-      <!-- place footer here -->
-    </footer>
-    <!-- Bootstrap JavaScript Libraries -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-      crossorigin="anonymous"
-    ></script>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
+    <body>
+      <main>
+        {% block body %}{% endblock body %}
+      </main>
+      <footer>
+        <!-- place footer here -->
+      </footer>
+      <!-- Bootstrap JavaScript Libraries -->
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+    </body>
+
+  </html>

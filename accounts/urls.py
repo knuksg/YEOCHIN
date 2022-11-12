@@ -4,8 +4,10 @@ from . import views
 app_name = "accounts"
 
 urlpatterns = [
-    path("signup/", views.signup, name="signup"),
+    path("signup/",views.signup, name="signup"),
+    path("signupNormal/",views.signupNormal, name="signupNormal"),
     path("login/", views.login, name="login"),
+    path("login/normal/", views.loginNormal, name="loginNormal"),
     path("logout/", views.logout, name="logout"),
     path("<int:pk>/", views.detail, name="detail"),
     path("<int:pk>/follow/", views.follow, name="follow"),
