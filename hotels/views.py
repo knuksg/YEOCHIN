@@ -157,18 +157,30 @@ def test(request):
 def test2(request):
     regions = Region.objects.all()
     if request.method == 'POST':
-        # 폼 형태로 받은 데이터에서 detail-region이 있다면
+        post_kw = request.POST.get('kw', '')
+        post_region = request.POST.get('region', '')
         post_detail_region = request.POST.get('detail-region', '')
-        if post_detail_region:
+        print(post_kw)
+        print(post_region)
+        print(post_detail_region)
+
+        if post_kw and post_detail_region:
             detail_region = DetailRegion.objects.get(name=post_detail_region)
-            hotels = Hotel.objects.filter(detail_region=detail_region)
+            hotels = Hotel.objects.filter(detail_region=detail_region).filter(name__icontains=post_kw)
 
             context = {
             'hotels': list(hotels.values())[:4],
             }
             return JsonResponse(context)
-        # region만 있다면
-        else:
+        elif post_kw and post_region:
+            region = Region.objects.get(name=post_region)
+            hotels = Hotel.objects.filter(region=region).filter(name__icontains=post_kw)
+
+            context = {
+            'hotels': list(hotels.values())[:4],
+            }
+            return JsonResponse(context)
+        elif post_region:
             post_region = request.POST.get('region')
             region = Region.objects.get(name=post_region)
 
@@ -180,6 +192,21 @@ def test2(request):
                 'hotels': list(hotels.values())[:4],
             }
             return JsonResponse(context)
+        elif post_detail_region:
+            detail_region = DetailRegion.objects.get(name=post_detail_region)
+            hotels = Hotel.objects.filter(detail_region=detail_region)
+
+            context = {
+            'hotels': list(hotels.values())[:4],
+            }
+            return JsonResponse(context)
+        elif post_kw:
+            hotels = Hotel.objects.filter(name__icontains=post_kw)
+            context = {
+            'hotels': list(hotels.values())[:4],
+            }
+            return JsonResponse(context)
+            
     context = {
         'regions': regions,
         'hotels': Hotel.objects.all()[:4],

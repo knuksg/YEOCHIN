@@ -15,6 +15,18 @@
   </div>
 </div>
 
+<!-- 검색 -->
+<form id="search-form" class="d-flex align-items-center">
+{% csrf_token %}
+  <i class="fa-solid fa-magnifying-glass" style="color: #adb5bd;"></i>
+  <input type="text" id="search-kw" name="search-kw" value="" placeholder=" 호텔 검색" style="border: none;">
+  <input type="submit" name="" id="">
+  <input type="hidden" id="hidden-region" name="hidden-region" value="">
+  <input type="hidden" id="hidden-detail-region" name="hidden-detail-region" value="">
+  <input type="hidden" id="hidden-kw" name="hidden-kw" value="">
+  <input type="button" id="search-btn" value="CLEAR" style="opacity: 0; cursor: default;">
+</form>
+
 <!-- 호텔 목록 -->
 <div id="hotels-group" class="d-flex gap-3">
   {% for hotel in hotels %}
@@ -43,9 +55,14 @@
   const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
   regionBtns.forEach((regionBtn) => {
     regionBtn.addEventListener('click', function (event) {
-      event.preventDefault()
-  
+      event.preventDefault() 
+      <!-- 지역 설정 -->
       const region = regionBtn.value
+      const hiddenRegion = document.querySelector('#hidden-region')
+      hiddenRegion.value = region
+      <!-- 세부 지역 초기화 -->
+      const hiddenDetailRegion = document.querySelector('#hidden-detail-region')
+      hiddenDetailRegion.value = ''
   
       const form = new FormData()
       form.append('region', region)
@@ -86,15 +103,18 @@
     })
   })
 
-  <!-- DetailRegionBtns -->
   <!-- dynamic object 접근을 위한 함수 -->
   function hasClass(elem, className) {
     return elem.classList.contains(className)
   }
 
+  <!-- detailRegionBtns -->
   document.addEventListener('click', function(e) {
     if (hasClass(e.target, 'detail-region-btn')) {
       const detailRegion = e.target.value
+      const hiddenDetailRegion = document.querySelector('#hidden-detail-region')
+      hiddenDetailRegion.value = detailRegion
+
       const form = new FormData()
 
       form.append('detail-region', detailRegion)
@@ -126,6 +146,59 @@
         })
       })
     }
+  })
+
+  <!-- kw -->
+  const searchForm = document.querySelector('#search-form')
+  searchForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+
+    console.log('asdf')
+
+    const searchKw = searchForm.querySelector('#search-kw').value
+    let hiddenKw = searchForm.querySelector('#hidden-kw')
+    const hiddenRegion = searchForm.querySelector('#hidden-region').value
+    const hiddenDetailRegion = searchForm.querySelector('#hidden-detail-region').value
+
+    hiddenKw.value = searchKw
+
+    const form = new FormData()
+
+    form.append('kw', hiddenKw.value)
+    form.append('region', hiddenRegion)
+    form.append('detail-region', hiddenDetailRegion)
+
+    console.log(searchKw)
+    console.log(hiddenKw)
+    console.log(hiddenRegion)
+    console.log(hiddenDetailRegion)
+
+    axios.post('/hotels/test2/', form, {
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
+    })
+    .then((response) => {
+      <!-- 호텔 목록 보여주기 -->
+      const hotelsGroup = document.querySelector('#hotels-group')
+      hotelsGroup.innerHTML = ''
+      const hotels = response.data.hotels
+      hotels.forEach((hotel) => {
+        hotelsGroup.innerHTML += `<div>
+        <a href="" class="text-decoration-none text-dark">
+        <img src="` + hotel.image + `" class="img-fluid rounded my-3" alt="{{ hotel.name }}">
+        <div class="ms-1">
+        <h5 class="fw-bold my-1">` + hotel.name + `</h5>
+        <div class="my-1">
+        <i class="bi bi-star-fill text-danger"></i>
+        <b>` + hotel.rating + `</b>
+        </div>
+        <b class="text-danger my-1 fs-5">` + hotel.price + `~</b>
+        </div>
+        </a>
+        </div>`
+      })
+    })
   })
 </script>
 {% endblock body %}
