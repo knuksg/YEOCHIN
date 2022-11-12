@@ -11,7 +11,7 @@ from main.models import Region, DetailRegion
 # 기존 엑셀 파일 불러오기
 df = pd.read_excel('hotel_list.xlsx', engine='openpyxl')
 
-for i in range(160):
+for i in range(200):
     new_hotel = Hotel(
     region=Region.objects.get(name=df['region'][i]),
     detail_region=DetailRegion.objects.get(name=df['detail_region'][i]),
