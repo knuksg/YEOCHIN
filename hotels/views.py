@@ -7,15 +7,6 @@ from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
-    hotels = Hotel.objects.order_by('rating')[:4]
-    regions = Region.objects.all()
-    context = {
-        'hotels': hotels,
-        'regions': regions,
-    }
-    return render(request, "hotels/index.html", context)
-
-def search(request):
     regions = Region.objects.all()
     if request.method == 'POST':
         post_kw = request.POST.get('kw', '')
@@ -72,7 +63,7 @@ def search(request):
         'regions': regions,
         'hotels': Hotel.objects.all()[:4],
     }
-    return render(request, 'hotels/search.html', context)
+    return render(request, 'hotels/index.html', context)
 
 def detail(request, pk):
     hotel = Hotel.objects.get(pk=pk)
