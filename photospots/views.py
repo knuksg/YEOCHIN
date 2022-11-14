@@ -1,9 +1,14 @@
-from django.shortcuts import render, redirect
-from .forms import PhotospotForm, CommentForm
-from .models import Photospot, Photocomment
-from friends.models import Friend
+from datetime import date, datetime, timedelta, timezone
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.shortcuts import redirect, render
+
+from friends.models import Friend
+
+from .forms import CommentForm, PhotospotForm
+from .models import Photocomment, Photospot
+
 
 # Create your views here.
 def index(request):
@@ -19,6 +24,12 @@ def index(request):
 
 def detail(request, photospot_pk):
     photospot = Photospot.objects.get(pk=photospot_pk)
+    cookie_value = request.COOKIES.get("hits", "_")
+
+    if f"_{photospot_pk}_" not in cookie_value:
+        photospot.hits += 1
+        photospot.save()
+
     lately_p = Photospot.objects.exclude(pk=photospot_pk).order_by("-pk")[:5]
     lately_f = Friend.objects.order_by("-pk")[:5]
     comment_form = CommentForm()
@@ -29,7 +40,19 @@ def detail(request, photospot_pk):
         "comment_form": comment_form,
         "comments": photospot.photocomment_set.all(),
     }
-    return render(request, "photospots/detail.html", context)
+    response = render(request, "photospots/detail.html", context)
+
+    expire_date, now = datetime.now(), datetime.now()
+    expire_date += timedelta(days=1)
+    expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    expire_date -= now
+    max_age = expire_date.total_seconds()
+
+    if f"_{photospot_pk}_" not in cookie_value:
+        cookie_value += f"_{photospot_pk}_"
+        response.set_cookie("hits", value=cookie_value, max_age=max_age, httponly=True)
+
+    return response
 
 
 @login_required
