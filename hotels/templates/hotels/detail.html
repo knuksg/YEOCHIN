@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block body %}
 <div class="container">
   <div class="d-flex justify-content-center gap-1 my-3">
@@ -14,14 +15,19 @@
   <div class="d-flex justify-content-between ms-1">
     <div>
       <i class="bi bi-star-fill text-danger"></i>
-      <b>{{ hotel.rating }}</b>
+      <b>{{ hotel.user_rating }}</b>
     </div>
     <div>
       <span class="text-muted">1박(세금 미포함)</span>
-      <b class="text-danger fw-bold fs-3">{{ hotel.price }}</b>
+      <b class="text-danger fw-bold fs-3">{{ hotel.price | intcomma }}원</b>
     </div>
   </div>
+  <div>
+    <h3>리뷰 목록</h3>
+    <a href="{% url 'hotels:review_create' hotel.pk %}">리뷰 쓰기</a>
+  </div>
 </div>
+
 
 <!-- kakao map -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=de7c022be837f13274b4aba3349121c7&libraries=services"></script>

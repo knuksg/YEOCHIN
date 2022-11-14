@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block body %}
+<div class="container">
+  <h1>{{ hotel.name }} 리뷰 쓰기</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input type="submit">
+  </form>
+</div>
+{% endblock body %}
