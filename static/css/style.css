@@ -87,6 +87,10 @@ li {
 }
 
 .searchBox {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: none;
   /* background: rgb(248, 248, 248); */
   height: 45px;
@@ -111,8 +115,9 @@ input:focus {
   background: rgb(248, 248, 248);
   width: 286px;
   height: 40px;
+  padding-left: 2rem;
   margin: 0;
-  border-style: none;
+  border: 1px solid rgb(233, 233, 233);
   border-radius: 50px;
 }
 
