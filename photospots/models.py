@@ -15,7 +15,7 @@ class Photospot(models.Model):
         settings.AUTH_USER_MODEL, related_name="like_photospots"
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    hits = models.PositiveBigIntegerField(default=0, verbose_name="조회수")
+    hits = models.IntegerField(default=0)
 
     @property
     def created_string(self):

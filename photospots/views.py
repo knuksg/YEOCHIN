@@ -26,12 +26,6 @@ def index(request):
 
 def detail(request, photospot_pk):
     photospot = Photospot.objects.get(pk=photospot_pk)
-    cookie_value = request.COOKIES.get("hits", "_")
-
-    if f"_{photospot_pk}_" not in cookie_value:
-        photospot.hits += 1
-        photospot.save()
-
     best_p = Photospot.objects.exclude(pk=photospot_pk)[:5]
     best_p = sorted(best_p, key=lambda a: -a.like_users.count())
     lately_f = Friend.objects.order_by("-pk")[:5]
@@ -51,9 +45,14 @@ def detail(request, photospot_pk):
     expire_date -= now
     max_age = expire_date.total_seconds()
 
+    cookie_value = request.COOKIES.get("hitboard", "_")
     if f"_{photospot_pk}_" not in cookie_value:
         cookie_value += f"_{photospot_pk}_"
-        response.set_cookie("hits", value=cookie_value, max_age=max_age, httponly=True)
+        response.set_cookie(
+            "hitboard", value=cookie_value, max_age=max_age, httponly=True
+        )
+        photospot.hits += 1
+        photospot.save()
 
     return response
 

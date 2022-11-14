@@ -124,7 +124,7 @@
               <!-- 댓글폼 -->
               <form class="d-flex border rounded-3" action="{% url 'photospots:comment_create' photospot.pk %}" method="POST">
                 {% csrf_token %}
-                <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요 :)" class="form-control rounded-3 border-0 ms-3" required id="id_conent"></textarea>
+                <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요" class="form-control rounded-3 border-0 ms-3" required id="id_conent"></textarea>
                 <div class="d-flex flex-column justify-content-end">
                   <button class="btn btn-link text-decoration-none" type="submit">
                     <i class="bi bi-send-fill green-text"></i>
@@ -171,7 +171,7 @@
         </div>
       </main>
     </div>
-    <!-- 사이드 게시글 리스트 -->
+    <!-- 사이드 게시글 리스트 : 화면 사이즈 lg 이상 -->
     <aside class="photo-aside lg:photo-aside">
       <!-- 베스트 인생사진 -->
       <div>
