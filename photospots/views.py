@@ -13,10 +13,12 @@ from .models import Photocomment, Photospot
 # Create your views here.
 def index(request):
     photospots = Photospot.objects.order_by("-pk")
+    best_p = Photospot.objects.all()[:5]
+    best_p = sorted(best_p, key=lambda a: -a.like_users.count())
     lately_f = Friend.objects.order_by("-pk")[:5]
     context = {
         "photospots": photospots,
-        "lately_p": photospots[:5],
+        "best_p": best_p,
         "lately_f": lately_f,
     }
     return render(request, "photospots/index.html", context)
@@ -30,12 +32,13 @@ def detail(request, photospot_pk):
         photospot.hits += 1
         photospot.save()
 
-    lately_p = Photospot.objects.exclude(pk=photospot_pk).order_by("-pk")[:5]
+    best_p = Photospot.objects.exclude(pk=photospot_pk)[:5]
+    best_p = sorted(best_p, key=lambda a: -a.like_users.count())
     lately_f = Friend.objects.order_by("-pk")[:5]
     comment_form = CommentForm()
     context = {
         "photospot": photospot,
-        "lately_p": lately_p,
+        "best_p": best_p,
         "lately_f": lately_f,
         "comment_form": comment_form,
         "comments": photospot.photocomment_set.all(),
