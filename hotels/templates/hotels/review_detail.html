@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load humanize %}
+{% block body %}
+<div class="row justify-content-center mx-1">
+  <div class="col-11 col-md-6 offset-md-2">
+    <!-- title & user -->
+    <div class="border-bottom">
+      <h3>{{ review.title }}</h3>
+      {{ review.user.profile }}
+      <img src="" alt="">
+      <div class="d-flex justify-content-between">
+        <div>
+          <p>{{ review.user }}</p>
+          <p class="text-muted">
+          {% if review.created_at == review.updated_at %}
+            {{ review.created_at|naturalday }}
+          {% else %}
+            {{ review.updated_at|naturalday }}
+          {% endif %}
+          </p>
+        </div>
+        <div>
+          <p>
+            <a href="{% url 'hotels:review_update' hotel.pk review.pk %}">수정</a>
+          </p>
+          <p>
+            <a href="{% url 'hotels:review_delete' hotel.pk review.pk %}">삭제</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- location -->
+    <div class="my-3">
+      <i class="bi bi-geo-alt-fill"></i>
+      <a href="{% url 'hotels:detail' hotel.pk %}" class="text-decoration-none text-muted">{{ hotel.name }}</a>
+    </div>
+    <!-- content -->
+    <div class="my-3">
+      <p>{{ review.content | safe }}</p>
+    </div>
+  </div>
+  <div class="d-none d-md-block offset-md-2 col-md-2  d-flex flex-column justify-content-center">
+    <h4>{{ hotel.detail_region }} 지역 인기 호텔</h4>
+    {% for hotel in other_hotels %}
+    <div>
+      <a href="{% url 'hotels:detail' hotel.pk %}" class="text-decoration-none text-dark">
+        <img src="{{ hotel.image }}" class="img-fluid rounded mt-3" alt="{{ hotel.name }}">
+        <div class="ms-1">
+          <h5 class="fw-bold my-1">{{ hotel.name }}</h5>
+          <div class="my-1">
+            <i class="bi bi-star-fill text-danger"></i>
+            <b>{{ hotel.user_rating }}</b>
+          </div>
+          <b class="text-danger my-1 fs-5">{{ hotel.price | intcomma }}원~</b>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock body %}

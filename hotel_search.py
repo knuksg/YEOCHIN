@@ -54,12 +54,16 @@ for i in range(len(hotel_name_list)):
         print(i)
 
         hotel_image_list.append(driver.find_element(By.CSS_SELECTOR, '.ThumbnailImage_img__yRn_t').get_attribute('src'))
-        hotel_rating_list.append(driver.find_element(By.CSS_SELECTOR, '.common_score__kI5HY').text)
+        hotel_rating = driver.find_element(By.CSS_SELECTOR, '.common_score__kI5HY').text
+        if hotel_rating.isdisit():
+            hotel_rating_list.append(hotel_rating)
+        else:
+            hotel_rating_list.append(0)
         try:
             hotel_grade_list.append(driver.find_element(By.CSS_SELECTOR, '.common_grade__FS6L0').text)
         except:
             hotel_grade_list.append('등급없음')
-        hotel_price_list.append(driver.find_element(By.CSS_SELECTOR, '.common_price__mpQkf').text)
+        hotel_price_list.append(driver.find_element(By.CSS_SELECTOR, '.common_price__mpQkf').text.rstrip('원'))
         hotel_address_list.append(driver.find_element(By.CSS_SELECTOR, '.Address_txt__O_b0B').text)
         facilities_list = driver.find_elements(By.CSS_SELECTOR, '.Facilities_facility__ByaZY')
         facilities_str = []
