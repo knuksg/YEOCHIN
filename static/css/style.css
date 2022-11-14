@@ -86,6 +86,42 @@ li {
   margin-left: 6px;
 }
 
+@media (min-width: 320px) {
+  .sm\:display {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .md\:display {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .md\:display2 {
+    display: block;
+  }
+}
+
+@media (min-width: 1280px) {
+  .lg\:display {
+    display: block;
+  }
+}
+
+@media (min-width: 1280px) {
+  .lg\:nav2 {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .md\:nav2 {
+    display: block;
+  }
+}
+
 .searchBox {
   background: none;
   /* background: rgb(248, 248, 248); */
