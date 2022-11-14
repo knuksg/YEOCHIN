@@ -14,8 +14,10 @@ from django.http import JsonResponse
 
 # Create your views here.
 
+
 def signup(request):
-    return render(request, 'accounts/signup.html')
+    return render(request, "accounts/signup.html")
+
 
 def signupNormal(request):
     if request.user.is_authenticated:
@@ -33,8 +35,10 @@ def signupNormal(request):
     context = {"form": form}
     return render(request, "accounts/signupNormal.html", context)
 
+
 def login(request):
-    return render(request, 'accounts/login.html')
+    return render(request, "accounts/login.html")
+
 
 def loginNormal(request):
     if request.user.is_authenticated:
@@ -51,7 +55,6 @@ def loginNormal(request):
     return render(request, "accounts/loginNormal.html", context)
 
 
-
 def logout(request):
     auth_logout(request)
     messages.warning(request, "로그아웃 되었습니다.")
@@ -60,9 +63,13 @@ def logout(request):
 
 def detail(request, pk):
     user = get_user_model().objects.get(pk=pk)
+    friend = user.friend_set.all()
+    like_friend = user.like_friend.all()
 
     context = {
         "user": user,
+        "friend": friend,
+        "like_friend": like_friend,
     }
     return render(request, "accounts/detail.html", context)
 
