@@ -1,6 +1,8 @@
 {% extends 'base.html' %}{% load static %}
-{% block title %} 여행친구 로그인
-{%endblock%}
+{% load i18n %}
+{% load account socialaccount %}
+{% get_providers as socialaccount_providers %}
+{% block title %} 여행친구 로그인 {%endblock%}
 {% block body %}
 <section class="container">
   <div class="box">
@@ -43,6 +45,9 @@
               >회원가입</a
             >
           </p>
+          <a href="{% provider_login_url 'kakao' method='oauth2' %}">
+            카카오톡 회원가입
+            </a>
         </div>
       </div>
     </div>
