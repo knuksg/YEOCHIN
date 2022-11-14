@@ -24,10 +24,30 @@
                 {% endif %}
                 <div class="d-flex flex-column">
                   <p class="m-0">{{ photospot.user.nickname }}</p>
-                  <p class="m-0 text-success">
-                    <i class="bi bi-geo-alt-fill"></i>
-                     {{ photospot.place }}
-                  </p>
+                  <div class="d-flex">
+                    <p class="m-0 me-3 text-success">
+                      <i class="bi bi-geo-alt-fill"></i>
+                       {{ photospot.place }}
+                    </p>
+                    {% if photospot.is_updated == False %}
+                    <p class="m-0 text-muted">
+                      {% if photospot.created_string == False %}
+                      {{ photospot.created_at|date:'Y년 m월 d일 H:i' }}
+                      {% else %}
+                      {{ photospot.created_string }}
+                      {% endif %}
+                    </p>
+                    {% else %}
+                    <p class="m-0 text-muted">
+                      {% if photospot.created_string == False %}
+                      {{ photospot.updated_at|date:'Y년 m월 d일 H:i' }}
+                      {% else %}
+                      {{ photospot.created_string }}
+                      {% endif %}
+                      (수정됨)
+                    </p>
+                    {% endif %}
+                  </div>
                 </div>
               </div>
               <div class="d-flex align-items-center">

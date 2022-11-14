@@ -76,6 +76,7 @@ def update(request, photospot_pk):
     if request.method == "POST":
         photospot_form = PhotospotForm(request.POST, request.FILES, instance=photospot)
         if photospot_form.is_valid():
+            photospot.is_updated = True
             photospot_form.save()
             return redirect("photospots:index")
     else:
