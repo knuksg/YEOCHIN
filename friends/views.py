@@ -4,16 +4,19 @@ from . forms import FriendForm,Friend_CommentForm
 from django.http import HttpResponseForbidden
 
 # Create your views here.
-def index(request):
-    Ddays = []
+def home(request):
     friends = Friend.objects.all()
-    for friend in friends:
-        Dday = (friend.end_at - friend.start_at).days
-        Ddays.append(Dday)
-        
+    lately_f = Friend.objects.order_by("-pk")[:4]
     context = {
         'friends':friends,
-        'Ddays':Ddays,
+        "lately_f": lately_f,
+    }
+    return render(request, "friends/home.html",context)
+
+def index(request):
+    friends = Friend.objects.all()
+    context = {
+        'friends':friends,
     }
     return render(request, "friends/index.html",context)
 

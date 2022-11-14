@@ -4,7 +4,8 @@ from . import views
 app_name = "friends"
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", views.home, name="home"),
+    path("accompany", views.index, name="index"),
     path("create/", views.create, name="create"),
     path("<int:pk>/detail/", views.detail, name="detail"),
     path("<int:pk>/update/", views.update, name="update"),

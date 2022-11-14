@@ -21,15 +21,19 @@
     </div>
     d-day:{{ Dday }}
     <p>{{ friend.content }}</p>
-    <a href="{% url 'friends:update' friend.pk %}">업데이트</a>
-    <a href="{% url 'friends:delete' friend.pk %}">삭제</a>
+    <a href="{% url 'friends:update' friend.pk %}">
+      <i class="bi bi-pencil"></i>
+    </a>
+    <a href="{% url 'friends:delete' friend.pk %}">
+      <i class="bi bi-trash"></i>
+    </a>
 
     <a href="{% url 'friends:like' friend.pk %}">
 
       {% if request.user in friend.like_user.all %}
-        <lord-icon src="https://cdn.lordicon.com/hqrgkqvs.json" trigger="loop-on-hover" style="width:32px;height:32px"></lord-icon>
+        <i class="bi bi-heart-fill"></i>
       {% else %}
-        <lord-icon src="https://cdn.lordicon.com/rjzlnunf.json" trigger="loop-on-hover" style="width:32px;height:32px"></lord-icon>
+        <i class="bi bi-heart"></i>
       {% endif %}
 
     </a>

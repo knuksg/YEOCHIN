@@ -1,23 +1,36 @@
 {% extends 'base.html' %}
 {% block body %}
-  <p class="test">테스트
-    <span style="display: none">123</span>
 
-  </p>
+  <nav class="navbar navbar-expand-lg bg-light container p-0">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav" style="background-color:white; font-size:14px; ">
+      <ul class="navbar-nav">
+        <li class="nav-item" style="text-decoration: underline; text-underline-offset:10px; font-weight:bold; text-decoration-thickness: 2px;">
+          <a class="nav-link active border-bottom: solid; " aria-current="page" href="{% url 'friends:home' %}">홈</a>
+          <hr style="border: solid 1px black; opacity: 1;">
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Q&A</a>
+        </li>
 
-  <p class="divbutton">테스트2
-    <span class="button">1234</span>
-  </p>
+      </ul>
+    </div>
+
+  </nav>
 
   <div class="container ">
-    <h1>인덱스</h1>
-    <a href="{% url 'friends:create' %}">
-      <h2>글쓰기</h2>
-    </a>
+    <h1>홈</h1>
+    <a href="{% url 'friends:create' %}"></a>
 
+    <p class="fs-3 fw-bold">취향저격 동행찾기</p>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 ">
 
-      {% for friend in friends %}
+      {% for lately in lately_f %}
         <div>
           <div class="position-absolute mx-2 my-4" style="z-index: 1">
             <div class="d-flex my-2 bg-dark  p-2 text-white bg-opacity-75 rounded-pill">
@@ -27,13 +40,13 @@
                 </svg>
               </div>
               <p class="m-0 divbutton" style="color: rgb(255, 255, 255); font-size: 12px">타이페이
-                <span class="button">{{friend.start_at|date:"M d"}}일~{{friend.end_at|date:"M d"}}일</span>
+                <span class="button">{{lately.start_at|date:"M d"}}일~{{lately.end_at|date:"M d"}}일</span>
               </p>
             </div>
           </div>
-          {% if friend.thumbnail %}
+          {% if lately.thumbnail %}
             <div class="img" style="z-index: 2">
-              <div class=" my-3 p-3 rounded-3 border border-3 bg-light scale" style="width: 282px; height:282px; background-image:url({{ friend.image.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
+              <div class=" my-3 p-3 rounded-3 border border-3 bg-light scale" style="width: 282px; height:282px; background-image:url({{ lately.image.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
             </div>
           {% else %}
             <div class="img" style="z-index: 2">
@@ -41,16 +54,16 @@
             </div>
           {% endif %}
           <p>
-            {{ friend.pk }}
-            <a href="{% url 'friends:detail' friend.pk %}">{{ friend.title|truncatechars:16 }}</a>
-            <p>{{ friend.content|truncatechars:20 }}</p>
+            {{ lately.pk }}
+            <a href="{% url 'friends:detail' lately.pk %}">{{ lately.title|truncatechars:16 }}</a>
+            <p>{{ lately.content|truncatechars:20 }}</p>
 
-            {% if friend.user.profile.image %}
-              <img src="{{ friend.user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="48px" width="48px">
+            {% if lately.user.profile.image %}
+              <img src="{{ lately.user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="48px" width="48px">
             {% else %}
               <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="48px" width="48px">
             {% endif %}
-            {{friend.user}}
+            {{lately.user}}
             <br>
           </p>
         </div>
