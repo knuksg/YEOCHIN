@@ -123,6 +123,10 @@ li {
 }
 
 .searchBox {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: none;
   /* background: rgb(248, 248, 248); */
   height: 45px;
@@ -147,8 +151,9 @@ input:focus {
   background: rgb(248, 248, 248);
   width: 286px;
   height: 40px;
+  padding-left: 2rem;
   margin: 0;
-  border-style: none;
+  border: 1px solid rgb(233, 233, 233);
   border-radius: 50px;
 }
 
@@ -505,4 +510,41 @@ btnYclogin:focus {
 
 .region-btn:focus {
   outline: none;
+}
+
+/* star-rating */
+
+.bi-star-half {
+  color: orange;
+}
+
+.bi-star-fill {
+  color: #e9e9e9;
+}
+
+.checked {
+  color: orange;
+}
+
+/* hotel-detail */
+.hotel-detail-price {
+  color: #ff3c26;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* review */
+.review-index-title {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+
+.vertical-bar {
+  display: inline-block;
+  width: 1px; 
+  height: 10px; 
+  margin: 0 0.5rem;
+  background-color: #e9e9e9;
 }
