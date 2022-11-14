@@ -2,12 +2,19 @@
 {% load django_bootstrap5%}
 {% block body %}
 
-<div class="container d-flex flex-column">
+<h3 class="fw-bold text-center" style="padding-top: 50px">인생사진 포토스팟</h3>
+<div class="container mt-5">
   <!-- 생성/수정 폼 -->
-  <form action="" method="POST" enctype="multipart/form-data">
+  <form class="photo-form mx-auto" action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form photospot_form %}
-    <button class="btn btn-dark" type="submit">제출하기</button>
+    <div class="">
+
+    </div>
+    <div class="photo-form-btn">
+      <a class="photo-gray-btn" href="{% url 'photospots:index' %}">취소</a>
+      <button class="photo-green-btn" type="submit">작성완료</button>
+    </div>
   </form>
 </div>
 

@@ -6,43 +6,75 @@
 
 <div class="mx-auto w-100">
   <div class="photo-container lg:photo-container">
+    <!-- 메인 게시글 디테일 -->
     <div class="photo-box md:photo-box lg:photo-box">
-      <header class="photo-header">
+      <!-- 게시글 상단 -->
+      <header class="photo-header lg:photo-header">
+        <!-- 돌아가기 버튼 -->
         <a href="{% url 'photospots:index' %}" class="text-dark text-decoration-none" >
-          <h3 class="fw-bold m-0">
+          <p class="photo-header2">
             <i class="bi bi-chevron-left"></i>
             돌아가기
-          </h3>
+          </p>
         </a>
       </header>
+      <!-- 게시글 내용 카드  -->
       <main class="photo-main lg:photo-main">
         <div class="card photo-content border-0">
+          <!-- 카드 상단 -->
           <div class="card-header bg-white border-bottom-0">
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
+                <!-- 프로필 사진 -->
                 {% if user.profile.image %}
                 <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
                 {% else %}
                 <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
                 {% endif %}
                 <div class="d-flex flex-column">
-                  <p class="m-0">{{ photospot.user.nickname }}</p>
-                  <div class="d-flex">
-                    <p class="m-0 me-2 text-success">
+                  <!-- 닉네임 -->
+                  <p class="m-0 fw-bold">{{ photospot.user.nickname }}</p>
+                  <!-- 장소 / 작성시간대 -->
+                  <div class="d-flex gray-text">
+                    <p class="photo-place">
                       <i class="bi bi-geo-alt-fill"></i>
                        {{ photospot.place }}
                     </p>
-                    <p class="m-0 text-muted">{{ photospot.created_at | date:'Y년 m월 d일 H:i' }}</p>
+                    <!-- 업데이트 X -->
+                    {% if photospot.is_updated == False %}
+                    <p class="create_string">
+                      <!-- 작성된지 7일이 지났을 경우 -->
+                      {% if photospot.created_string == False %}
+                      {{ photospot.created_at|date:'Y년 m월 d일 H:i' }}
+                      <!-- 방금전/몇분전/몇시간전/몇일전(7일 이내) -->
+                      {% else %}
+                      {{ photospot.created_string }}
+                      {% endif %}
+                    </p>
+                    <!-- 업데이트 O : 수정됨 표시 -->
+                    {% else %}
+                    <p class="create_string">
+                      <!-- 작성된지 7일이 지났을 경우 -->
+                      {% if photospot.created_string == False %}
+                      {{ photospot.updated_at|date:'Y년 m월 d일 H:i' }}
+                      <!-- 방금전/몇분전/몇시간전/몇일전(7일 이내) -->
+                      {% else %}
+                      {{ photospot.created_string }}
+                      {% endif %}
+                      (수정됨)
+                    </p>
+                    {% endif %}
                   </div>
                 </div>
               </div>
+              <!-- 수정 / 삭제 버튼 : 로그인 유저 = 작성 유저-->
               <div class="d-flex align-items-center">
                 {% if request.user.is_authenticated %}
                 {% if request.user == photospot.user %}
-                <a class="me-3 text-decoration-none text-dark" href="{% url 'photospots:update' photospot.pk %}">
+                <a class="me-3 text-decoration-none gray-text" href="{% url 'photospots:update' photospot.pk %}">
                   <i class="bi bi-pencil"></i>
                 </a>
-                <a class="text-decoration-none text-dark" href="{% url 'photospots:delete' photospot.pk %}">
+                <a class="text-decoration-none gray-text" href="{% url 'photospots:delete' photospot.pk %}">
                   <i class="bi bi-trash"></i>
                 </a>
                 {% endif %}
@@ -50,14 +82,23 @@
               </div>
             </div>
           </div>
+          <!-- 카드 내용 -->
           <div class="card-body">
             <p class="m-0">{{ photospot.content }}</p>
           </div>
+          <!-- 인생사진 -->
           <img src="{{ photospot.photo_img.url }}">
+          <!-- 카드 하단  -->
           <div class="card-footer bg-white border-top-0">
-            <div class="d-flex justify-content-end">
+            <div class="d-flex justify-content-end align-items-center gray-text">
+              <!-- 조회수 -->
+              <p class="m-0 me-2">
+                <i class="bi bi-eye"></i>
+                <span> {{ photospot.hits }}</span>
+              </p>
+              <!-- 좋아요(비동기) / 좋아요수 -->
               {% if request.user.is_authenticated %}
-              <p class="m-0 me-3">
+              <p class="m-0 me-2">
                 {% if request.user in photospot.like_users.all %}
                   <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart-fill" style="cursor: pointer;"></i>
                 {% else %}
@@ -66,32 +107,41 @@
                 <span id="like-count"> {{ photospot.like_users.count }}</span>
               </p>
               {% else %}
-              <p class="m-0 me-3">
+              <p class="m-0 me-2">
                 <i class="bi bi-heart"></i>
                 <span id="like-count"> {{ photospot.like_users.count }}</span>
               </p>
               {% endif %}
+              <!-- 댓글수 -->
               <p class="m-0">
                 <i class="bi bi-chat"></i>
                 <span>{{ photospot.photocomment_set.count }}</span>
               </p>
             </div>
+            <!-- 댓글 -->
             <div class="d-flex flex-column">
               <hr>
-              <form class="d-flex border rounded-5" action="{% url 'photospots:comment_create' photospot.pk %}" method="POST">
+              <!-- 댓글폼 -->
+              <form class="d-flex border rounded-3" action="{% url 'photospots:comment_create' photospot.pk %}" method="POST">
                 {% csrf_token %}
-                <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요 :)" class="form-control rounded-5 border-0 ms-3" required id="id_conent"></textarea>
+                <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요" class="form-control rounded-3 border-0 ms-3" required id="id_conent"></textarea>
                 <div class="d-flex flex-column justify-content-end">
-                  <button class="btn btn-link text-decoration-none text-success" type="submit">
-                    <i class="bi bi-send-fill"></i>
+                  <button class="btn btn-link text-decoration-none" type="submit">
+                    <i class="bi bi-send-fill green-text"></i>
                   </button>
                 </div>
               </form>
-              <hr>
-              <h5 class="fw-bold">댓글 {{ photospot.photocomment_set.count }}</h5>
+              <br>
+              <!-- 댓글수 -->
+              <h5 class="fw-bold">
+                댓글 
+                <span class="green-text">{{ photospot.photocomment_set.count }}</span>
+              </h5>
+              <!-- 댓글 출력 -->
               {% for comment in comments %}
               <div class="px-1 py-3 d-flex flex-column">
                 <div class="d-flex justify-content-between align-items-center">
+                  <!-- 프로필 사진 / 닉네임 / 작성시간 -->
                   <div class="d-flex align-items-center">
                     {% if comment.user.profile.image %}
                     <img src="{{ comment.user.profile.image.url }}" alt="{{ comment.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
@@ -101,16 +151,18 @@
                     <p class="my-1 me-2 fw-bold">{{ comment.user.nickname }}</p>
                     <p class="my-1 text-muted">{{ comment.created_at | date:'Y년 m월 d일 H:i' }}</p>
                   </div>
+                  <!-- 댓글 삭제 -->
                   <div>
                     {% if request.user.is_authenticated %}
                     {% if request.user == comment.user %}
-                    <a class="text-decoration-none text-dark" href="{% url 'photospots:comment_delete' comment.pk photospot.pk %}">
+                    <a class="text-decoration-none gray-text" href="{% url 'photospots:comment_delete' comment.pk photospot.pk %}">
                       <i class="bi bi-trash"></i>
                     </a>
                     {% endif %}
                     {% endif %}
                   </div>
                 </div>
+                <!-- 댓글 내용 -->
                 <p class='my-3'>{{ comment.content }}</p>
               </div>
               {% endfor %}
@@ -119,40 +171,47 @@
         </div>
       </main>
     </div>
+    <!-- 사이드 게시글 리스트 : 화면 사이즈 lg 이상 -->
     <aside class="photo-aside lg:photo-aside">
+      <!-- 베스트 인생사진 -->
       <div>
         <div class="d-flex flex-column mb-5">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <p class="fw-bold h5 m-0">최근 인생사진</p>
-            <a class="text-decoration-none text-dark" href="{% url 'photospots:index' %}">
+            <p class="photo-header2">베스트 인생사진</p>
+            <a class="text-decoration-none more-view" href="{% url 'photospots:index' %}">
               전체 보기
               <i class="bi bi-chevron-right"></i>
             </a>
           </div>
-          {% for lately in lately_p %}
-          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' lately.pk %}';">
+          <!-- 좋아요 인기순 5개 출력 -->
+          {% for best in best_p %}
+          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' best.pk %}';">
             <div class="d-flex flex-column w-100">
-              <h6 class="fw-bold">{{ lately.user.nickname }} 님의 인생사진</h6>
-              <p class="photo-aside-text text-muted">{{ lately.content }}</p>
+              <h6 class="fw-bold">{{ best.user.nickname }} 님의 인생사진</h6>
+              <p class="photo-aside-text gray-text">{{ best.content }}</p>
             </div>
-            {% thumbnail "75x75" lately.photo_img as thumb %}
+            {% thumbnail "75x75" best.photo_img as thumb %}
             <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
           </div>
           {% endfor %}
         </div>
+      </div>
+      <!-- 최근 동행찾기 -->
+      <div>
         <div class="d-flex flex-column">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <p class="fw-bold h5 m-0">최근 동행찾기</p>
-            <a class="text-decoration-none text-dark" href="{% url 'friends:index' %}">
+            <p class="photo-header2">최근 동행찾기</p>
+            <a class="text-decoration-none more-view" href="{% url 'friends:index' %}">
               전체 보기
               <i class="bi bi-chevron-right"></i>
             </a>
           </div>
+          <!-- 최근 5개 출력 -->
           {% for lately in lately_f %}
           <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'friends:detail' lately.pk %}';">
             <div class="d-flex flex-column w-100">
               <h6 class="photo-aside-title fw-bold">{{ lately.title }}</h6>
-              <p class="photo-aside-text text-muted">{{ lately.content }}</p>
+              <p class="photo-aside-text gray-text">{{ lately.content }}</p>
             </div>
             {% if lately.thumbnail %}
             {% thumbnail "75x75" lately.thumbnail as thumb %}

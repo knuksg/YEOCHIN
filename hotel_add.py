@@ -8,6 +8,24 @@ import pandas as pd
 from hotels.models import Hotel
 from main.models import Region, DetailRegion
 
+# region & detail_region 생성하기
+# resions_list = [
+#     ['서울', ['서울']], 
+#     ['제주도', ['제주도']], 
+#     ['인천', ['인천']], 
+#     ['부산', ['부산']], 
+#     ['경상도', ['대구', '경주']], 
+#     ['경기도', ['가평']], 
+#     ['강원도', ['강릉']], 
+#     ['전라도', ['전주']], 
+#     ['충청도', ['대전']]
+#     ]
+# for regions in resions_list:
+#     Region.objects.create(name=regions[0])
+#     model_region = Region.objects.get(name=regions[0])
+#     for region in regions[1]:
+#         DetailRegion.objects.create(region=model_region, name=region)
+
 # 기존 엑셀 파일 불러오기
 df = pd.read_excel('hotel_list.xlsx', engine='openpyxl')
 
