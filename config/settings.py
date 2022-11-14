@@ -48,8 +48,13 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
-
+    "django.contrib.staticfiles",	
+    'django.contrib.sites',  # 사이트 정보를 설정하기 위해 필요
+    # allauth 관련 앱 목록 추가
+    'allauth',
+    'allauth.account',  # 가입한 계정을 관리하기 위한 것.
+    'allauth.socialaccount',  # 소셜 계정을 관리하기 위한 것.
+    'allauth.socialaccount.providers.kakao',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +78,7 @@ TEMPLATES = [
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
+                'django.template.context_processors.request',
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -149,6 +155,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.User"
 
 # 닉네임이 포함된 회원가입 폼을 사용
-ACCOUNT_SIGNUP_FORM_CLASS = "coplate.forms.SignupForm"
+# ACCOUNT_SIGNUP_FORM_CLASS = "coplate.forms.SignupForm"
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 2
+
+LOGIN_REDIRECT_URL = '/'
