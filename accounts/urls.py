@@ -16,6 +16,6 @@ urlpatterns = [
     path("delete/", views.delete, name="delete"),  # 회원탈퇴
     path("<int:pk>/update/", views.update, name="update"),
     # 네이버 보류
-#     path("login/naver/", views.naver_request, name="naver"),
-#     path("naver/login/callback/", views.naver_callback),
+    path("login/naver/", views.naver_request, name="naver"),
+    path("naver/login/callback/", views.naver_callback),
 ]
