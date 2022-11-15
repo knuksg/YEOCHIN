@@ -548,3 +548,32 @@ btnYclogin:focus {
   margin: 0 0.5rem;
   background-color: #e9e9e9;
 }
+
+/* color */
+.sodagreen {
+  color: #00ce7c;
+}
+
+.sodalightblack {
+  color: #252525
+}
+
+.sodadarkgray {
+  color: #6a6a6a;
+}
+
+.sodagray {
+  color: #919191;
+}
+
+.sodalightgray {
+  color: #9a9a9a
+}
+
+.sodawhitegray {
+  color: #e9e9e9
+}
+
+.sodared {
+  color: #ff3c26
+}

@@ -33,5 +33,17 @@ class HotelReview(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
     title = models.CharField(max_length=50)
     content = models.TextField()
+    like_users = models.ManyToManyField('accounts.User', related_name='like_reviews')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class HotelReviewComment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    review = models.ForeignKey(HotelReview, on_delete=models.CASCADE)
+    content = models.CharField(max_length=140)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def username(self):
+        return self.user.username
