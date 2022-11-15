@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+from datetime import timedelta , datetime, timezone 
 from django.contrib.auth import get_user_model
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
