@@ -127,3 +127,17 @@ def comment_delete(request, comment_pk, photospot_pk):
     comment = Photocomment.objects.get(pk=comment_pk)
     comment.delete()
     return redirect("photospots:detail", photospot_pk)
+
+
+def best(request):
+    best_p = Photospot.objects.all()[:20]
+    best_p = sorted(best_p, key=lambda a: -a.like_users.count())
+    best_p5 = Photospot.objects.all()[:5]
+    best_p5 = sorted(best_p5, key=lambda a: -a.like_users.count())
+    lately_f = Friend.objects.order_by("-pk")[:5]
+    context = {
+        "best_p": best_p,
+        "best_p5": best_p5,
+        "lately_f": lately_f,
+    }
+    return render(request, "photospots/best.html", context)

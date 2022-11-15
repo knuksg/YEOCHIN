@@ -336,15 +336,17 @@ input:focus {
 
 .photo-aside-content3 {
   overflow: hidden;
-  min-width: 335px;
+  min-width: 320px;
   margin-bottom: 10px;
   margin-right: 10px;
   padding: 10px;
   background-color: rgb(219, 219, 219);
+  border-radius: 4px;
 }
 
 .photo-aside-text2 {
   overflow: hidden;
+  width: 300px;
   text-overflow: ellipsis;
   white-space: normal;
   word-wrap: break-word;
