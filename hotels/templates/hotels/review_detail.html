@@ -7,47 +7,81 @@
     <!-- title & user -->
     <div class="border-bottom">
       <h3>{{ review.title }}</h3>
-      {{ review.user.profile }}
-      <img src="" alt="">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between align-items-end">
         <div>
-          <p>{{ review.user }}</p>
-          <p class="text-muted">
-          {% if review.created_at == review.updated_at %}
-            {{ review.created_at|naturalday }}
-          {% else %}
-            {{ review.updated_at|naturalday }}
-          {% endif %}
-          </p>
+          {{ review.user.profile }}
+          <img src="" alt="">
+          <div>
+            <p class="mb-1">{{ review.user }}</p>
+            <p class="text-muted">
+            {% if review.created_at == review.updated_at %}
+              {{ review.created_at|naturalday }}
+            {% else %}
+              {{ review.updated_at|naturalday }} (수정됨)
+            {% endif %}
+            </p>
+          </div>
         </div>
-        <div>
-          <p>
-            <a href="{% url 'hotels:review_update' hotel.pk review.pk %}">수정</a>
-          </p>
-          <p>
-            <a href="{% url 'hotels:review_delete' hotel.pk review.pk %}">삭제</a>
-          </p>
+        <div class="mb-3">
+          {% if request.user == review.user %}
+          <span>
+            <a href="{% url 'hotels:review_update' hotel.pk review.pk %}"><i class="bi bi-pencil text-black"></i></a>
+          </span>
+          <span class="ms-3">
+            <a href="{% url 'hotels:review_delete' hotel.pk review.pk %}"><i class="bi bi-trash text-black"></i></a>
+          </span>
+          {% endif %}
         </div>
       </div>
     </div>
     <!-- location -->
     <div class="my-3">
-      <i class="bi bi-geo-alt-fill"></i>
-      <a href="{% url 'hotels:detail' hotel.pk %}" class="text-decoration-none text-muted">{{ hotel.name }}</a>
+      <a href="{% url 'hotels:detail' hotel.pk %}" class="text-decoration-none text-muted"><i class="bi bi-geo-alt-fill"></i> {{ hotel.name }}</a>
     </div>
     <!-- content -->
     <div class="my-3">
       <p>{{ review.content | safe }}</p>
     </div>
+    <!-- like & comment -->
+    <div class="d-flex">
+      <div class="me-3">
+        <form id="like-form" data-hotel-id={{ hotel.pk }} data-review-id={{ review.pk }}>
+          {% csrf_token %}
+          {% if request.user in review.like_users.all %}
+          <i class="bi bi-heart-fill sodared" name="like-btn" id="like-btn"></i>
+          {% else %}
+          <i class="bi bi-heart sodared" name="like-btn" id="like-btn"></i>
+          {% endif %}
+          <span id="review-like-count">
+            {% if review.like_users %}
+            {{ review.like_users.count }}
+            {% else %}
+            0
+            {% endif %}
+          </span>
+        </form>
+      </div>
+      <!-- Modal trigger button -->
+      <div id="modal-btn" type="button" class="d-inline-block" data-bs-toggle="modal" data-bs-target="#modalId">
+        <i class="bi bi-chat-dots"></i>
+        <span id="review-comment-count">
+          {% if comments %}
+          {{ comments.count }}
+          {% else %}
+          0
+          {% endif %}
+        </span>
+      </div>
+    </div>
   </div>
   <div class="d-none d-md-block offset-md-2 col-md-2  d-flex flex-column justify-content-center">
-    <h4>{{ hotel.detail_region }} 지역 인기 호텔</h4>
+    <h4 style="word-break: keep-all;">{{ hotel.detail_region }} 지역 인기 호텔</h4>
     {% for hotel in other_hotels %}
     <div>
       <a href="{% url 'hotels:detail' hotel.pk %}" class="text-decoration-none text-dark">
         <img src="{{ hotel.image }}" class="img-fluid rounded mt-3" alt="{{ hotel.name }}">
         <div class="ms-1">
-          <h5 class="fw-bold my-1">{{ hotel.name }}</h5>
+          <h5 class="fw-bold my-1" style="word-break: keep-all;">{{ hotel.name }}</h5>
           <div class="my-1">
             <i class="bi bi-star-fill text-danger"></i>
             <b>{{ hotel.user_rating }}</b>
@@ -59,4 +93,242 @@
     {% endfor %}
   </div>
 </div>
+
+<!-- Modal Body -->
+<!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+<div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleId">댓글</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <i class="bi bi-chat-dots"></i>
+        <span id="comments-count">
+          {% if comments %}
+          {{ comments.count }}
+          {% else %}
+          0
+          {% endif %}
+          개의 댓글
+        </span>
+        <div id="comment-list" class="my-3">
+          {% for comment in comments %}
+          <div class="border-top">
+            <!-- user -->
+            <div class="mt-3">
+              <p class="mb-1">{{ comment.user }}</p>
+            </div>
+            <!-- content -->
+            <p class="mb-1">{{ comment.content }}</p>
+            <div class="d-flex justify-content-between">
+              <p>{{ comment.created_at|naturaltime }}</p>
+              <div>
+                {% if request.user == comment.user %}
+                <form id="comment-delete-form" data-hotel-id={{ hotel.pk }} data-review-id={{ review.pk }} data-comment-id={{ comment.id }}>
+                  {% csrf_token %}
+                  <input id="comment-pk" type="hidden" value="{{ comment.id }}">
+                  <input id="hotel-pk" type="hidden" value="{{ hotel.pk }}">
+                  <input id="review-pk" type="hidden" value="{{ review.pk }}">
+                  <input class="comment-delete-btn" type="button" value="삭제">
+                </form>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <form id="review-comment-form" data-hotel-id={{ hotel.pk }} data-review-id={{ review.pk }}>
+          {% csrf_token %}
+          <input id="review-comment" type="text" class="w-100" placeholder="댓글을 작성하려면 로그인 해주세요." autofocus>
+          <input type="submit" class="d-none">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Optional: Place to the bottom of scripts -->
+<script src="https://code.jquery.com/jquery-3.6.1.slim.js" integrity="sha256-tXm+sa1uzsbFnbXt8GJqsgi2Tw+m4BLGDof6eUPjbtk=" crossorigin="anonymous"></script>
+<script>
+  $('#modalId').on('shown.bs.modal', function() {
+    $('#review-comment').focus();
+  })
+</script>
+
+<!-- CDN axios -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- 좋아요 -->
+<script>
+  const likeBtn = document.querySelector('#like-btn')
+  likeBtn.addEventListener('click', (event) => {
+    const hotelId = event.target.parentNode.dataset.hotelId
+    const reviewId = event.target.parentNode.dataset.reviewId
+    const form = new FormData()
+    axios.post(`/hotels/${hotelId}/reviews/${reviewId}/like/`, form, {
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
+    })
+    .then((response) => {
+      if (response.data.is_liked) {
+        likeBtn.classList.remove('bi-heart')
+        likeBtn.classList.add('bi-heart-fill')
+      } else {
+        likeBtn.classList.remove('bi-heart-fill')
+        likeBtn.classList.add('bi-heart')
+      }
+      const reviewLikeCount = document.querySelector('#review-like-count')
+      reviewLikeCount.innerText = response.data.like_count
+    })
+  })
+</script>
+
+<!-- 댓글 -->
+<script>
+  <!-- 댓글 생성 -->
+  const reviewCommentForm = document.querySelector('#review-comment-form')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  reviewCommentForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    const reviewComment = document.querySelector('#review-comment').value
+    const hotelId = event.target.dataset.hotelId
+    const reviewId = event.target.dataset.reviewId
+    const form = new FormData()
+    form.append('content', reviewComment)
+    axios.post(`/hotels/${hotelId}/reviews/${reviewId}/comments/create/`, form, {
+      headers: {
+        'X-CSRFToken': csrftoken
+      }
+    })
+    .then((response) => {
+      <!-- 댓글 입력창 초기화하기 -->
+      reviewCommentForm.reset()
+      <!-- 댓글 목록 보여주기 -->
+      const commentList = document.querySelector('#comment-list')
+      commentList.innerHTML = ''
+      const comments = response.data.comment_list
+      const reviewCommentCount = document.querySelector('#review-comment-count')
+      reviewCommentCount.innerText = comments.length
+      const commentCount = document.querySelector('#comments-count')
+      commentCount.innerText = comments.length + '개의 댓글'
+      comments.forEach((comment) => {
+        <!-- user 처리 -->
+        const requestUserId = comment.request_user_id
+        const userId = comment.user_id
+        if (requestUserId === userId) {
+          commentList.innerHTML +=
+          `<div class="border-top">
+            <div class="mt-3">
+              <p class="mb-1">` + comment.user + `</p>
+            </div>
+            <p class="mb-1">` + comment.content + `</p>
+            <div class="d-flex justify-content-between">
+              <p>` + comment.created_at + `</p>
+              <div>
+                <form id="comment-delete-form" data-hotel-id={{ hotel.pk }} data-review-id={{ review.pk }} data-comment-id={{ comment.pk }}>
+                  {% csrf_token %}
+                  <input id="comment-pk" type="hidden" value="`+ comment.pk +`">
+                  <input id="hotel-pk" type="hidden" value="`+ comment.hotel_pk +`">
+                  <input id="review-pk" type="hidden" value="`+ comment.review_pk +`">
+                  <input class="comment-delete-btn" type="submit" value="삭제">
+                </form>
+              </div>
+            </div>
+          </div>`
+        }
+        else {
+          commentList.innerHTML +=
+          `<div class="border-top">
+            <div class="mt-3">
+              <p class="mb-1">` + comment.user + `</p>
+            </div>
+            <p class="mb-1">` + comment.content + `</p>
+            <div class="d-flex justify-content-between">
+              <p>` + comment.created_at + `</p>
+              <div>
+              </div>
+            </div>
+          </div>`
+        }
+      })
+    })
+  })
+
+  <!-- dynamic object 접근을 위한 함수 -->
+  function hasClass(elem, className) {
+    return elem.classList.contains(className)
+  }
+
+  <!-- 댓글 삭제 -->
+  document.addEventListener('click', (event) => {
+    if (hasClass(event.target, 'comment-delete-btn')) {
+      event.preventDefault()
+      const hotelId = event.target.parentNode.querySelector('#hotel-pk').value
+      const reviewId = event.target.parentNode.querySelector('#review-pk').value
+      const commentId = event.target.parentNode.querySelector('#comment-pk').value
+      const form = new FormData()
+      axios.post(`/hotels/${hotelId}/reviews/${reviewId}/comments/${commentId}/delete/`, form, {
+        headers: {
+          'X-CSRFToken': csrftoken
+        }
+      })
+      .then((response) => {
+        <!-- 댓글 목록 보여주기 -->
+        const commentList = document.querySelector('#comment-list')
+        commentList.innerHTML = ''
+        const comments = response.data.comment_list
+        const reviewCommentCount = document.querySelector('#review-comment-count')
+        reviewCommentCount.innerText = comments.length
+        const commentCount = document.querySelector('#comments-count')
+        commentCount.innerText = comments.length + '개의 댓글'
+        comments.forEach((comment) => {
+          <!-- user 처리 -->
+          const requestUserId = comment.request_user_id
+          const userId = comment.user_id
+          if (requestUserId === userId) {
+            commentList.innerHTML +=
+            `<div class="border-top">
+              <div class="mt-3">
+                <p class="mb-1">` + comment.user + `</p>
+              </div>
+              <p class="mb-1">` + comment.content + `</p>
+              <div class="d-flex justify-content-between">
+                <p>` + comment.created_at + `</p>
+                <div>
+                  <form id="comment-delete-form" data-hotel-id={{ hotel.pk }} data-review-id={{ review.pk }} data-comment-id={{ comment.pk }}>
+                    {% csrf_token %}
+                    <input id="comment-pk" type="hidden" value="`+ comment.pk +`">
+                    <input id="hotel-pk" type="hidden" value="`+ comment.hotel_pk +`">
+                    <input id="review-pk" type="hidden" value="`+ comment.review_pk +`">
+                    <input class="comment-delete-btn" type="submit" value="삭제">
+                  </form>
+                </div>
+              </div>
+            </div>`
+          }
+          else {
+            commentList.innerHTML +=
+            `<div class="border-top">
+              <div class="mt-3">
+                <p class="mb-1">` + comment.user + `</p>
+              </div>
+              <p class="mb-1">` + comment.content + `</p>
+              <div class="d-flex justify-content-between">
+                <p>` + comment.created_at + `</p>
+                <div>
+                </div>
+              </div>
+            </div>`
+          }
+        })
+      })
+    }
+  })
+</script>
 {% endblock body %}
