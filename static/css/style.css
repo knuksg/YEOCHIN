@@ -200,6 +200,67 @@ input:focus {
   background-color: #3e8e41;
 }
 
+.nav-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+
+@media (min-width: 1280px) {
+  .lg\:nav-footer {
+    display: none;
+  }
+}
+
+.nav-footer-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-footer-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 0;
+  width: 15%;
+}
+
+.nav-footer-item-icon {
+  color: rgb(0, 206, 124);
+  font-size: 27px;
+  padding-top: 3px;
+  box-sizing: border-box;
+}
+
+.nav-footer-item-icon2 {
+  color: #6a6a6a;
+  font-size: 27px;
+  padding-top: 3px;
+  box-sizing: border-box;
+}
+
+.nav-footer-item-text {
+  color: rgb(0, 206, 124);
+  font-size: 11px;
+  font-weight: 400;
+  padding-top: 3px;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
+.nav-footer-item-text2 {
+  color: rgb(37, 37, 37);
+  font-size: 11px;
+  font-weight: 400;
+  padding-top: 3px;
+  margin-bottom: 0;
+  box-sizing: border-box;
+}
+
 /* photoSpot */
 .photo-container {
   display: flex;
