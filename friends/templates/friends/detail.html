@@ -1,67 +1,114 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
 {% block body %}
-  <div class="container">
-    <h1>디테일</h1>
-    {% if friend.image %}
-      <div class="my-3 p-3 border border-3 bg-light" style="height:300px; background-image:url({{ friend.thumbnail.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
-    {% else %}
-      <div class="my-3 p-3 border border-3 bg-light" style="height:300px; background-image:url(https://cards.image.pokemonkorea.co.kr/data/wmimages/S/SI/SI_171.png); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
-    {% endif %}
 
-    <p>
-      {{ friend.title }}
-    </p>
-    {{ friend.pk }}
-    <div class="rounded-3 border border-5" style="width=100px height:100px">
-      <div class="m-3">
-        🗓️
-        {{friend.start_at}}~{{friend.end_at}}
+  <div class="container">
+    <div class="mb-5 mt-5">
+      {% if friend.image %}
+        <div class="my-3 p-3 rounded-5 border border-3 bg-light" style="height:500px; background-image:url({{ friend.thumbnail.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
+      {% else %}
+        <div class="my-3 p-3 rounded-5 border border-3 bg-light" style="height:500px; background-image:url(https://cards.image.pokemonkorea.co.kr/data/wmimages/S/SI/SI_171.png); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
+      {% endif %}
+    </div>
+    <div class="d-flex justify-content-between">
+      <div style="width: 950px; border-right: solid 1px rgb(233, 233, 233);">
+        <div style="width: 900px;   ">
+          <p class="mt-5" style="font-size:30px; font-weight:bold">
+            {{ friend.title }}
+          </p>
+          <div class="d-flex justify-content-between rounded-3 border border-3 mt-4">
+            <div>
+              <div class="d-flex mt-3 ms-3">
+                <p>
+                  <span class="text-muted">지역</span>&nbsp;&nbsp;{{friend.place}}</p>
+                <p class="ms-3">
+                  <span class="text-muted">모집인원</span>&nbsp;&nbsp;{{friend.people_number}}명</p>
+              </div>
+              <div class="mb-3 ms-3">
+                🗓️<i class="bi bi-calendar-fill"></i>
+
+                {{friend.start_at}}&nbsp;~&nbsp;{{friend.end_at}}
+                ({{ Dday }}일)
+              </div>
+            </div>
+
+            <div class="d-flex flex-direction : row ">
+              <div class="mt-3 p-0">
+                <a href="{% url 'friends:update' friend.pk %}">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <a href="{% url 'friends:delete' friend.pk %}">
+                  <i class="bi bi-trash"></i>
+                </a>
+              </div>
+
+              <div>
+
+                <a href="{% url 'friends:like' friend.pk %}">
+
+                  {% if request.user in friend.like_user.all %}
+                    <i class="bi bi-heart-fill"></i>
+                  {% else %}
+                    <i class="bi bi-heart"></i>
+                  {% endif %}
+                  {{ friend.like_user.count }}
+
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="mt-3">{{ friend.content }}</p>
+
+          <div class="mt-5">
+            {{ friend.created_at }}
+            {{ friend.updated_at }}
+          </div>
+
+          <form action="{% url 'friends:comment_create' friend.pk %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form comment_form %}
+            <button type="submit" class="btn btn-dark">제출</button>
+          </form>
+
+          {% for comment in comments %}
+            <div class="mt-3">
+              {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="40px" height="40">
+              {% else %}
+                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+              {% endif %}
+
+              {{ comment.user }}&nbsp;
+              <span class="text-muted" style="font-size:15px">{{comment.created_at}}</span>
+              <a href="{% url "friends:comment_delete" friend.pk comment.pk %}">
+                <i class="bi bi-trash"></i>
+              </a>
+              <p class='mt-2'>{{comment.content}}</p>
+              <br>
+            </div>
+          {% endfor %}
+
+        </div>
+      </div>
+      <div class="rounded-3 border border-3 mt-5" style="width:300px ;height:100px">
+        <div class="d-flex m-3">
+          {% if friend.user.profile.image %}
+            <img src="{{ friend.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+          {% else %}
+            <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+          {% endif %}
+          <div class="d-flex flex-column">
+            <p>{{friend.user.username}}</p>
+          </div>
+        </div>
+
       </div>
     </div>
-    d-day:{{ Dday }}
-    <p>{{ friend.content }}</p>
-    <a href="{% url 'friends:update' friend.pk %}">
-      <i class="bi bi-pencil"></i>
-    </a>
-    <a href="{% url 'friends:delete' friend.pk %}">
-      <i class="bi bi-trash"></i>
-    </a>
 
-    <a href="{% url 'friends:like' friend.pk %}">
-
-      {% if request.user in friend.like_user.all %}
-        <i class="bi bi-heart-fill"></i>
-      {% else %}
-        <i class="bi bi-heart"></i>
-      {% endif %}
-
-    </a>
-
-    <p>좋아요 수:{{ friend.like_user.count }}</p>
-    {{ friend.created_at }}
-    {{ friend.updated_at }}
-
-    <form action="{% url 'friends:comment_create' friend.pk %}" method="post">
-      {% csrf_token %}
-      {% bootstrap_form comment_form %}
-      <button type="submit" class="btn btn-dark">제출</button>
-    </form>
-
-    {% for comment in comments %}
-      {% if user.profile.image %}
-        <img src="{{ user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="48px">
-      {% else %}
-        <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-2 border border-1" width="48px">
-      {% endif %}
-
-      <span>{{comment.pk}}번 댓글</span>
-      {{ comment.user }}
-      {{comment.content}}
-      <a href="{% url "friends:comment_delete" friend.pk comment.pk %}">삭제</a>
-      <br>
-
-    {% endfor %}
   </div>
 
 {% endblock body %}

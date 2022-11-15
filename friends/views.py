@@ -14,7 +14,7 @@ def home(request):
     return render(request, "friends/home.html",context)
 
 def index(request):
-    friends = Friend.objects.all()
+    friends = Friend.objects.order_by('-pk')
     context = {
         'friends':friends,
     }
@@ -42,7 +42,7 @@ def detail(request, pk):
     friend = Friend.objects.get(pk=pk)
     comments = friend.friend_comment_set.all()
     comment_form = Friend_CommentForm()
-    Dday = (friend.end_at - friend.start_at).days
+    Dday = (friend.end_at - friend.start_at).days +1
     
 
     context = {
