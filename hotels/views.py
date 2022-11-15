@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from .forms import HotelReviewForm
 from django.contrib.humanize.templatetags.humanize import naturaltime
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -76,6 +77,7 @@ def detail(request, pk):
     }
     return render(request, 'hotels/detail.html', context)
 
+@login_required
 def review_create(request, pk):
     hotel = get_object_or_404(Hotel, pk=pk)
     if request.method == 'POST':
@@ -107,6 +109,7 @@ def review_detail(request, pk, review_pk):
     }
     return render(request, 'hotels/review_detail.html', context)
 
+@login_required
 def review_update(request, pk, review_pk):
     hotel = get_object_or_404(Hotel, pk=pk)
     review = get_object_or_404(HotelReview, pk=review_pk)
@@ -126,11 +129,30 @@ def review_update(request, pk, review_pk):
     }
     return render(request, 'hotels/review_create.html', context)
 
+@login_required
 def review_delete(request, pk, review_pk):
     review = get_object_or_404(HotelReview, pk=review_pk)
     review.delete()
     return redirect('hotels:detail', pk)
 
+def review_like(request, pk, review_pk):
+    if request.user.is_authenticated:
+        review = HotelReview.objects.get(pk=review_pk)
+        if review.like_users.filter(pk=request.user.pk).exists():
+            review.like_users.remove(request.user)
+            is_liked = False
+        else:
+            review.like_users.add(request.user)
+            is_liked = True
+        data = {
+            'is_liked': is_liked,
+            'like_count': review.like_users.count(),
+        }
+    else:
+        return redirect('hotels:review_detail', review.pk)
+    return JsonResponse(data)
+
+@login_required
 def review_comment_create(request, pk, review_pk):
     review = get_object_or_404(HotelReview, pk=review_pk)
 
@@ -157,6 +179,7 @@ def review_comment_create(request, pk, review_pk):
         }
         return JsonResponse(data)
 
+@login_required
 def review_comment_delete(request, pk, review_pk, comment_pk):
     comment = get_object_or_404(HotelReviewComment, pk=comment_pk)
     comment.delete()
@@ -168,6 +191,8 @@ def review_comment_delete(request, pk, review_pk, comment_pk):
         comment_dict['review_pk'] = review_pk
         comment_dict['pk'] = comment.id
         comment_dict['user'] = comment.user.username
+        comment_dict['user_id'] = comment.user.id
+        comment_dict['request_user_id'] = request.user.id
         comment_dict['content'] = comment.content
         comment_dict['created_at'] = naturaltime(comment.created_at)
         comment_dict['updated_at'] = naturaltime(comment.updated_at)

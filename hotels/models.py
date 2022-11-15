@@ -33,6 +33,7 @@ class HotelReview(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
     title = models.CharField(max_length=50)
     content = models.TextField()
+    like_users = models.ManyToManyField('accounts.User', related_name='like_reviews')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
