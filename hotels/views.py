@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Hotel, HotelReview
+from .models import Hotel, HotelReview, HotelReviewComment
 from main.models import Region, DetailRegion
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from .forms import HotelReviewForm
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 # Create your views here.
 def index(request):
@@ -97,10 +98,12 @@ def review_detail(request, pk, review_pk):
     hotel = get_object_or_404(Hotel, pk=pk)
     other_hotels = Hotel.objects.filter(detail_region=hotel.detail_region).exclude(pk=pk)[:5]
     review = get_object_or_404(HotelReview, pk=review_pk)
+    comments = HotelReviewComment.objects.filter(review=review_pk).order_by('created_at')
     context = {
         'hotel': hotel,
         'other_hotels': other_hotels,
         'review': review,
+        'comments': comments,
     }
     return render(request, 'hotels/review_detail.html', context)
 
@@ -127,3 +130,50 @@ def review_delete(request, pk, review_pk):
     review = get_object_or_404(HotelReview, pk=review_pk)
     review.delete()
     return redirect('hotels:detail', pk)
+
+def review_comment_create(request, pk, review_pk):
+    review = get_object_or_404(HotelReview, pk=review_pk)
+
+    if request.method == 'POST':
+        comment = request.POST.get('content', '')
+        HotelReviewComment.objects.create(user=request.user, review=review, content=comment)
+        comments = HotelReviewComment.objects.filter(review=review_pk).order_by('created_at')
+        comment_list = []
+        for comment in comments:
+            comment_dict = {}
+            comment_dict['hotel_pk'] = pk
+            comment_dict['review_pk'] = review_pk
+            comment_dict['pk'] = comment.id
+            comment_dict['user'] = comment.user.username
+            comment_dict['user_id'] = comment.user.id
+            comment_dict['request_user_id'] = request.user.id
+            comment_dict['content'] = comment.content
+            comment_dict['created_at'] = naturaltime(comment.created_at)
+            comment_dict['updated_at'] = naturaltime(comment.updated_at)
+            comment_list.append(comment_dict)
+        data = {
+            # 'comments': list(comments.values()),
+            'comment_list': comment_list,
+        }
+        return JsonResponse(data)
+
+def review_comment_delete(request, pk, review_pk, comment_pk):
+    comment = get_object_or_404(HotelReviewComment, pk=comment_pk)
+    comment.delete()
+    comments = HotelReviewComment.objects.filter(review=review_pk).order_by('created_at')
+    comment_list = []
+    for comment in comments:
+        comment_dict = {}
+        comment_dict['hotel_pk'] = pk
+        comment_dict['review_pk'] = review_pk
+        comment_dict['pk'] = comment.id
+        comment_dict['user'] = comment.user.username
+        comment_dict['content'] = comment.content
+        comment_dict['created_at'] = naturaltime(comment.created_at)
+        comment_dict['updated_at'] = naturaltime(comment.updated_at)
+        comment_list.append(comment_dict)
+    data = {
+        # 'comments': list(comments.values()),
+        'comment_list': comment_list,
+    }
+    return JsonResponse(data)
