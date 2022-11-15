@@ -7,14 +7,16 @@ from imagekit.processors import ResizeToFill
 
 # Create your models here.
 class Friend(models.Model):
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=30)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     start_at = models.DateField()
     end_at = models.DateField(null=True)
+    place = models.CharField(max_length=30)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     like_user = models.ManyToManyField(get_user_model(), related_name="like_friend")
+    people_number = models.IntegerField()
 
     image = models.ImageField(upload_to="image/", blank=True)
     thumbnail = ProcessedImageField(
