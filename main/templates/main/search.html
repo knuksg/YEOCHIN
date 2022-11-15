@@ -1,49 +1,63 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load humanize %}
 {% block body %}
-<!-- Search -->
-<div>
-  <h1>{{ kw }} 호텔 인기 순위</h1>
-  <div>
-    {% for hotel in hotel_list %}
-    {{ hotel.name }}
-    {% endfor %}
+<div class="container d-flex flex-column align-items-center">
+  <!-- photospot -->
+  <div class="w-75 my-5 border-bottom">
+    <h3 class="d-inline">{{ kw }} 포토스팟 인기 순위</h3>
+    <form action="{% url 'hotels:index' %}" method="post" class="d-inline">
+      {% csrf_token %}
+      <input type="submit" value="포토스팟 순위 더보기 >" style="border: none; background-color: white;">
+    </form>
+    <!-- 포토스팟 목록 -->
+    <div id="photospots-group" class="row my-5">
+      {% for photospot in photospot_list %}
+      <div class="col-12 col-md-6 col-lg-3">
+        <a href="{% url 'photospots:detail' photospot.pk %}">
+          <div class="photospot-item">
+            <img src="{{ photospot.photo_img.url }}" class="photospot-img" alt="" >
+            <div class="photospot-info">
+              <div>
+                {% if request.user in photospot.like_users.all %}
+                <i class="bi bi-heart-fill"></i>
+                {% else %}
+                <i class="bi bi-heart"></i>
+                {% endif %}
+                {{ photospot.like_users.count }}</div>
+              <div><i class="bi bi-chat"></i> {{ photospot.photocomment_set.all.count }}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- hotel -->
+  <div class="w-75 border-bottom my-5">
+    <h3 class="d-inline">{{ kw }} 호텔 인기 순위</h3>
+    <form action="{% url 'hotels:index' %}" method="post" class="d-inline">
+      {% csrf_token %}
+      <input type="submit" value="호텔 순위 더보기 >" style="border: none; background-color: white;">
+    </form>
+    <!-- 호텔 목록 -->
+    <div id="hotels-group" class="row my-5">
+      {% for hotel in hotel_list %}
+      <div class="col-12 col-md-6 col-lg-3">
+        <a href="{% url 'hotels:detail' hotel.pk %}" class="text-decoration-none text-dark">
+          <img src="{{ hotel.image }}" class="img-fluid rounded" alt="{{ hotel.name }}">
+          <div class="ms-1">
+            <h5 class="fw-bold my-1" style="word-break: keep-all;">{{ hotel.name }}</h5>
+            <div class="my-1">
+              <i class="bi bi-star-fill text-danger"></i>
+              <b>{{ hotel.user_rating }}</b>
+            </div>
+            <b class="text-danger mt-1 fs-5">{{ hotel.price|intcomma }}원~</b>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </div>
-
-<!-- 페이징처리 시작 -->
-<ul class="pagination justify-content-center">
-  <!-- 이전페이지 -->
-  {% if hotel_list.has_previous %}
-  <li class="page-item">
-      <a class="page-link" href="?page={{ hotel_list.previous_page_number }}">이전</a>
-  </li>
-  {% else %}
-  <li class="page-item disabled">
-      <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-  </li>
-  {% endif %}
-  <!-- 페이지리스트 -->
-  {% for page_number in hotel_list.paginator.page_range %}
-  {% if page_number == hotel_list.number %}
-  <li class="page-item active" aria-current="page">
-      <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-  </li>
-  {% else %}
-  <li class="page-item">
-      <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
-  </li>
-  {% endif %}
-  {% endfor %}
-  <!-- 다음페이지 -->
-  {% if hotel_list.has_next %}
-  <li class="page-item">
-      <a class="page-link" href="?page={{ hotel_list.next_page_number }}">다음</a>
-  </li>
-  {% else %}
-  <li class="page-item disabled">
-      <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-  </li>
-  {% endif %}
-</ul>
-<!-- 페이징처리 끝 -->
 {% endblock body %}

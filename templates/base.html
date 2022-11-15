@@ -58,7 +58,7 @@
             </li>
           </ul>
           <div class="mx-2 searchBox sm:display md:display lg:nav lg:nav2">
-            <form class="p-1 search_form align-items-center" action="" method="GET">
+            <form id="main-search-form" action="{% url 'main:search' %}" class="p-1 search_form align-items-center">
                 <i class="position-absolute fa-solid fa-magnifying-glass" style="left: 1rem; bottom: 0.8rem;"></i>
                 <input class="header_input" placeholder="여행지나 숙소를 검색해보세요!" name="kw"/>
               <input type="submit" style="display: none"/>
