@@ -189,12 +189,12 @@
       {% endif %}
       <!-- 마이페이지 -->
       {% if request.resolver_match.namespace == 'accounts' %}
-      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='% url 'accounts:mypage' user.pk %';">
         <i class="fa fa-user-circle-o nav-footer-item-icon"></i>
         <p class="nav-footer-item-text">마이페이지</p>
       </li>
       {% else %}
-      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='% url 'accounts:mypage' user.pk %';">
         <i class="fa fa-user-circle-o nav-footer-item-icon2"></i>
         <p class="nav-footer-item-text2">마이페이지</p>
       </li>
