@@ -1,12 +1,15 @@
-
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm,
-                                       UserChangeForm, UserCreationForm)
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordChangeForm,
+    UserChangeForm,
+    UserCreationForm,
+)
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -15,6 +18,7 @@ from .forms import CustomUserChangeForm, CustomUserCreationForm, ProfileForm
 from .models import Profile
 
 # Create your views here.
+
 
 def signup(request):
     return render(request, "accounts/signup.html")
@@ -29,7 +33,9 @@ def signupNormal(request):
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)  # 프로필 생성
-            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            auth_login(
+                request, user, backend="django.contrib.auth.backends.ModelBackend"
+            )
             return redirect("accounts:login")
     else:
         form = CustomUserCreationForm()
@@ -48,7 +54,11 @@ def loginNormal(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            auth_login(request, form.get_user(),backend='django.contrib.auth.backends.ModelBackend')
+            auth_login(
+                request,
+                form.get_user(),
+                backend="django.contrib.auth.backends.ModelBackend",
+            )
             return redirect(request.GET.get("next") or "main:index")
     else:
         form = AuthenticationForm()
@@ -203,6 +213,7 @@ def articles(request, pk):
     }
     return render(request, "accounts/articles.html", context)
 
+
 import secrets
 import requests
 
@@ -232,8 +243,7 @@ def naver_callback(request):
     access_token = requests.post(naver_token_request_url, data=data).json()[
         "access_token"
     ]
-
-    headers = {"Authorization": f"Bearer {access_token}"}
+    headers = {"Authorization": f"Bearer ${access_token}"}
     naver_call_user_api = "https://openapi.naver.com/v1/nid/me"
     naver_user_information = requests.get(naver_call_user_api, headers=headers).json()
 
@@ -243,5 +253,19 @@ def naver_callback(request):
 
     if get_user_model().objects.filter(naver_id=naver_id).exists():
         naver_user = get_user_model().objects.get(naver_id=naver_id)
-        auth_login(request, naver_user, backend='django.contrib.auth.backends.ModelBackend')
+        auth_login(
+            request, naver_user, backend="django.contrib.auth.backends.ModelBackend"
+        )
         return redirect(request.GET.get("next") or "friends:index")
+    else:
+        naver_login_user = get_user_model()()
+        naver_login_user.username = naver_nickname
+        naver_login_user.naver_id = naver_id
+        naver_login_user.email = naver_email
+        naver_login_user.set_password(str(state_token))
+        naver_login_user.save()
+        naver_user = get_user_model().objects.get(naver_id=naver_id)
+        auth_login(
+            request, naver_user, backend="django.contrib.auth.backends.ModelBackend"
+        )
+        return redirect("friends:index")
