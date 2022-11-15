@@ -54,8 +54,11 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',  # 가입한 계정을 관리하기 위한 것.
     'allauth.socialaccount',  # 소셜 계정을 관리하기 위한 것.
-    'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.naver', #네이버
+    'allauth.socialaccount.providers.kakao', #카카오
+    'allauth.socialaccount.providers.google', #구글
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -166,6 +169,18 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-SITE_ID = 2
-
 LOGIN_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+SITE_ID = 2

@@ -12,6 +12,7 @@ from django.contrib.auth.hashers import check_password
 
 
 class User(AbstractUser):
+    naver_id = models.CharField(null=True, unique=True, max_length=100)    
     nickname = models.CharField(max_length=20, unique=True, null=True)
     followings = models.ManyToManyField(
         "self", symmetrical=False, related_name="followers"
