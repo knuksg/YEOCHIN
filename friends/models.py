@@ -16,6 +16,7 @@ class Friend(models.Model):
     place = models.CharField(max_length=30)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     like_user = models.ManyToManyField(get_user_model(), related_name="like_friend")
+    people_number = models.IntegerField()
 
     image = models.ImageField(upload_to="image/", blank=True)
     thumbnail = ProcessedImageField(
