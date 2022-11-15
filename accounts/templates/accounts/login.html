@@ -23,7 +23,7 @@
         >
       </div>
       <div style="padding: 10px 3vw">
-        <a href="{% url 'accounts:login'%}">
+        <a href="{% url 'accounts:login' %}naver">
           <button
             class="btnYclogin text-white fw-bord"
             style="background-color: rgb(254, 229, 0)"
@@ -45,12 +45,49 @@
               >회원가입</a
             >
           </p>
-          <a href="{% provider_login_url 'kakao' method='oauth2' %}">
+          {% comment %} <a href="{% provider_login_url 'kakao' method='oauth2' %}">
             카카오톡 회원가입
+            </a> {% endcomment %}
+            {% comment %} <a id="custom-login-btn" href="javascript:loginWithKakao()">
+              <img
+                src="//k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+                width="222"
+                alt="카카오 로그인 버튼"
+              />
             </a>
+            <p id="token-result"></p> {% endcomment %}
         </div>
       </div>
     </div>
   </div>
 </section>
+{% comment %} <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript">
+  Kakao.init('0fb40841ad014cc2535c559673faeb15');
+  function loginWithKakao() {
+    Kakao.Auth.authorize({
+      redirectUri: 'http://127.0.0.1:8000/accounts/kakao/login/callback/' 
+    })
+  }
+  // 아래는 데모를 위한 UI 코드입니다.
+  displayToken()
+  function displayToken() {
+    const token = getCookie('authorize-access-token')
+    if(token) {
+      Kakao.Auth.setAccessToken(token)
+      Kakao.Auth.getStatusInfo(({ status }) => {
+        if(status === 'connected') {
+          document.getElementById('token-result').innerText = 'login success. token: ' + Kakao.Auth.getAccessToken()
+        } else {
+          Kakao.Auth.setAccessToken(null)
+        }
+      })
+    }
+  }
+  function getCookie(name) {
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+</script> {% endcomment %}
 {% endblock body %}

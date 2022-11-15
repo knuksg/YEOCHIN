@@ -15,4 +15,6 @@ urlpatterns = [
     path("password/", views.password, name="password"),  # 비밀번호 변경
     path("delete/", views.delete, name="delete"),  # 회원탈퇴
     path("<int:pk>/update/", views.update, name="update"),
+    path("login/naver/", views.naver_request, name="naver"),
+    path("naver/login/callback/", views.naver_callback),
 ]
