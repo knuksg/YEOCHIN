@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from .forms import HotelReviewForm
-from django.contrib.humanize.templatetags.humanize import naturaltime
+from django.contrib.humanize.templatetags.humanize import naturaltime, intcomma
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -22,49 +22,93 @@ def index(request):
         if post_kw and post_detail_region:
             detail_region = DetailRegion.objects.get(name=post_detail_region)
             hotels = Hotel.objects.filter(detail_region=detail_region).filter(name__icontains=post_kw)
-
+            hotels = sorted(hotels, key=lambda x:-x.user_rating)[:4]
+            hotels_list = []
+            for hotel in hotels:
+                hotel_dict = {}
+                hotel_dict['pk'] = hotel.pk
+                hotel_dict['name'] = hotel.name
+                hotel_dict['user_rating'] = hotel.user_rating
+                hotel_dict['price'] = intcomma(hotel.price)
+                hotel_dict['image'] = hotel.image
+                hotels_list.append(hotel_dict)
             context = {
-            'hotels': list(hotels.values())[:4],
+            'hotels': hotels_list,
             }
             return JsonResponse(context)
         elif post_kw and post_region:
             region = Region.objects.get(name=post_region)
             hotels = Hotel.objects.filter(region=region).filter(name__icontains=post_kw)
-
+            hotels = sorted(hotels, key=lambda x:-x.user_rating)[:4]
+            hotels_list = []
+            for hotel in hotels:
+                hotel_dict = {}
+                hotel_dict['pk'] = hotel.pk
+                hotel_dict['name'] = hotel.name
+                hotel_dict['user_rating'] = hotel.user_rating
+                hotel_dict['price'] = intcomma(hotel.price)
+                hotel_dict['image'] = hotel.image
+                hotels_list.append(hotel_dict)
             context = {
-            'hotels': list(hotels.values())[:4],
+            'hotels': hotels_list,
             }
             return JsonResponse(context)
         elif post_region:
             post_region = request.POST.get('region')
             region = Region.objects.get(name=post_region)
-
             detail_regions = DetailRegion.objects.filter(region=region)
             hotels = Hotel.objects.filter(region=region)
-
+            hotels = sorted(hotels, key=lambda x:-x.user_rating)[:4]
+            hotels_list = []
+            for hotel in hotels:
+                hotel_dict = {}
+                hotel_dict['pk'] = hotel.pk
+                hotel_dict['name'] = hotel.name
+                hotel_dict['user_rating'] = hotel.user_rating
+                hotel_dict['price'] = intcomma(hotel.price)
+                hotel_dict['image'] = hotel.image
+                hotels_list.append(hotel_dict)
             context = {
                 'detail_region_list': list(detail_regions.values()),
-                'hotels': list(hotels.values())[:4],
+                'hotels': hotels_list,
             }
             return JsonResponse(context)
         elif post_detail_region:
             detail_region = DetailRegion.objects.get(name=post_detail_region)
             hotels = Hotel.objects.filter(detail_region=detail_region)
-
+            hotels = sorted(hotels, key=lambda x:-x.user_rating)[:4]
+            hotels_list = []
+            for hotel in hotels:
+                hotel_dict = {}
+                hotel_dict['pk'] = hotel.pk
+                hotel_dict['name'] = hotel.name
+                hotel_dict['user_rating'] = hotel.user_rating
+                hotel_dict['price'] = intcomma(hotel.price)
+                hotel_dict['image'] = hotel.image
+                hotels_list.append(hotel_dict)
             context = {
-            'hotels': list(hotels.values())[:4],
+            'hotels': hotels_list,
             }
             return JsonResponse(context)
         elif post_kw:
             hotels = Hotel.objects.filter(name__icontains=post_kw)
+            hotels = sorted(hotels, key=lambda x:-x.user_rating)[:4]
+            hotels_list = []
+            for hotel in hotels:
+                hotel_dict = {}
+                hotel_dict['pk'] = hotel.pk
+                hotel_dict['name'] = hotel.name
+                hotel_dict['user_rating'] = hotel.user_rating
+                hotel_dict['price'] = intcomma(hotel.price)
+                hotel_dict['image'] = hotel.image
+                hotels_list.append(hotel_dict)
             context = {
-            'hotels': list(hotels.values())[:4],
+            'hotels': hotels_list,
             }
             return JsonResponse(context)
-            
     context = {
         'regions': regions,
-        'hotels': Hotel.objects.order_by('-rating')[:4],
+        'hotels': sorted(Hotel.objects.all(), key=lambda x:-x.user_rating)[:4]
     }
     return render(request, 'hotels/index.html', context)
 
