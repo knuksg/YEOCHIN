@@ -2,7 +2,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <title>
       {% block title %}
@@ -127,7 +126,6 @@
       </div>
     </div>
   </header>
-
   <body>
     <main>
       {% block body %}{% endblock body %}
@@ -139,82 +137,68 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
   </body>
-
-    <body>
-      <main>
-        {% block body %}{% endblock body %}
-      </main>
-      <footer>
-        <!-- place footer here -->
-      </footer>
-      <!-- Bootstrap JavaScript Libraries -->
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
-    </body>
-
-    <footer class="nav-footer lg:nav-footer border-top">
-      <ul class="nav-footer-list m-0 p-0">
-        <!-- 동행친구 -->
-        {% if request.resolver_match.namespace == 'friends' %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'friends:index' %}';">
-          <i class="fa-regular fa-comments nav-footer-item-icon"></i>
-          <p class="nav-footer-item-text">동행친구</p>
-        </li>
-        {% else %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'friends:index' %}';">
-          <i class="fa-regular fa-comments nav-footer-item-icon2"></i>
-          <p class="nav-footer-item-text2">동행친구</p>
-        </li>
-        {% endif %}
-        <!-- QnA -->
-        {% if request.resolver_match.namespace == '' %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='';">
-          <i class="fa-regular fa-circle-question nav-footer-item-icon"></i>
-          <p class="nav-footer-item-text">QnA</p>
-        </li>
-        {% else %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='';">
-          <i class="fa-regular fa-circle-question nav-footer-item-icon2"></i>
-          <p class="nav-footer-item-text2">QnA</p>
-        </li>
-        {% endif %}
-        <!-- 인생사진 -->
-        {% if request.resolver_match.namespace == 'photospots' %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'photospots:index' %}';">
-          <i class="fa fa-camera-retro nav-footer-item-icon"></i>
-          <p class="nav-footer-item-text">인생사진</p>
-        </li>
-        {% else %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'photospots:index' %}';">
-          <i class="fa fa-camera-retro nav-footer-item-icon2"></i>
-          <p class="nav-footer-item-text2">인생사진</p>
-        </li>
-        {% endif %}
-        <!-- 숙소 -->
-        {% if request.resolver_match.namespace == 'hotels' %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'hotels:index' %}';">
-          <i class="fa fa-bed nav-footer-item-icon"></i>
-          <p class="nav-footer-item-text">숙소</p>
-        </li>
-        {% else %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'hotels:index' %}';">
-          <i class="fa fa-bed nav-footer-item-icon2"></i>
-          <p class="nav-footer-item-text2">숙소</p>
-        </li>
-        {% endif %}
-        <!-- 마이페이지 -->
-        {% if request.resolver_match.namespace == 'accounts' %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
-          <i class="fa fa-user-circle-o nav-footer-item-icon"></i>
-          <p class="nav-footer-item-text">마이페이지</p>
-        </li>
-        {% else %}
-        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
-          <i class="fa fa-user-circle-o nav-footer-item-icon2"></i>
-          <p class="nav-footer-item-text2">마이페이지</p>
-        </li>
-        {% endif %}
-      </ul>
-    </footer>
-
+  <footer class="nav-footer lg:nav-footer border-top">
+    <ul class="nav-footer-list m-0 p-0">
+      <!-- 동행친구 -->
+      {% if request.resolver_match.namespace == 'friends' %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'friends:index' %}';">
+        <i class="fa-regular fa-comments nav-footer-item-icon"></i>
+        <p class="nav-footer-item-text">동행친구</p>
+      </li>
+      {% else %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'friends:index' %}';">
+        <i class="fa-regular fa-comments nav-footer-item-icon2"></i>
+        <p class="nav-footer-item-text2">동행친구</p>
+      </li>
+      {% endif %}
+      <!-- QnA -->
+      {% if request.resolver_match.namespace == '' %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='';">
+        <i class="fa-regular fa-circle-question nav-footer-item-icon"></i>
+        <p class="nav-footer-item-text">QnA</p>
+      </li>
+      {% else %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='';">
+        <i class="fa-regular fa-circle-question nav-footer-item-icon2"></i>
+        <p class="nav-footer-item-text2">QnA</p>
+      </li>
+      {% endif %}
+      <!-- 인생사진 -->
+      {% if request.resolver_match.namespace == 'photospots' %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'photospots:index' %}';">
+        <i class="fa fa-camera-retro nav-footer-item-icon"></i>
+        <p class="nav-footer-item-text">인생사진</p>
+      </li>
+      {% else %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'photospots:index' %}';">
+        <i class="fa fa-camera-retro nav-footer-item-icon2"></i>
+        <p class="nav-footer-item-text2">인생사진</p>
+      </li>
+      {% endif %}
+      <!-- 숙소 -->
+      {% if request.resolver_match.namespace == 'hotels' %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'hotels:index' %}';">
+        <i class="fa fa-bed nav-footer-item-icon"></i>
+        <p class="nav-footer-item-text">숙소</p>
+      </li>
+      {% else %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'hotels:index' %}';">
+        <i class="fa fa-bed nav-footer-item-icon2"></i>
+        <p class="nav-footer-item-text2">숙소</p>
+      </li>
+      {% endif %}
+      <!-- 마이페이지 -->
+      {% if request.resolver_match.namespace == 'accounts' %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
+        <i class="fa fa-user-circle-o nav-footer-item-icon"></i>
+        <p class="nav-footer-item-text">마이페이지</p>
+      </li>
+      {% else %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
+        <i class="fa fa-user-circle-o nav-footer-item-icon2"></i>
+        <p class="nav-footer-item-text2">마이페이지</p>
+      </li>
+      {% endif %}
+    </ul>
+  </footer>
   </html>
