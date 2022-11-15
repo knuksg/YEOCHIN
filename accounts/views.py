@@ -208,40 +208,40 @@ import requests
 
 state_token = secrets.token_urlsafe(16)
 
-#네이버 보류
-# def naver_request(request):
-#     naver_api = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
-#     client_id = "UBnDRMN8PAPnLjvY_ztF"  # 배포시 보안적용 해야함
-#     redirect_uri = "http://localhost:8000/accounts/naver/login/callback/"
-#     state_token = secrets.token_urlsafe(16)
-#     return redirect(
-#         f"{naver_api}&client_id={client_id}&redirect_uri={redirect_uri}&state={state_token}"
-#     )
+# 네이버 보류
+def naver_request(request):
+    naver_api = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
+    client_id = "UBnDRMN8PAPnLjvY_ztF"  # 배포시 보안적용 해야함
+    redirect_uri = "http://127.0.0.1:8000/accounts/naver/login/callback/"
+    state_token = secrets.token_urlsafe(16)
+    return redirect(
+        f"{naver_api}&client_id={client_id}&redirect_uri={redirect_uri}&state={state_token}"
+    )
 
 
-# def naver_callback(request):
-#     data = {
-#         "grant_type": "authorization_code",
-#         "client_id": "UBnDRMN8PAPnLjvY_ztF",  # 배포시 보안적용 해야함
-#         "client_secret": "34XV68M9Gj",
-#         "code": request.GET.get("code"),
-#         "state": request.GET.get("state"),
-#         "redirect_uri": "http://localhost:8000/accounts/naver/login/callback/",
-#     }
-#     naver_token_request_url = "https://nid.naver.com/oauth2.0/token"
-#     access_token = requests.post(naver_token_request_url, data=data).json()[
-#         "access_token"
-#     ]
+def naver_callback(request):
+    data = {
+        "grant_type": "authorization_code",
+        "client_id": "UBnDRMN8PAPnLjvY_ztF",  # 배포시 보안적용 해야함
+        "client_secret": "34XV68M9Gj",
+        "code": request.GET.get("code"),
+        "state": request.GET.get("state"),
+        "redirect_uri": "http://127.0.0.1:8000/accounts/naver/login/callback/",
+    }
+    naver_token_request_url = "https://nid.naver.com/oauth2.0/token"
+    access_token = requests.post(naver_token_request_url, data=data).json()[
+        "access_token"
+    ]
 
-#     headers = {"Authorization": f"bearer {access_token}"}
-#     naver_call_user_api = "https://openapi.naver.com/v1/nid/me"
-#     naver_user_information = requests.get(naver_call_user_api, headers=headers).json()
+    headers = {"Authorization": f"Bearer {access_token}"}
+    naver_call_user_api = "https://openapi.naver.com/v1/nid/me"
+    naver_user_information = requests.get(naver_call_user_api, headers=headers).json()
 
-#     naver_id = naver_user_information["response"]["id"]
-#     naver_nickname = naver_user_information["response"]["nickname"]
-#     naver_email = naver_user_information["response"]["email"]
+    naver_id = naver_user_information["response"]["id"]
+    naver_nickname = naver_user_information["response"]["nickname"]
+    naver_email = naver_user_information["response"]["email"]
 
-#     if get_user_model().objects.filter(naver_id=naver_id).exists():
-#         naver_user = get_user_model().objects.get(naver_id=naver_id)
-#         auth_login(request, naver_user)
-#         return redirect(request.GET.get("next") or "articles:index")
+    if get_user_model().objects.filter(naver_id=naver_id).exists():
+        naver_user = get_user_model().objects.get(naver_id=naver_id)
+        auth_login(request, naver_user, backend='django.contrib.auth.backends.ModelBackend')
+        return redirect(request.GET.get("next") or "friends:index")
