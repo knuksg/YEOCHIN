@@ -29,3 +29,7 @@ class Friend_CommentForm(forms.ModelForm):
         model = Friend_Comment
         fields = ['content']
 
+        labels = {
+            'content' : '댓글',
+        }
+
