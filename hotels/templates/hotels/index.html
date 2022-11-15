@@ -18,9 +18,9 @@
   
   <!-- 검색 -->
   <div>
-    <form id="search-form" class="d-flex justify-content-end align-items-center my-3">
+    <form id="search-form" class="hotel-search-form">
       {% csrf_token %}
-      <div class="position-relative d-flex justify-content-center align-items-center" style="width: 300px;">
+      <div class="search-form">
         <i class="position-absolute fa-solid fa-magnifying-glass" style="left: 1rem"></i>
         <input type="text" id="search-kw" class="bg-light rounded-5 px-4 py-1" name="search-kw" value="" placeholder="호텔 이름으로 검색하기" style="height: 2.5rem; width: 100%; text-indent: 1rem; border: 1px solid rgb(233, 233, 233);">
       </div>
