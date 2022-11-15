@@ -605,3 +605,73 @@ btnYclogin:focus {
 .sodared {
   color: #ff3c26
 }
+
+/* search */
+#photospots-group .photospot-item {
+  position: relative;
+  display: inline-block;
+}
+
+
+#photospots-group .photospot-item .photospot-img {
+  width: 350px;
+  height: 350px;
+  object-fit: cover;
+}
+
+#photospots-group .photospot-item .photospot-info {
+  position: absolute;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  gap: 1rem;
+  color: white;
+  text-decoration: none;
+}
+
+#photospots-group .photospot-item:hover .photospot-img {
+  filter: brightness(0.5);
+}
+
+#photospots-group .photospot-item:hover .photospot-info {
+  display: flex;
+}
+
+
+@media (min-width:576px) and (max-width:768px) {
+  #photospots-group .photospot-item .photospot-img {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (min-width:768px) and (max-width:992px) {
+  #photospots-group .photospot-item .photospot-img {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (min-width:992px) and (max-width:1200px) {
+  #photospots-group .photospot-item .photospot-img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (min-width:1200px) and (max-width:1400px) {
+  #photospots-group .photospot-item .photospot-img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (min-width:1400px) {
+  #photospots-group .photospot-item .photospot-img {
+    width: 230px;
+    height: 230px;
+  }
+}
