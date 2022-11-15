@@ -28,7 +28,9 @@ def signupNormal(request):
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)  # 프로필 생성
-            auth_login(request, user)
+            auth_login(
+                request, user, backend="django.contrib.auth.backends.ModelBackend"
+            )
             return redirect("accounts:login")
     else:
         form = CustomUserCreationForm()

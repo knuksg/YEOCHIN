@@ -111,22 +111,19 @@ li {
 }
 
 @media (min-width: 1280px) {
-  .lg\:nav2 {
+  .lg\:nav {
     display: none;
   }
 }
 
-@media (min-width: 992px) {
-  .md\:nav2 {
+@media (min-width: 1400px) {
+  .lg\:nav2 {
     display: block;
   }
 }
 
 .searchBox {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: none;
   /* background: rgb(248, 248, 248); */
   height: 45px;
@@ -543,8 +540,8 @@ btnYclogin:focus {
 
 .vertical-bar {
   display: inline-block;
-  width: 1px; 
-  height: 10px; 
+  width: 1px;
+  height: 10px;
   margin: 0 0.5rem;
   background-color: #e9e9e9;
 }
