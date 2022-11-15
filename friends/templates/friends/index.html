@@ -15,45 +15,48 @@
       <h2>글쓰기</h2>
     </a>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 ">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 friend-card ">
 
       {% for friend in friends %}
-        <div>
-          <div class="position-absolute mx-2 my-4" style="z-index: 1">
-            <div class="d-flex my-2 bg-dark  p-2 text-white bg-opacity-75 rounded-pill">
-              <div style="width: 21px; height: 21px; background-color: rgb(248, 248, 248); border-radius: 11px; display: inline-flex; align-items: center; justify-content: center;">
-                <svg width="9" height="13" viewbox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4.03748 12.4779C0.633075 7.35238 0.000785276 6.82628 0.000785276 4.942C-0.0217027 3.72595 0.439589 2.55072 1.28327 1.67465C2.12694 0.798575 3.28396 0.293348 4.5 0.27002C5.71604 0.293348 6.87306 0.798575 7.71673 1.67465C8.56041 2.55072 9.0217 3.72595 8.99922 4.942C8.99922 6.82568 8.36693 7.35178 4.96252 12.4779C4.91259 12.5551 4.8441 12.6187 4.76331 12.6627C4.68251 12.7066 4.59199 12.7297 4.5 12.7297C4.40801 12.7297 4.31749 12.7066 4.23669 12.6627C4.1559 12.6187 4.08741 12.5551 4.03748 12.4779ZM4.5 6.88926C5.00667 6.87949 5.48873 6.66896 5.84025 6.30394C6.19177 5.93893 6.38399 5.44928 6.37467 4.9426C6.38415 4.43583 6.192 3.94603 5.84046 3.58088C5.48892 3.21573 5.00677 3.00512 4.5 2.99534C3.99333 3.00512 3.51127 3.21564 3.15975 3.58066C2.80823 3.94568 2.61601 4.43533 2.62533 4.942C2.61585 5.44878 2.808 5.93858 3.15954 6.30373C3.51108 6.66888 3.99323 6.87949 4.5 6.88926Z" fill="#6A6A64"></path>
-                </svg>
+        <a href="{% url 'friends:detail' friend.pk %}">
+          <div>
+            <div class="position-absolute mx-2 my-4" style="z-index: 1">
+              <div class="d-flex my-2 bg-dark  p-2 text-white bg-opacity-75 rounded-pill">
+                <div style="width: 21px; height: 21px; background-color: rgb(248, 248, 248); border-radius: 11px; display: inline-flex; align-items: center; justify-content: center;">
+                  <svg width="9" height="13" viewbox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.03748 12.4779C0.633075 7.35238 0.000785276 6.82628 0.000785276 4.942C-0.0217027 3.72595 0.439589 2.55072 1.28327 1.67465C2.12694 0.798575 3.28396 0.293348 4.5 0.27002C5.71604 0.293348 6.87306 0.798575 7.71673 1.67465C8.56041 2.55072 9.0217 3.72595 8.99922 4.942C8.99922 6.82568 8.36693 7.35178 4.96252 12.4779C4.91259 12.5551 4.8441 12.6187 4.76331 12.6627C4.68251 12.7066 4.59199 12.7297 4.5 12.7297C4.40801 12.7297 4.31749 12.7066 4.23669 12.6627C4.1559 12.6187 4.08741 12.5551 4.03748 12.4779ZM4.5 6.88926C5.00667 6.87949 5.48873 6.66896 5.84025 6.30394C6.19177 5.93893 6.38399 5.44928 6.37467 4.9426C6.38415 4.43583 6.192 3.94603 5.84046 3.58088C5.48892 3.21573 5.00677 3.00512 4.5 2.99534C3.99333 3.00512 3.51127 3.21564 3.15975 3.58066C2.80823 3.94568 2.61601 4.43533 2.62533 4.942C2.61585 5.44878 2.808 5.93858 3.15954 6.30373C3.51108 6.66888 3.99323 6.87949 4.5 6.88926Z" fill="#6A6A64"></path>
+                  </svg>
+                </div>
+                <p class="m-0 divbutton" style="color: rgb(255, 255, 255); font-size: 12px">타이페이
+                  <span class="button">{{friend.start_at|date:"M d"}}일~{{friend.end_at|date:"M d"}}일</span>
+                </p>
               </div>
-              <p class="m-0 divbutton" style="color: rgb(255, 255, 255); font-size: 12px">타이페이
-                <span class="button">{{friend.start_at|date:"M d"}}일~{{friend.end_at|date:"M d"}}일</span>
-              </p>
             </div>
-          </div>
-          {% if friend.thumbnail %}
-            <div class="img" style="z-index: 2">
-              <div class=" my-3 p-3 rounded-3 border border-3 bg-light scale" style="width: 282px; height:282px; background-image:url({{ friend.image.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
-            </div>
-          {% else %}
-            <div class="img" style="z-index: 2">
-              <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="my-3  rounded-3 border border-3 bg-light scale" height="282px" width="282px">
-            </div>
-          {% endif %}
-          <p>
-            {{ friend.pk }}
-            <a href="{% url 'friends:detail' friend.pk %}">{{ friend.title|truncatechars:16 }}</a>
-            <p>{{ friend.content|truncatechars:20 }}</p>
-
-            {% if friend.user.profile.image %}
-              <img src="{{ friend.user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="48px" width="48px">
+            {% if friend.thumbnail %}
+              <div class="img" style="z-index: 2">
+                <div class=" my-3 p-3 rounded-3 border border-3 bg-light scale" style="width: 282px; height:282px; background-image:url({{ friend.image.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
+              </div>
             {% else %}
-              <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="48px" width="48px">
+              <div class="img" style="z-index: 2">
+                <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="my-3  rounded-3 border border-3 bg-light scale" height="282px" width="282px">
+              </div>
             {% endif %}
-            {{friend.user}}
-            <br>
-          </p>
-        </div>
+            <p>
+              {{ friend.pk }}번째 게시물
+              <p class="friend-title" style="font-weight:bold">{{ friend.title|truncatechars:16 }}</p>
+
+              <p>{{ friend.content|truncatechars:20 }}</p>
+
+              {% if friend.user.profile.image %}
+                <img src="{{ friend.user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="24px" width="24px">
+              {% else %}
+                <img src="https://cards.image.pokemonkorea.co.kr/data/wmimages/S/S11/S11_050.png?w=400" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="24px" width="24px">
+              {% endif %}
+              {{friend.user}}
+              <br>
+            </p>
+          </div>
+        </a>
       {% endfor %}
 
     </div>

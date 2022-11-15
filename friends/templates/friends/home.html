@@ -17,6 +17,9 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Q&A</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+        </li>
 
       </ul>
     </div>
@@ -26,8 +29,13 @@
   <div class="container ">
     <h1>홈</h1>
     <a href="{% url 'friends:create' %}"></a>
-
-    <p class="fs-3 fw-bold">취향저격 동행찾기</p>
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="fs-3 fw-bold">취향저격 동행찾기</p>
+      <a class="text-decoration-none more-view" href="{% url 'friends:index' %}">
+        전체 보기
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 ">
 
       {% for lately in lately_f %}

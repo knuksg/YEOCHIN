@@ -14,7 +14,7 @@ def home(request):
     return render(request, "friends/home.html",context)
 
 def index(request):
-    friends = Friend.objects.all()
+    friends = Friend.objects.order_by('-pk')
     context = {
         'friends':friends,
     }
