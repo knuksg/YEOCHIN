@@ -16,4 +16,5 @@ urlpatterns = [
         views.comment_delete,
         name="comment_delete",
     ),
+    path("best/", views.best, name="best"),
 ]

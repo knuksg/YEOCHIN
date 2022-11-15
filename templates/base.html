@@ -61,10 +61,13 @@
             <li class="navMenuLeft sm:display md:display2 lg:display">
               <a href="{% url 'hotels:index' %}">숙소</a>
             </li>
+            <li class="navMenuLeft sm:display md:display2 lg:display">
+              <a href="{% url 'photospots:index' %}">인생사진</a>
+            </li>
           </ul>
-          <div class="mx-2 searchBox sm:display md:display lg:display">
-            <form class="p-1 search_form" action="" method="GET">
-                <i class="position-absolute fa-solid fa-magnifying-glass" style="left: 1rem; bottom: 1rem;"></i>
+          <div class="mx-2 searchBox sm:display md:display lg:nav lg:nav2">
+            <form class="p-1 search_form align-items-center" action="" method="GET">
+                <i class="position-absolute fa-solid fa-magnifying-glass" style="left: 1rem; bottom: 0.8rem;"></i>
                 <input class="header_input" placeholder="여행지나 숙소를 검색해보세요!" name="kw"/>
               <input type="submit" style="display: none"/>
             </form>
@@ -79,13 +82,23 @@
                     aria-expanded="false"
                   >
                   <!-- profile image -->
+                  {% if request.user.profile.image %}
                     <img
-                      src="https://github.com/mdo.png"
+                      src="{{ request.user.profile.image.url }}"
+                      alt="{{ request.user.profile.image }}"
+                      width="32"
+                      height="32"
+                      class="rounded-circle"
+                    />
+                  {% else %}
+                    <img
+                      src="{% static 'image/no_profile.jpg'%}"
                       alt="mdo"
                       width="32"
                       height="32"
                       class="rounded-circle"
                     />
+                  {% endif %}
                   </a>
                     <ul class="dropdown-menu text-small">
                       <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}">마이페이지</a></li>
@@ -100,7 +113,7 @@
                 <div class="dropdown-content">
                   <a href="{% url 'friends:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
                   <a href="#"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
-                  <a href="#">Link 3</a>
+                  <a href="{% url 'photospots:create' %}"><i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
                 </div>
               </div>
             {% else %}
