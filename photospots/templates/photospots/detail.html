@@ -120,7 +120,7 @@
             </div>
             <!-- 댓글 -->
             <div class="d-flex flex-column">
-              <hr>
+              <br>
               <!-- 댓글폼 -->
               <form class="d-flex border rounded-3" action="{% url 'photospots:comment_create' photospot.pk %}" method="POST">
                 {% csrf_token %}
@@ -170,6 +170,31 @@
           </div>
         </div>
       </main>
+      <!-- 상단 베스트 게시글 : 화면 사이즈 lg 미만 -->
+      <div class="photo-aside2 lg:photo-aside2">
+        <div class="d-flex flex-column mb-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <p class="photo-header2">베스트 인생사진</p>
+            <a class="text-decoration-none more-view" href="{% url 'photospots:best' %}">
+              전체 보기
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </div>
+          <!-- 좋아요 인기순 5개 출력 -->
+          {% for best in best_p %}
+          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' best.pk %}';">
+            <div class="d-flex flex-column w-100">
+              <h6 class="fw-bold">{{ best.user.nickname }} 님의 인생사진</h6>
+              <p class="photo-aside-text gray-text w-100 pe-3">{{ best.content }}</p>
+            </div>
+            {% thumbnail "75x75" best.photo_img as thumb %}
+            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
+          </div>
+          {% empty %}
+          <p class="text-center w-100">게시글 없음</p>
+          {% endfor %}
+        </div>
+      </div>
     </div>
     <!-- 사이드 게시글 리스트 : 화면 사이즈 lg 이상 -->
     <aside class="photo-aside lg:photo-aside">
@@ -178,7 +203,7 @@
         <div class="d-flex flex-column mb-5">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <p class="photo-header2">베스트 인생사진</p>
-            <a class="text-decoration-none more-view" href="{% url 'photospots:index' %}">
+            <a class="text-decoration-none more-view" href="{% url 'photospots:best' %}">
               전체 보기
               <i class="bi bi-chevron-right"></i>
             </a>
@@ -193,6 +218,8 @@
             {% thumbnail "75x75" best.photo_img as thumb %}
             <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
           </div>
+          {% empty %}
+          <p class="text-center w-100">게시글 없음</p>
           {% endfor %}
         </div>
       </div>
@@ -220,6 +247,8 @@
             <img class="border rounded-3" src="{% static 'image/no_image.jpg'%}" alt="썸네일" width="75" height="75">
             {% endif %}
           </div>
+          {% empty %}
+          <p class="text-center w-100">게시글 없음</p>
           {% endfor %}
         </div>
       </div>
