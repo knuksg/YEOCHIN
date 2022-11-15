@@ -319,4 +319,49 @@
   </div>
 {% endblock body %}
 
+{% block script %}
+  <script>
+    const link_user_friends = document.querySelector('#link_user_friends')
+    const link_like_friends = document.querySelector('#link_like_friends')
+    const link_bookmark_friends = document.querySelector('#link_bookmark_friends')
+    const user_friends = document.querySelector('#user_friends')
+    const like_friends = document.querySelector('#like_friends')
+    const bookmark_friends = document.querySelector('#bookmark_friends')
+
+    const userCollapse = new bootstrap.Collapse('#user_friends', {
+      toggle: false
+    })
+    const likeCollapse = new bootstrap.Collapse('#like_friends', {
+      toggle: false
+    })
+
+    if (bookmark_articles) {
+      const bookmarkCollapse = new bootstrap.Collapse('#bookmark_friends', {
+        toggle: false
+      })
+    
+      user_articles.addEventListener('show.bs.collapse', event => {
+        likeCollapse.hide()
+        bookmarkCollapse.hide()
+      })
+      like_articles.addEventListener('show.bs.collapse', event => {
+        userCollapse.hide()
+        bookmarkCollapse.hide()
+      })
+      bookmark_articles.addEventListener('show.bs.collapse', event => {
+        userCollapse.hide()
+        likeCollapse.hide()
+      })
+    } else {
+      user_articles.addEventListener('show.bs.collapse', event => {
+        likeCollapse.hide()
+      })
+      like_articles.addEventListener('show.bs.collapse', event => {
+        userCollapse.hide()
+      })
+    }
+  </script>
+{% endblock script %}
+
+
 
