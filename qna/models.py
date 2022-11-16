@@ -1,7 +1,8 @@
 
-from django.db import models
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 from django.conf import settings
+from django.db import models
+
 
 # Create your models here.
 
@@ -14,7 +15,7 @@ class Qna(models.Model):
     image = models.ImageField(upload_to="image/%Y/%m/%d", blank=True)
     hits = models.PositiveIntegerField(default=0)
     closed = models.BooleanField(default=False)
-    tag = models.ManyToManyField('tag.Tag', verbose_name = "태그")
+    tag = models.ManyToManyField('Tag', verbose_name = "태그")
     
     def __str__(self):
         return self.title

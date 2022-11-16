@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load django_bootstrap5 %}
+
+{% block body %}
+
+  <section class="box section-center mt-3" style="overflow-y: scroll; height: calc(100vh - 60px);">
+    <h2 class="mb-3 mx-3" style="font-size: 14px; color: #8b95a1">인테리어 후기</h2>
+    {% for qna in qna %}
+    <a class="non_a" href="{% url 'qna:detail' qna.pk qna.slug %}">
+      <div class="user-wrap mt-5" style="width: 100%; height: 450px;">
+        <div class="user-text px-4 mt-0">
+          {% if qna.image %}
+          <!-- title -->
+          <div class="user-image mx-4 py-3">
+            <img class="contentcard" style="height: 350px; border-radius: 15px; object-fit: cover;"
+              src="{{ qna.image.url }}" alt="">
+          </div>
+          {% else %}
+          <div class="contentcard d-flex align-items-center justify-content-center mx-4 mb-3"
+            style="background-color: rgb(35, 35, 35);width: 652px; height: 200px; border-radius: 15px;">
+            <p class="non_a text-white" style="font-weight: 200;">이미지가 없습니다.</p>
+          </div>
+          {% endif %}
+          <div class="px-4">
+            <a href="{% url 'qna:detail' qna.pk qna.slug %}" class="non_a">
+              <span class="fs-2 fw-bold">{{qna.title}}</span>
+            </a>
+            <!-- username/ create_at -->
+            <p class="mb-0" style="font-weight: 200;">{{ qna.user }}</p>
+            <p class="mb-0" style="font-weight: 200;">{{ qna.created_at }}</p>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </section>
+{% endblock %}

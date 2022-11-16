@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "friends",
     "hotels",
     "photospots",
+    "qna",
     "django_bootstrap5",
     "django_extensions",
     "django_shortcuts",

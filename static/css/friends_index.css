@@ -1,3 +1,21 @@
+
+.friend-card {
+  color:black
+}
+
+.friend-card a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.friend-card a:hover {
+  color: black;
+}
+
+
+
 .divbutton {
   height: 10px;
   }
@@ -27,4 +45,3 @@
     -o-transform: scale(1.2);
   }
 .img {width:325px; height:280px; overflow:hidden }   /* 부모를 벗어나지 않고 내부 이미지만 확대 */
-

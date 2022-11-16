@@ -74,13 +74,14 @@ def logout(request):
 
 def detail(request, pk):
     user = get_user_model().objects.get(pk=pk)
-    friend = user.friend_set.all()
-    like_friend = user.like_friend.all()
+    friends = user.friend_set.all()
+    print(friends)
+    like_friends = user.like_friend.all()
 
     context = {
         "user": user,
-        "friend": friend,
-        "like_friend": like_friend,
+        "friends": friends,
+        "like_friends": like_friends,
     }
     return render(request, "accounts/detail.html", context)
 
