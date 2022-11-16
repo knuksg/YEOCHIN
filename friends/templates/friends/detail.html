@@ -120,17 +120,28 @@
 
         </div>
       </div>
-      <div class="rounded-3 border border-3 mt-5" style="width:300px ;height:100px">
+      <div class=" container rounded-3 border border-3 mt-5" style="width:300px ;height:100%">
         <div class="d-flex m-3">
           {% if friend.user.profile.image %}
             <img src="{{ friend.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
           {% else %}
             <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
           {% endif %}
-          <div class="d-flex flex-column">
+          <div class="d-flex flex-column ">
             <p>{{friend.user.username}}</p>
+            
           </div>
+          
+          
         </div>
+        <hr>
+        <div class="d-flex justify-content-center p-3 ">
+          <button type="button" class="btn btn-success" style=" background-color: rgb(0, 206, 124); width:90%; height:55px;"><a style="color:white ;text-decoration:none;" href="">동행 신청하기</a></button>
+        </div>
+      
+        
+        
+        
 
       </div>
     </div>
