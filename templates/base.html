@@ -131,7 +131,7 @@
   <body>
     <div id="wrap">
       <div id="content-wrap">
-        <main>
+        <main style="min-height: 100vh">
           {% block body %}{% endblock body %}
         </main>
       </div>
@@ -199,13 +199,13 @@
       </li>
       {% endif %}
       <!-- QnA -->
-      {% if request.resolver_match.namespace == '' %}
-      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='';">
+      {% if request.resolver_match.namespace == 'qna' %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'qna:index' %}';">
         <i class="fa-regular fa-circle-question nav-footer-item-icon"></i>
         <p class="nav-footer-item-text">QnA</p>
       </li>
       {% else %}
-      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='';">
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'qna:index' %}';">
         <i class="fa-regular fa-circle-question nav-footer-item-icon2"></i>
         <p class="nav-footer-item-text2">QnA</p>
       </li>
