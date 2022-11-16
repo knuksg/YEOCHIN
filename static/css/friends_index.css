@@ -43,5 +43,6 @@
     -moz-transform: scale(1.2);
     -ms-transform: scale(1.2);
     -o-transform: scale(1.2);
+    
   }
-.img {width:325px; height:280px; overflow:hidden }   /* 부모를 벗어나지 않고 내부 이미지만 확대 */
+.img {width:100%; height:100%; overflow:hidden; border-radius:25px;  }   /* 부모를 벗어나지 않고 내부 이미지만 확대 */
