@@ -129,12 +129,55 @@
   </header>
 
   <body>
-    <main>
-      {% block body %}{% endblock body %}
-    </main>
-    <footer>
+    <div id="wrap">
+      <div id="content-wrap">
+        <main>
+          {% block body %}{% endblock body %}
+        </main>
+      </div>
+  
       <!-- place footer here -->
-    </footer>
+      <footer class="p-3 border-top footer lg:footer">
+        <div class="container d-flex align-items-center">
+          <!-- 로고 -->
+          <div style="width: 250px;" class="px-2 border-end">
+            <img style="width: 200px; height: auto;" class="logoImg" src="{% static 'image/logo1.png'%}" alt=""/>
+            <div class="d-flex flex-column">
+              <p class="nav-footer-item-text2">소속 | [KDT1] 풀스택 개발자 취업캠프 </p>
+              <p class="nav-footer-item-text2">팀명 | 여친(여행친구)</p>
+              <p class="nav-footer-item-text2">기간 | 2022.11.09(수)~2022.11.21(월)</p>
+            </div>
+          </div>
+          <!-- 멤버 -->
+          <div class="profile-list md:profile-list lg:profile-list d-flex flex-column">
+            <h1 class="nav-footer-item-text2 w-100 text-center pb-3">팀원 개인 깃허브</h1>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/na-hyeong9';">
+                <img src="https://avatars.githubusercontent.com/u/106505931?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">김나형</p>
+              </div>
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/knuksg';">
+                <img src="https://avatars.githubusercontent.com/u/108652851?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">김선교</p>
+              </div>
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/danny7128';">
+                <img src="https://avatars.githubusercontent.com/u/108653098?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">이성훈</p>
+              </div>
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/ccmmaa1030';">
+                <img src="https://avatars.githubusercontent.com/u/108647768?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">최민아</p>
+              </div>
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/hady1024';">
+                <img src="https://avatars.githubusercontent.com/u/108660032?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">하두연</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer> 
+    </div>
+
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>

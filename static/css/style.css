@@ -1,8 +1,18 @@
+html,
+body {
+  height: 100%
+}
+
+#wrap {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 60px;
+}
+
 .container {
   max-width: 1200px;
   height: auto;
 }
-
 
 /* navbar */
 
@@ -311,6 +321,41 @@ input:focus {
   padding-top: 3px;
   margin-bottom: 0;
   box-sizing: border-box;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+@media (min-width: 1280px) {
+  .lg\:footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 0;
+  }
+}
+
+.profile-list {
+  margin-left: 30px;
+  width: 70%;
+}
+
+@media (min-width: 992px) {
+  .md\:profile-list {
+    margin-left: 40px;
+    width: 70%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .lg\:profile-list {
+    margin-left: 50px;
+    width: 900px;
+  }
 }
 
 /* photoSpot */
