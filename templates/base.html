@@ -218,5 +218,16 @@
         {% endif %}
       {% endif %}
     </ul>
+    <div class="dropdown2 sm:display2 md:display2 lg:display">
+      <button class="dropbtn2"><i class="fa-sharp fa-solid fa-pen"></i></button>
+      <div class="dropdown-content2">
+        <a href="{% url 'friends:create' %}">
+          <i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+        <a href="#">
+          <i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+        <a href="{% url 'photospots:create' %}">
+          <i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
+      </div>
+    </div>
   </footer>
   </html>
