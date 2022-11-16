@@ -3,8 +3,8 @@ from accounts.models import User
 
 # Create your models here.
 class Room(models.Model):
-    name = models.CharField(max_length=255)
-    # slug = models.SlugField(unique=True)
+    name = models.CharField(max_length=255, unique=True)
+    users = models.ManyToManyField(User, related_name='rooms')
 
 
 class Message(models.Model):

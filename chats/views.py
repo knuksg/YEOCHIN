@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Room, Message
+from .forms import RoomForm
 
 
 def index(request):
@@ -11,10 +12,26 @@ def rooms(request):
 
 def room(request, room_name):
     room = Room.objects.get(name=room_name)
-    messages = Message.objects.filter(room=room)[0:25]
-    context = {
-        "room_name": room_name,
-        "room": room,
-        "messages": messages,
-    }
-    return render(request, "chats/room.html", context)
+    if room.users.filter(pk=request.user.pk).exists():
+        messages = Message.objects.filter(room=room)
+        context = {
+            "room_name": room_name,
+            "room": room,
+            "messages": messages,
+        }
+        return render(request, "chats/room.html", context)
+    else:
+        return redirect('chats:rooms')
+
+def create(request):
+    if request.method == "POST":
+        form = RoomForm(request.POST)
+        print('성공')
+        if form.is_valid():
+            room = form.save(commit=False)
+            room.save()
+            return redirect("chats:rooms")
+    else:
+        form = RoomForm()
+    context = {"form": form}
+    return render(request, "chats/create.html", context)

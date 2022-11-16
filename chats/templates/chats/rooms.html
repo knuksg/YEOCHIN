@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 {% block body %}
 {% for room in rooms %}
-{{ room.name }}
+<p>채팅방 이름: {{ room.name }}</p>
 <a href="{% url 'chats:room' room.name %}">join</a>
+<span>채팅방 유저들</span>
+  {% for user in room.users.all %}
+  {{ user.username }}
+  {% endfor %}
+  <p>================</p>
 {% endfor %}
 {% endblock body %}

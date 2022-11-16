@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block body %}
+<div>
+  <h1> 채팅방 만들기 </h1>
+  <form action="" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input type="submit">
+  </form>
+</div>
+{% endblock body %}
