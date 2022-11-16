@@ -26,6 +26,7 @@ class Friend(models.Model):
         format="JPEG",
         options={"quality": 80},
     )
+    hits = models.IntegerField(default=0)
 
 class Friend_Comment(models.Model):
     content = models.TextField()
