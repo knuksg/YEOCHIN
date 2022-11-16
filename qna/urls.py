@@ -4,6 +4,7 @@ from . import views
 app_name = 'qna'
 
 urlpatterns = [
+    path('test/',views.test, name='test'),
     path("", views.index, name="index"),
     path("create/", views.create, name="create"),
     path("<int:pk>/detail/", views.detail, name="detail"),
