@@ -25,6 +25,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin">
     <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@300&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    
     <style>
       body,
       h1,
@@ -38,105 +41,152 @@
         font-family: 'Noto Sans KR' !important;
       }
     </style>
-    <!-- navbar here -->
-    <header class="p-3 mb-3 border-bottom">
-      <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-          <a href="{% url 'friends:index' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-            <img class="logoImg" src="{% static 'image/logo1.png'%}" alt=""/>
-          </a>
-          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li class="navMenuLeft sm:display md:display2 lg:display">
-              <a href="{% url 'friends:index' %}">동행친구 찾기</a>
-            </li>
-            <li class="navMenuLeft sm:display md:display2 lg:display">
-              <a href="{% url 'hotels:index' %}">숙소</a>
-            </li>
-            <li class="navMenuLeft sm:display md:display2 lg:display">
-              <a href="{% url 'photospots:index' %}">인생사진</a>
-            </li>
-          </ul>
-          <div class="mx-2 searchBox sm:display md:display lg:nav lg:nav2">
-            <form id="main-search-form" action="{% url 'main:search' %}" class="p-1 search_form align-items-center">
-                <i class="position-absolute fa-solid fa-magnifying-glass" style="left: 1rem; bottom: 0.8rem;"></i>
-                <input class="header_input" placeholder="여행지나 숙소를 검색해보세요!" name="kw"/>
-              <input type="submit" style="display: none"/>
-            </form>
+  </head>
+    
+  <!-- navbar(header) here -->
+  <header class="p-3 mb-3 border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="{% url 'friends:index' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+          <img class="logoImg" src="{% static 'image/logo1.png'%}" alt=""/>
+        </a>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li class="navMenuLeft sm:display md:display2 lg:display">
+            <a href="{% url 'friends:index' %}">동행친구 찾기</a>
+          </li>
+          <li class="navMenuLeft sm:display md:display2 lg:display">
+            <a href="{% url 'hotels:index' %}">숙소</a>
+          </li>
+          <li class="navMenuLeft sm:display md:display2 lg:display">
+            <a href="{% url 'photospots:index' %}">인생사진</a>
+          </li>
+        </ul>
+        <div class="mx-2 searchBox sm:display md:display lg:nav lg:nav2">
+          <form id="main-search-form" action="{% url 'main:search' %}" class="p-1 search_form align-items-center">
+              <i class="position-absolute fa-solid fa-magnifying-glass" style="left: 1rem; bottom: 0.8rem;"></i>
+              <input class="header_input" placeholder="여행지나 숙소를 검색해보세요!" name="kw"/>
+            <input type="submit" style="display: none"/>
+          </form>
+        </div>
+        {% if request.user.is_authenticated %}
+          <div class="sm:display md:display lg:display">
+            <div class="dropdown text-end px-2">
+              <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <!-- profile image -->
+                {% if request.user.profile.image %}
+                  <img
+                    src="{{ request.user.profile.image.url }}"
+                    alt="{{ request.user.profile.image }}"
+                    width="32"
+                    height="32"
+                    class="rounded-circle"
+                  />
+                {% else %}
+                  <img
+                    src="{% static 'image/no_profile.jpg'%}"
+                    alt="mdo"
+                    width="32"
+                    height="32"
+                    class="rounded-circle"
+                  />
+                {% endif %}
+                </a>
+                  <ul class="dropdown-menu text-small">
+                    <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}">마이페이지</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:logout'%}">로그아웃</a></li>
+                    <li></li>
+                  </ul>
+                </div>
+            </div>  
+            <div class="dropdown sm:display md:display lg:display">
+              <button class="dropbtn sm:display md:display lg:display">글쓰기</button>
+              <div class="dropdown-content">
+                <a href="{% url 'friends:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+                <a href="{% url 'qna:create' %}"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+                <a href="{% url 'photospots:create' %}"><i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
+              </div>
+            </div>
           </div>
-          {% if request.user.is_authenticated %}
-            <div class="sm:display md:display lg:display">
-              <div class="dropdown text-end px-2">
-                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                  <!-- profile image -->
-                  {% if request.user.profile.image %}
-                    <img
-                      src="{{ request.user.profile.image.url }}"
-                      alt="{{ request.user.profile.image }}"
-                      width="32"
-                      height="32"
-                      class="rounded-circle"
-                    />
-                  {% else %}
-                    <img
-                      src="{% static 'image/no_profile.jpg'%}"
-                      alt="mdo"
-                      width="32"
-                      height="32"
-                      class="rounded-circle"
-                    />
-                  {% endif %}
-                  </a>
-                    <ul class="dropdown-menu text-small">
-                      <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}">마이페이지</a></li>
-                      <li><hr class="dropdown-divider" /></li>
-                      <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:logout'%}">로그아웃</a></li>
-                      <li></li>
-                    </ul>
-                  </div>
-              </div>  
-              <div class="dropdown sm:display md:display lg:display">
+        {% else %}
+          <ul class="nav_ul m-0 sm:display md:display lg:display">
+            <li class="navMenuRight py-2"><a href="{% url 'accounts:signup' %}">회원가입</a><span style="padding:0px 2px;">|</span></li>
+            <li class="navMenuRight py-2"><a href="{% url 'accounts:login' %}">로그인</a><span class=""></span></li>
+            <li>
+              <div class="dropdown">
                 <button class="dropbtn sm:display md:display lg:display">글쓰기</button>
                 <div class="dropdown-content">
-                  <a href="{% url 'friends:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
-                  <a href="#"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
-                  <a href="{% url 'photospots:create' %}"><i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
+                  <a href="{% url 'friends:create' %}">
+                    <i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+                  <a href="{% url 'qna:create' %}">
+                    <i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+                  <a href="{% url 'photospots:create' %}">
+                    <i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
                 </div>
               </div>
-            {% else %}
-              <ul class="nav_ul m-0  sm:display md:display lg:display">
-                <li class="navMenuRight py-2"><a href="{% url 'accounts:signup' %}">회원가입</a><span style="padding:0px 2px;">|</span></li>
-                <li class="navMenuRight py-2"><a href="{% url 'accounts:login' %}">로그인</a><span class=""></span></li>
-                <li>
-                  <div class="dropdown">
-                    <button class="dropbtn  sm:display md:display lg:display">글쓰기</button>
-                    <div class="dropdown-content">
-                      <a href="{% url 'friends:create' %}">
-                        <i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
-                      <a href="#">
-                        <i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
-                      <a href="{% url 'photospots:create' %}">
-                        <i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          {% endif %}
-        </div>
+            </li>
+          </ul>
+        {% endif %}
       </div>
     </div>
   </header>
+
   <body>
-    <main>
-      {% block body %}{% endblock body %}
-    </main>
-    <footer>
+    <div id="wrap">
+      <div id="content-wrap">
+        <main style="min-height: 100vh">
+          {% block body %}{% endblock body %}
+        </main>
+      </div>
+  
       <!-- place footer here -->
-    </footer>
+      <footer class="p-3 border-top footer lg:footer">
+        <div class="container d-flex align-items-center">
+          <!-- 로고 -->
+          <div style="width: 250px;" class="px-2 border-end">
+            <img style="width: 200px; height: auto;" class="logoImg" src="{% static 'image/logo1.png'%}" alt=""/>
+            <div class="d-flex flex-column">
+              <p class="nav-footer-item-text2">소속 | [KDT1] 풀스택 개발자 취업캠프 </p>
+              <p class="nav-footer-item-text2">팀명 | 여친(여행친구)</p>
+              <p class="nav-footer-item-text2">기간 | 2022.11.09(수)~2022.11.21(월)</p>
+            </div>
+          </div>
+          <!-- 멤버 -->
+          <div class="profile-list md:profile-list lg:profile-list d-flex flex-column">
+            <h1 class="nav-footer-item-text2 w-100 text-center pb-3">팀원 개인 깃허브</h1>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/na-hyeong9';">
+                <img src="https://avatars.githubusercontent.com/u/106505931?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">김나형</p>
+              </div>
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/knuksg';">
+                <img src="https://avatars.githubusercontent.com/u/108652851?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">김선교</p>
+              </div>
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/danny7128';">
+                <img src="https://avatars.githubusercontent.com/u/108653098?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">이성훈</p>
+              </div>
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/ccmmaa1030';">
+                <img src="https://avatars.githubusercontent.com/u/108647768?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">최민아</p>
+              </div>
+              <div class="d-flex flex-column justify-content-evenly align-items-center" style="cursor: pointer;" onclick="location.href='https://github.com/hady1024';">
+                <img src="https://avatars.githubusercontent.com/u/108660032?v=4" alt="이름" width="45" height="45" class="rounded-circle"/>
+                <p class="nav-footer-item-text2">하두연</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer> 
+    </div>
+
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
   </body>
+
+  <!-- navbar(header) here -->
   <footer class="nav-footer lg:nav-footer border-top">
     <ul class="nav-footer-list m-0 p-0">
       <!-- 동행친구 -->
@@ -152,13 +202,13 @@
       </li>
       {% endif %}
       <!-- QnA -->
-      {% if request.resolver_match.namespace == '' %}
-      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='';">
+      {% if request.resolver_match.namespace == 'qna' %}
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'qna:index' %}';">
         <i class="fa-regular fa-circle-question nav-footer-item-icon"></i>
         <p class="nav-footer-item-text">QnA</p>
       </li>
       {% else %}
-      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='';">
+      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'qna:index' %}';">
         <i class="fa-regular fa-circle-question nav-footer-item-icon2"></i>
         <p class="nav-footer-item-text2">QnA</p>
       </li>
@@ -189,16 +239,41 @@
       {% endif %}
       {% comment %} <!-- 마이페이지 -->
       {% if request.resolver_match.namespace == 'accounts' %}
-      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
-        <i class="fa fa-user-circle-o nav-footer-item-icon"></i>
-        <p class="nav-footer-item-text">마이페이지</p>
-      </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
+          <i class="fa fa-user-circle-o nav-footer-item-icon"></i>
+          <p class="nav-footer-item-text">마이페이지</p>
+        </li>
+        {% else %}
+        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:login' %}';">
+          <i class="fa fa-user-circle-o nav-footer-item-icon"></i>
+          <p class="nav-footer-item-text">마이페이지</p>
+        </li>
+        {% endif %}
       {% else %}
-      <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
-        <i class="fa fa-user-circle-o nav-footer-item-icon2"></i>
-        <p class="nav-footer-item-text2">마이페이지</p>
-      </li>
-      {% endif %} {% endcomment %}
+        {% if request.user.is_authenticated %}
+        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
+          <i class="fa fa-user-circle-o nav-footer-item-icon2"></i>
+          <p class="nav-footer-item-text2">마이페이지</p>
+        </li>
+        {% else %}
+        <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:login' %}';">
+          <i class="fa fa-user-circle-o nav-footer-item-icon2"></i>
+          <p class="nav-footer-item-text2">마이페이지</p>
+        </li>
+        {% endif %}
+      {% endif %}
     </ul>
+    <div class="dropdown2 sm:display2 md:display2 lg:display">
+      <button class="dropbtn2"><i class="fa-sharp fa-solid fa-pen"></i></button>
+      <div class="dropdown-content2">
+        <a href="{% url 'friends:create' %}">
+          <i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
+        <a href="{% url 'qna:create' %}">
+          <i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+        <a href="{% url 'photospots:create' %}">
+          <i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
+      </div>
+    </div>
   </footer>
   </html>

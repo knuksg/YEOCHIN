@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from . models import Friend, Friend_Comment
 from . forms import FriendForm,Friend_CommentForm
 from django.http import HttpResponseForbidden
+from datetime import date, datetime, timedelta, timezone
 
 # Create your views here.
 def home(request):
@@ -51,7 +52,24 @@ def detail(request, pk):
         "comment_form":comment_form,
         "Dday":Dday
     }
-    return render(request,"friends/detail.html", context)
+    response = render(request,"friends/detail.html", context)
+
+    expire_date, now = datetime.now(), datetime.now()
+    expire_date += timedelta(days=1)
+    expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    expire_date -= now
+    max_age = expire_date.total_seconds()
+
+    cookie_value = request.COOKIES.get("hitboard", "_")
+    if f"_{pk}_" not in cookie_value:
+        cookie_value += f"_{pk}_"
+        response.set_cookie(
+            "hitboard", value=cookie_value, max_age=max_age, httponly=True
+        )
+        friend.hits += 1
+        friend.save()
+
+    return response
 
 def update(request, pk):
     friend = Friend.objects.get(pk=pk)

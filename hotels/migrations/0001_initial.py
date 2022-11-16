@@ -12,125 +12,24 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("main", "0001_initial"),
+        ('main', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="Hotel",
+            name='Hotel',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=30)),
-                ("url", models.TextField()),
-                ("rating", models.DecimalField(decimal_places=1, max_digits=2)),
-                ("grade", models.CharField(max_length=10)),
-                (
-                    "price",
-                    models.IntegerField(
-                        validators=[django.core.validators.MinValueValidator(0)]
-                    ),
-                ),
-                ("address", models.TextField()),
-                ("facilities", models.TextField()),
-                ("image", models.TextField()),
-                (
-                    "detail_region",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="main.detailregion",
-                    ),
-                ),
-                (
-                    "region",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="main.region"
-                    ),
-                ),
-            ],
-        ),
-        migrations.CreateModel(
-            name="HotelReview",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "rating",
-                    models.IntegerField(
-                        validators=[
-                            django.core.validators.MinValueValidator(0),
-                            django.core.validators.MaxValueValidator(10),
-                        ]
-                    ),
-                ),
-                ("title", models.CharField(max_length=50)),
-                ("content", models.TextField()),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("updated_at", models.DateTimeField(auto_now=True)),
-                (
-                    "hotel",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="hotels.hotel"
-                    ),
-                ),
-                (
-                    "like_users",
-                    models.ManyToManyField(
-                        related_name="like_reviews", to=settings.AUTH_USER_MODEL
-                    ),
-                ),
-                (
-                    "user",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-            ],
-        ),
-        migrations.CreateModel(
-            name="HotelReviewComment",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("content", models.CharField(max_length=140)),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                ("updated_at", models.DateTimeField(auto_now=True)),
-                (
-                    "review",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="hotels.hotelreview",
-                    ),
-                ),
-                (
-                    "user",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=30)),
+                ('url', models.TextField()),
+                ('rating', models.DecimalField(decimal_places=1, max_digits=2)),
+                ('grade', models.CharField(max_length=10)),
+                ('price', models.IntegerField(validators=[django.core.validators.MinValueValidator(0)])),
+                ('address', models.TextField()),
+                ('facilities', models.TextField()),
+                ('image', models.TextField()),
+                ('detail_region', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.detailregion')),
+                ('region', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.region')),
             ],
         ),
     ]

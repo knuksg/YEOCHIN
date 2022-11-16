@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %}
+
+<div class="container my-5" style="width: 1280px">
+  <div class="p-3">
+    <form class="p-4" action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="qnaInpBox">
+        <i class="fa-solid fa-q"></i>
+        <input class="qnaTitleIpt" placeholder="물음표로 끝나는 질문을 작성해보세요!" name="title" value="{{ article.title }}" />
+      </div>
+      <textarea rows="18" cols="10" class="form-control" style="border: 1px solid #e9e9e9; margin: 3rem 0;" name="content"
+        placeholder="내용을 입력해주세요.">{{ article.content }}</textarea>
+      <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
+      <div class=" d-flex justify-content-between mt-3">
+        <a class="qna-gray-btn" type="submit">취소</a>
+        <input class="qna-green-btn" type="submit" value="작성완료"></input>
+      </div>
+    </form>
+  </div>
+</div>
+  {% endblock %}

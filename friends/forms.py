@@ -32,4 +32,3 @@ class Friend_CommentForm(forms.ModelForm):
         labels = {
             'content' : '댓글',
         }
-

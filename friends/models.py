@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+from datetime import timedelta , datetime, timezone 
 from django.contrib.auth import get_user_model
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -26,6 +26,7 @@ class Friend(models.Model):
         format="JPEG",
         options={"quality": 80},
     )
+    hits = models.IntegerField(default=0)
 
 class Friend_Comment(models.Model):
     content = models.TextField()
@@ -33,11 +34,8 @@ class Friend_Comment(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     friend =  models.ForeignKey(Friend, on_delete=models.CASCADE)
     
-
     
     
-
-
 @property 
 def created_string(self):
     time = datetime.now(tz=timezone.utc) - self.created_at

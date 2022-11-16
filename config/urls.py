@@ -26,6 +26,7 @@ urlpatterns = [
     path("hotels/", include("hotels.urls")),
     path("photospots/", include("photospots.urls")),
     path("summernote/", include("django_summernote.urls")),
+    path("qna/", include("qna.urls")),
     path('accounts/', include('allauth.urls')),
     path("chats/", include("chats.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
