@@ -33,36 +33,41 @@
               </div>
             </div>
 
-            <div class="d-flex flex-direction : row ">
-              <div class="mt-3 p-0">
-                <a href="{% url 'friends:update' friend.pk %}">
-                  <i class="bi bi-pencil"></i>
-                </a>
-                <a href="{% url 'friends:delete' friend.pk %}">
-                  <i class="bi bi-trash"></i>
-                </a>
-              </div>
+            
+              
 
-              <div>
-
+              <div class="d-flex align-items-end text-muted mb-3 me-3">
+                <div>
                 <i class="bi bi-eye"></i>
+                {% comment %} 조회 수 {% endcomment %}
                 {{ friend.hits }}
 
-                <a href="{% url 'friends:like' friend.pk %}">
-
+                {% comment %} 좋아요 수 {% endcomment %}
+                <a style="text-decoration: none; color: #777;" href="{% url 'friends:like' friend.pk %}">
                   {% if request.user in friend.like_user.all %}
                     <i class="bi bi-heart-fill"></i>
                   {% else %}
                     <i class="bi bi-heart"></i>
                   {% endif %}
-                  {{ friend.like_user.count }}
-
+                  <span>{{ friend.like_user.count }}</span>
                 </a>
-
+                {% comment %} 댓글 수 {% endcomment %}
+                  <i class="bi bi-chat"></i>
+                  <span>{{ friend.friend_comment_set.count }}</span>
+                </div>
               </div>
 
-            </div>
+            
 
+          </div>
+          <div class=" p-0 d-flex justify-content-end me-3">
+            <a href="{% url 'friends:update' friend.pk %}">
+              <i class="bi bi-pencil"></i>
+            </a>
+            &nbsp;&nbsp;
+            <a href="{% url 'friends:delete' friend.pk %}">
+              <i class="bi bi-trash"></i>
+            </a>
           </div>
 
           <p class="mt-3">{{ friend.content }}</p>
