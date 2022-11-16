@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block body %}
+<div class="container d-flex justify-content-center my-5">
+    <div class="border p-3">
+        <h1>{{ room_name }}</h1>
+        <h2>접속한 유저 이름: {{ request.user }}</h2>
+        <div id="chat-log" cols="100" rows="20" class="overflow-auto my-3" style="height: 400px;">
+            {% for m in messages %}
+                {% if request.user == m.user %}
+                <div class="d-flex justify-content-end mx-3">
+                    <div class="d-flex align-items-end">
+                        <small class="me-2 align-text-bottom">{{ m.date_added|naturaltime }}</small>
+                        <div class="my-chat-text">{{ m.content }}</div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="d-flex flex-column m-3">
+                    <p class="m-0">{{ m.user.username }}</p>
+                    <div class="d-flex align-items-end">
+                        <div class="chat-text">{{ m.content }}</div>
+                        <small class="ms-2 align-text-bottom">{{ m.date_added|naturaltime }}</small>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <input id="chat-message-input" type="text" size="50">
+        <input id="chat-message-submit" type="button" value="Send" class="d-none">
+        {{ room_name|json_script:"room-name" }}
+        {{ request.user.username|json_script:"json-username" }}
+    </div>
+</div>
+  <script>
+      const roomName = JSON.parse(document.getElementById('room-name').textContent);
+      const userName = JSON.parse(document.getElementById('json-username').textContent);
+      const now = new Date()
+      console.log(now)
+      const chatSocket = new WebSocket(
+          'ws://'
+          + window.location.host
+          + '/ws/chats/'
+          + roomName
+          + '/'
+      );
+
+      chatSocket.onmessage = function(e) {
+          const data = JSON.parse(e.data);
+          console.log(data)
+          if (data.message) {
+            if (userName == data.username) {
+                document.querySelector('#chat-log').innerHTML += 
+                `<div class="d-flex justify-content-end mx-3">
+                    <div class="d-flex align-items-end">
+                        <small class="me-2 align-text-bottom">${data.date_added}</small>
+                        <div class="my-chat-text">${data.message}</div>
+                    </div>
+                </div>`
+              } 
+          } else {
+                alert('The message was empty!')
+          }
+
+          scrollToBottom();
+      };
+
+      chatSocket.onclose = function(e) {
+          console.error('Chat socket closed unexpectedly');
+      };
+
+      document.querySelector('#chat-message-input').focus();
+      document.querySelector('#chat-message-input').onkeyup = function(e) {
+          if (e.keyCode === 13) {  // enter, return
+              document.querySelector('#chat-message-submit').click();
+          }
+      };
+
+      document.querySelector('#chat-message-submit').onclick = function(e) {
+          const messageInputDom = document.querySelector('#chat-message-input');
+          const message = messageInputDom.value;
+          chatSocket.send(JSON.stringify({
+              'message': message,
+              'username': userName,
+              'room': roomName,
+              'date_added': now,
+          }));
+          messageInputDom.value = '';
+      };
+      
+      function scrollToBottom() {
+        let objDiv = document.getElementById("chat-log");
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
+
+      scrollToBottom();
+  </script>
+{% endblock body %}

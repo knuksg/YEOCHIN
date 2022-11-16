@@ -237,7 +237,7 @@
         <p class="nav-footer-item-text2">숙소</p>
       </li>
       {% endif %}
-      <!-- 마이페이지 -->
+      {% comment %} <!-- 마이페이지 -->
       {% if request.resolver_match.namespace == 'accounts' %}
         {% if request.user.is_authenticated %}
         <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
