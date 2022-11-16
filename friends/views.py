@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from . models import Friend, Friend_Comment
+from . models import Friend, Friend_Comment, FriendRequest
 from . forms import FriendForm,Friend_CommentForm
+from chats.forms import RoomForm
 from django.http import HttpResponseForbidden
 from datetime import date, datetime, timedelta, timezone
 
@@ -124,3 +125,20 @@ def like(request, pk):
     else:
         friend.like_user.add(request.user)
     return redirect("friends:detail", pk)
+
+def chat_create(request, pk):
+    if request.method == "POST":
+        form = RoomForm(request.POST)
+        print('성공')
+        if form.is_valid():
+            room = form.save(commit=False)
+            room.save()
+            return redirect("chats:rooms")
+    else:
+        form = RoomForm()
+        print(type(form['users']))
+        form = form.save(commit=False)
+        print(type(form.users))
+        
+    context = {"form": form}
+    return render(request, 'friends/chat_create.html', context)

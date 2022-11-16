@@ -147,5 +147,8 @@
     </div>
 
   </div>
-
+  {% if request.user == friend.user %}
+  <a href="{% url 'friends:chat_create' friend.pk %}">(임시/위치 수정 필요/나중에 옮길 것) 채팅방 개설하기</a>
+  {% endif %}
+  
 {% endblock body %}

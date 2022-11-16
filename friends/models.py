@@ -50,3 +50,7 @@ def created_string(self):
         return str(time.days) + "일 전"
     else:
         return False
+
+class FriendRequest(models.Model):
+    friend = models.ForeignKey(Friend, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)

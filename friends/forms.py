@@ -1,5 +1,5 @@
 from django import forms
-from .models import Friend, Friend_Comment
+from .models import Friend, Friend_Comment, FriendRequest
 
 class DateInput(forms.DateInput):
     input_type = 'date'
