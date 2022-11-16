@@ -9,7 +9,7 @@
       {% csrf_token %}
       {% bootstrap_form friend_form %}
       <div class="photo-form-btn">
-        <a class="photo-gray-btn" href="{% url 'photospots:index' %}">취소</a>
+        <a class="photo-gray-btn" href="{% url 'friends:index' %}">취소</a>
         <button class="photo-green-btn" type="submit">작성완료</button>
       </div>
     </form>
