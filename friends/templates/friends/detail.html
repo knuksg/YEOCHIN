@@ -3,12 +3,12 @@
 {% load static %}
 {% block body %}
 
-  <div class="container">
+  <div class="container" style="height: 1200px;">
     <div class="mb-5 mt-5">
       {% if friend.image %}
         <div class="my-3 p-3 rounded-5 border border-3 bg-light" style="height:500px; background-image:url({{ friend.thumbnail.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
       {% else %}
-        <div class="my-3 p-3 rounded-5 border border-3 bg-light" style="height:500px; background-image:url(https://cards.image.pokemonkorea.co.kr/data/wmimages/S/SI/SI_171.png); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
+        <div class="my-3 p-3 rounded-5 border border-3 bg-light" style="height:500px; background-image:url({% static 'image/no_image.jpg' %}); background-repeat:repeat; background-position:center; background-size:contain;"></div>
       {% endif %}
     </div>
     <div class="d-flex justify-content-between">
@@ -33,46 +33,72 @@
               </div>
             </div>
 
-            <div class="d-flex flex-direction : row ">
-              <div class="mt-3 p-0">
-                <a href="{% url 'friends:update' friend.pk %}">
-                  <i class="bi bi-pencil"></i>
-                </a>
-                <a href="{% url 'friends:delete' friend.pk %}">
-                  <i class="bi bi-trash"></i>
-                </a>
-              </div>
+            
+              
 
-              <div>
+              <div class="d-flex align-items-end text-muted mb-3 me-3">
+                <div>
+                <i class="bi bi-eye"></i>
+                {% comment %} 조회 수 {% endcomment %}
+                {{ friend.hits }}
 
-                <a href="{% url 'friends:like' friend.pk %}">
-
+                {% comment %} 좋아요 수 {% endcomment %}
+                {% if request.user.is_authenticated %}
+                <a style="text-decoration: none; color: #777;" href="{% url 'friends:like' friend.pk %}">
                   {% if request.user in friend.like_user.all %}
                     <i class="bi bi-heart-fill"></i>
                   {% else %}
                     <i class="bi bi-heart"></i>
                   {% endif %}
-                  {{ friend.like_user.count }}
-
+                  <span>{{ friend.like_user.count }}</span>
                 </a>
+                {% endif %}
+                {% comment %} 댓글 수 {% endcomment %}
+                  <i class="bi bi-chat"></i>
+                  <span>{{ friend.friend_comment_set.count }}</span>
+                </div>
               </div>
 
-            </div>
+            
 
           </div>
+          {% if request.user.is_authenticated %}
+            {% if request.user == friend.user %}
+              <div class=" p-0 d-flex justify-content-end me-3">
+                <a href="{% url 'friends:update' friend.pk %}">
+                  <i  class="bi bi-pencil" style="color:black;"></i>
+                </a>
+                &nbsp;&nbsp;
+                <a href="{% url 'friends:delete' friend.pk %}">
+                  <i class="bi bi-trash" style="color:black;"></i>
+                </a>
+              </div>
+            {% endif %}
+          {% endif %}
 
           <p class="mt-3">{{ friend.content }}</p>
 
-          <div class="mt-5">
+          <div class="d-flex justify-content-end me-3" style="margin-top:50px">
             {{ friend.created_at }}
-            {{ friend.updated_at }}
           </div>
-
-          <form action="{% url 'friends:comment_create' friend.pk %}" method="post">
+          {% comment %} 댓글 폼 {% endcomment %}
+          {% if request.user.is_authenticated %}
+          <form class="d-flex border rounded-3 mt-3" action="{% url 'friends:comment_create' friend.pk %}" method="POST">
             {% csrf_token %}
-            {% bootstrap_form comment_form %}
-            <button type="submit" class="btn btn-dark">제출</button>
+            <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요" class="form-control rounded-3 border-0 ms-3" required id="id_conent"></textarea>
+            <div class="d-flex flex-column justify-content-end">
+              <button class="btn btn-link text-decoration-none" type="submit">
+                <i class="bi bi-send-fill green-text"></i>
+              </button>
+            </div>
           </form>
+          {% endif %}
+          <br>
+          {% comment %} 댓글 수 {% endcomment %}
+          <h5 class="fw-bold">
+            댓글 
+            <span class="green-text">{{ friend.friend_comment_set.count }}</span>
+          </h5>
 
           {% for comment in comments %}
             <div class="mt-3">
@@ -84,27 +110,38 @@
 
               {{ comment.user }}&nbsp;
               <span class="text-muted" style="font-size:15px">{{comment.created_at}}</span>
-              <a href="{% url "friends:comment_delete" friend.pk comment.pk %}">
+              <a style="color:black;" href="{% url "friends:comment_delete" friend.pk comment.pk %}">
                 <i class="bi bi-trash"></i>
               </a>
-              <p class='mt-2'>{{comment.content}}</p>
+              <p class='mt-2 mb-0'>{{comment.content}}</p>
               <br>
             </div>
           {% endfor %}
 
         </div>
       </div>
-      <div class="rounded-3 border border-3 mt-5" style="width:300px ;height:100px">
+      <div class=" container rounded-3 border border-3 mt-5" style="width:300px ;height:100%">
         <div class="d-flex m-3">
           {% if friend.user.profile.image %}
             <img src="{{ friend.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
           {% else %}
             <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
           {% endif %}
-          <div class="d-flex flex-column">
+          <div class="d-flex flex-column ">
             <p>{{friend.user.username}}</p>
+            
           </div>
+          
+          
         </div>
+        <hr>
+        <div class="d-flex justify-content-center p-3 ">
+          <button type="button" class="btn btn-success" style=" background-color: rgb(0, 206, 124); width:90%; height:55px;"><a style="color:white ;text-decoration:none;" href="">동행 신청하기</a></button>
+        </div>
+      
+        
+        
+        
 
       </div>
     </div>
