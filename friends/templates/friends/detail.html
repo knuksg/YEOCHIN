@@ -76,12 +76,23 @@
             {{ friend.created_at }}
             {{ friend.updated_at }}
           </div>
+          {% comment %} 댓글 폼 {% endcomment %}
 
-          <form action="{% url 'friends:comment_create' friend.pk %}" method="post">
+          <form class="d-flex border rounded-3" action="{% url 'friends:comment_create' friend.pk %}" method="POST">
             {% csrf_token %}
-            {% bootstrap_form comment_form %}
-            <button type="submit" class="btn btn-dark">제출</button>
+            <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요" class="form-control rounded-3 border-0 ms-3" required id="id_conent"></textarea>
+            <div class="d-flex flex-column justify-content-end">
+              <button class="btn btn-link text-decoration-none" type="submit">
+                <i class="bi bi-send-fill green-text"></i>
+              </button>
+            </div>
           </form>
+          <br>
+          {% comment %} 댓글 수 {% endcomment %}
+          <h5 class="fw-bold">
+            댓글 
+            <span class="green-text">{{ friend.friend_comment_set.count }}</span>
+          </h5>
 
           {% for comment in comments %}
             <div class="mt-3">
