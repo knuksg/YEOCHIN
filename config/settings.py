@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',  # 소셜 계정을 관리하기 위한 것.
     'allauth.socialaccount.providers.naver', #네이버
     'allauth.socialaccount.providers.kakao', #카카오
-    'allauth.socialaccount.providers.google', #구글
+    'allauth.socialaccount.providers.google', #구글   
 ]
 
 
@@ -172,16 +172,18 @@ AUTHENTICATION_BACKENDS = [
 
 LOGIN_REDIRECT_URL = '/'
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         }
+#     }
+# }
 
 SITE_ID = 2
