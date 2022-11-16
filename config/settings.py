@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
     "main",
     "accounts",
     "friends",
@@ -42,6 +41,8 @@ INSTALLED_APPS = [
     "django_shortcuts",
     "django_summernote",
     "imagekit",
+    "daphne",
+    "chats",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -184,3 +185,14 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 SITE_ID = 2
+
+# Channels
+ASGI_APPLICATION = "config.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}

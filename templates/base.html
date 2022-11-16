@@ -187,7 +187,7 @@
         <p class="nav-footer-item-text2">숙소</p>
       </li>
       {% endif %}
-      <!-- 마이페이지 -->
+      {% comment %} <!-- 마이페이지 -->
       {% if request.resolver_match.namespace == 'accounts' %}
       <li class="nav-footer-item" style="cursor: pointer;" onclick="location.href='{% url 'accounts:mypage' user.pk %}';">
         <i class="fa fa-user-circle-o nav-footer-item-icon"></i>
@@ -198,7 +198,7 @@
         <i class="fa fa-user-circle-o nav-footer-item-icon2"></i>
         <p class="nav-footer-item-text2">마이페이지</p>
       </li>
-      {% endif %}
+      {% endif %} {% endcomment %}
     </ul>
   </footer>
   </html>

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block body %}
+{% for room in rooms %}
+{{ room.name }}
+<a href="{% url 'chats:room' room.name %}">join</a>
+{% endfor %}
+{% endblock body %}
