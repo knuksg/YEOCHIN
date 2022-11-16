@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% load static %} {% load django_bootstrap5 %} {% block body %}
+
+<div class="photo_form container my-5">
+  {% if request.user.is_authenticated %}
+  <div class="qnaBox">
+    <div class="">
+      <i class="fa-solid fa-q" style="color:rgb(0, 206, 124);"></i>
+      <span class="qnaTitleInAnswer">{{ qna.title }}</span>
+    </div>
+    <hr>
+    <div class="qnaContent">
+      <p>{{qna.content}}</p>
+    </div>
+    <div style="padding-bottom: 20px;">
+      {% if user.profile.image %}
+      <img src="{{ qna.user.profile.image.url }}" alt="{{ qna.user.profile.image }}"
+        class="rounded-circle border border-1" width="30" height="30">
+      {% else %}
+      <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="30"
+        height="30">
+      {% endif %}
+      <span style="font-size: 12px; color:rgb(154, 154, 154);">{{qna.created_at}}</span>
+    </div>
+  </div>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <div class="qnaBox">
+
+      <div class="row d-flex justify-content-center align-items-center">
+        <textarea rows="18" cols="10" class="form-control answerInput" style="border: none; color:rgb(154, 154,
+          154)" rows=" 18" cols="10" name="content" placeholder="내용을 입력해주세요 (1000자 이내)">{{answer.content}}</textarea>
+      </div>
+    </div>
+    <div class=" d-flex justify-content-between mt-3">
+      <a href="{% url 'qna:index' %}" class="qna-gray-btn">취소</a>
+      <input class="qna-green-btn" type="submit" value="작성완료"></input>
+    </div>
+  </form>
+  {% else %}
+  <a href="{% url 'accounts:login' %}">[답변을 작성하려면 로그인하세요.]</a>
+  {% endif %}
+</div>
+</div>
+{% endblock %}

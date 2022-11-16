@@ -16,6 +16,9 @@ class Qna(models.Model):
     image = models.ImageField(upload_to="image/%Y/%m/%d", blank=True)
     hits = models.PositiveIntegerField(default=0)
     closed = models.BooleanField(default=False)
+    like_users = models.ManyToManyField(
+    settings.AUTH_USER_MODEL, related_name="like_qna"
+    )
     tag = models.ManyToManyField('Tag', blank=True, verbose_name = "태그")
     
     def __str__(self):
