@@ -1,5 +1,7 @@
-from urls import path
+from django.urls import path
 from . import views
+
+app_name = 'qna'
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -7,6 +9,6 @@ urlpatterns = [
     path("<int:pk>/detail/", views.detail, name="detail"),
     path("<int:pk>/update/", views.update, name="update"),
     path("<int:pk>/delete/", views.delete, name="delete"),
-    path("<int:pk>/comment/create/", views.comment_create, name="comment_create"),
-    path("<int:friend_pk>/<int:comment_pk>/comment/delete/", views.comment_delete, name="comment_delete"),
+    path("<int:pk>/answer/create/", views.answer_create, name="answer_create"),
+    path("<int:qna_pk>/<int:answer_pk>/answer/delete/", views.answer_delete, name="answer_delete"),
 ]

@@ -7,7 +7,7 @@ from .forms import *
 
 # Create your views here.
 def index(request):
-    qna = Qna.object.order_by("-pk")
+    qna = Qna.objects.order_by("-pk")
     qna_hits = Qna.objects.order_by("-hits")
     context = {
         "qna": qna,
@@ -116,7 +116,7 @@ def answer_update(request, pk):
 
 
 @login_required
-def answers_delete(request, qna_pk, answer_pk):
+def answer_delete(request, qna_pk, answer_pk):
     if request.user.is_authenticated:
         answer = get_object_or_404(Answer, pk=answer_pk)
         if request.user == answer.user:
