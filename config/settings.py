@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
     "main",
     "accounts",
     "friends",
@@ -43,21 +42,24 @@ INSTALLED_APPS = [
     "django_shortcuts",
     "django_summernote",
     "imagekit",
+    "daphne",
+    "chats",
+    "channels",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",	
-    'django.contrib.sites',  # 사이트 정보를 설정하기 위해 필요
+    "django.contrib.staticfiles",
+    "django.contrib.sites",  # 사이트 정보를 설정하기 위해 필요
     # allauth 관련 앱 목록 추가
-    'allauth',
-    'allauth.account',  # 가입한 계정을 관리하기 위한 것.
-    'allauth.socialaccount',  # 소셜 계정을 관리하기 위한 것.
-    'allauth.socialaccount.providers.naver', #네이버
-    'allauth.socialaccount.providers.kakao', #카카오
-    'allauth.socialaccount.providers.google', #구글   
+    "allauth",
+    "allauth.account",  # 가입한 계정을 관리하기 위한 것.
+    "allauth.socialaccount",  # 소셜 계정을 관리하기 위한 것.
+    "allauth.socialaccount.providers.naver",  # 네이버
+    "allauth.socialaccount.providers.kakao",  # 카카오
+    "allauth.socialaccount.providers.google",  # 구글
 ]
 
 
@@ -82,7 +84,7 @@ TEMPLATES = [
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
-                'django.template.context_processors.request',
+                "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -165,14 +167,14 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
 
-CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
 # SOCIALACCOUNT_PROVIDERS = {
 #     'google': {
@@ -187,3 +189,14 @@ CKEDITOR_IMAGE_BACKEND = "pillow"
 # }
 
 SITE_ID = 2
+
+# Channels
+ASGI_APPLICATION = "config.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}

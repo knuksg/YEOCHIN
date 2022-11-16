@@ -7,9 +7,23 @@
   <!-- 생성/수정 폼 -->
   <form class="photo-form mx-auto" action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {% bootstrap_form photospot_form %}
-    <div class="">
-
+    <div class="mb-3">
+      <label class="form-label w-100 m-0" for="id_photo_img">
+        <p class="photo-form-label">인생사진</p>
+        <div class="photo-form-img">
+          <i class="fa-solid fa-image photo-form-img-text"></i>
+          <p class="photo-form-img-text2">인생사진을 업로드 해주세요</p>
+        </div>
+      </label>
+      <input style="display: none;" type="file" name="photo_img" accept="image/*" class="form-control" required="" id="id_photo_img">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="id_place">포토스팟</label>
+      <input type="text" name="place" placeholder="포토스팟 위치를 공유해주세요" maxlength="30" class="form-control" required="" id="id_place">
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="id_content">이야기</label>
+      <textarea name="content" cols="40" rows="10" placeholder="자유롭게 작성해 주세요(ex. 인생사진 비하인드 과정, 여행 일화, 촬영 팁 등)" class="form-control" required="" id="id_content"></textarea>
     </div>
     <div class="photo-form-btn">
       <a class="photo-gray-btn" href="{% url 'photospots:index' %}">취소</a>
