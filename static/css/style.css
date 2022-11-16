@@ -599,6 +599,14 @@ input:focus {
   color: rgb(255, 255, 255);
   text-align: center;
   text-decoration: none;
+  font-weight: bold;
+}
+
+.photo-gray-btn:hover {
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  text-decoration: none;
 }
 
 .photo-green-btn {
@@ -610,6 +618,7 @@ input:focus {
   background-color: rgb(0, 206, 124);
   font-size: 14px;
   color: rgb(255, 255, 255);
+  font-weight: bold;
 }
 
 .photo-form-img {
@@ -964,7 +973,7 @@ input:focus {
   text-decoration: none;
 }
 
-.qna-gray-btn:hover{
+.qna-gray-btn:hover {
   color: white;
 }
 

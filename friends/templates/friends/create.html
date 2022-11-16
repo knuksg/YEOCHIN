@@ -3,12 +3,15 @@
 
 {% block body %}
 
-  <div class="container">
-    <h1 class="text-center">글쓰기</h1>
-    <form action="" method="POST" enctype="multipart/form-data">
+  <h3 class="fw-bold text-center" style="padding-top: 50px">동행친구 찾기</h3>
+  <div class="container mt-5">
+    <form class="photo-form mx-auto" action="" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {% bootstrap_form friend_form %}
-      <button type="submit" class="btn btn-dark">제출</button>
+      <div class="photo-form-btn">
+        <a class="photo-gray-btn" href="{% url 'friends:index' %}">취소</a>
+        <button class="photo-green-btn" type="submit">작성완료</button>
+      </div>
     </form>
   </div>
 
