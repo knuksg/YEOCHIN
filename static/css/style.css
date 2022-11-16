@@ -612,6 +612,7 @@ btnYclogin:focus {
   color: white;
   text-decoration: none;
 }
+
 #photospots-group .photospot-item:hover .photospot-info {
   display: flex;
 }
@@ -621,33 +622,39 @@ btnYclogin:focus {
   height: 350px;
   object-fit: cover;
 }
+
 #photospots-group .photospot-item:hover .photospot-img {
   filter: brightness(0.5);
 }
+
 @media (min-width:576px) and (max-width:768px) {
   #photospots-group .photospot-item .photospot-img {
     width: 400px;
     height: 400px;
   }
 }
+
 @media (min-width:768px) and (max-width:992px) {
   #photospots-group .photospot-item .photospot-img {
     width: 250px;
     height: 250px;
   }
 }
+
 @media (min-width:992px) and (max-width:1200px) {
   #photospots-group .photospot-item .photospot-img {
     width: 150px;
     height: 150px;
   }
 }
+
 @media (min-width:1200px) and (max-width:1400px) {
   #photospots-group .photospot-item .photospot-img {
     width: 200px;
     height: 200px;
   }
 }
+
 @media (min-width:1400px) {
   #photospots-group .photospot-item .photospot-img {
     width: 230px;
@@ -686,11 +693,13 @@ btnYclogin:focus {
   border-radius: 0%;
   border: none;
 }
+
 .region-group .btn-group .btn:focus {
   background-color: #00ce7c;
   color: white;
   border: none;
 }
+
 @media screen and (max-width: 768px) {
   .region-group .btn-group .btn {
     font-size: 2vw;
@@ -712,6 +721,7 @@ btnYclogin:focus {
   align-items: center;
   width: 300px;
 }
+
 @media screen and (max-width: 768px) {
   .hotel-search-form .search-form {
     width: 100%;
