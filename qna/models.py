@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from django.urls import reverse
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 
 # Create your models here.
@@ -27,7 +28,11 @@ class Qna(models.Model):
     class Meta:
         db_table = "qna_board"
         verbose_name = "qna"
-        verbose_name_plural = "qna"    
+        verbose_name_plural = "qna"  
+        
+    
+    def get_absolute_url(self):
+        return reverse("qna:detail", args=[self.pk])  
     
     @property
     def created_string(self):

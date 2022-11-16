@@ -34,9 +34,6 @@ class Photospot(models.Model):
         else:
             return False
 
-
-    def get_absolute_url(self):
-        return reverse("qna:detail", args=[self.pk])
     
 class Photocomment(models.Model):
     content = models.TextField()
