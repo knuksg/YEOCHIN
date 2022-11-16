@@ -1,7 +1,9 @@
 
-from django.db import models
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
+from django.urls import reverse
 from django.conf import settings
+from django.db import models
+
 
 # Create your models here.
 
@@ -14,13 +16,13 @@ class Qna(models.Model):
     image = models.ImageField(upload_to="image/%Y/%m/%d", blank=True)
     hits = models.PositiveIntegerField(default=0)
     closed = models.BooleanField(default=False)
-    tag = models.ManyToManyField('tag.Tag', verbose_name = "태그")
+    tag = models.ManyToManyField('Tag', blank=True, verbose_name = "태그")
     
     def __str__(self):
         return self.title
 
     class Meta:
-        db_table = "community_board"
+        db_table = "qna_board"
         verbose_name = "qna"
         verbose_name_plural = "qna"    
     
@@ -58,9 +60,28 @@ class Tag(models.Model):
         return self.name
 
     class Meta:
-        db_table = "community_tag"
+        db_table = "qna_tag"
         verbose_name = "태그"
         verbose_name_plural = "태그"
+        
+
+# class Category(models.Model):
+#     name = models.CharField(max_length=20, db_index=True)
+#     meta_description = models.TextField(blank=True)
+#     slug = models.SlugField(
+#         max_length=20, db_index=True, unique=True, allow_unicode=True
+#     )
+
+#     class Meta:
+#         ordering = ["name"]
+#         verbose_name = "category"
+#         verbose_name_plural = "categories"
+
+#     def __str__(self):
+#         return self.name
+
+#     def get_absolute_url(self):
+#         return reverse("articles:article_in_category", args=[self.slug])
 
 class Answer(models.Model):
     content = models.TextField()

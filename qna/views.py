@@ -6,8 +6,35 @@ from .models import *
 from .forms import *
 
 # Create your views here.
+def test(request):
+    if request.method == "POST":
+        # DB에 저장하는 로직
+        qna_form = QnaForm(request.POST, request.FILES)
+        # 유효성 검사
+        if qna_form.is_valid():
+            qna = qna_form.save(commit=False)
+            # 로그인한 유저 => 작성자네!
+            qna.user = request.user
+            qna.save()
+            
+            # tags = qna_form.cleaned_data['tag'].split(',')
+            # for tag in tags:
+            #     if not tag : 
+            #         continue
+            #     else:
+            #         tag = tag.strip()
+            #         tag_, created = Tag.objects.get_or_create(name = tag)
+            #         Qna.tag.add(tag_)
+
+
+            # return redirect("qna:index")
+    else:
+        qna_form = QnaForm()
+    context = {"qna_form": qna_form}
+    return render(request, "qna/form.html", context=context)
+
 def index(request):
-    qna = Qna.object.order_by("-pk")
+    qna = Qna.objects.order_by("-pk")
     qna_hits = Qna.objects.order_by("-hits")
     context = {
         "qna": qna,
@@ -28,17 +55,17 @@ def create(request):
             qna.user = request.user
             qna.save()
             
-            tags = qna_form.cleaned_data['tag'].split(',')
-            for tag in tags:
-                if not tag : 
-                    continue
-                else:
-                    tag = tag.strip()
-                    tag_, created = Tag.objects.get_or_create(name = tag)
-                    Qna.tag.add(tag_)
+            # tags = qna_form.cleaned_data['tag'].split('#')
+            # for tag in tags:
+            #     if not tag : 
+            #         continue
+            #     else:
+            #         tag = tag.strip()
+            #         tag_, created = Tag.objects.get_or_create(name = tag)
+            #         Qna.tag.add(tag_)
 
 
-            return redirect("qna:index")
+            # return redirect("qna:index")
     else:
         qna_form = QnaForm()
     context = {"aqna_form": qna_form}
@@ -116,7 +143,7 @@ def answer_update(request, pk):
 
 
 @login_required
-def answers_delete(request, qna_pk, answer_pk):
+def answer_delete(request, qna_pk, answer_pk):
     if request.user.is_authenticated:
         answer = get_object_or_404(Answer, pk=answer_pk)
         if request.user == answer.user:

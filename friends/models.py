@@ -34,11 +34,8 @@ class Friend_Comment(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     friend =  models.ForeignKey(Friend, on_delete=models.CASCADE)
     
-
     
     
-
-
 @property 
 def created_string(self):
     time = datetime.now(tz=timezone.utc) - self.created_at

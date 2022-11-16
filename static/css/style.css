@@ -1,8 +1,26 @@
+html,
+body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 60px;
+}
+
+@media (min-width: 1280px) {
+  #wrap {
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 0;
+  }
+}
+
 .container {
   max-width: 1200px;
   height: auto;
 }
-
 
 /* navbar */
 
@@ -22,7 +40,7 @@ form:hover,
 .btn:active,
 .btn.active {
   outline: 0px !important;
-  -webkit-appearance: none;
+  /* -webkit-appearance: none; */
   box-shadow: none !important;
 }
 
@@ -175,7 +193,7 @@ input:focus {
   background-color: #fff9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 10;
   border-radius: 5px;
 }
 
@@ -198,6 +216,58 @@ input:focus {
 
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
+}
+
+.dropdown2 {
+  position: relative;
+  position: fixed;
+  bottom: 79px;
+  right: 18px;
+  z-index: 10;
+}
+
+.dropbtn2 {
+  background-color: rgb(0, 206, 124);
+  color: white;
+  width: 64px;
+  height: 64px;
+  border-radius: 64px;
+  box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  border: none;
+}
+
+.dropbtn2:hover {
+  background-color: #3e8e41;
+}
+
+.dropdown-content2 {
+  display: none;
+  position: absolute;
+  top: -145px;
+  left: -100px;
+  background-color: #fff9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  border-radius: 5px;
+}
+
+.dropdown2:hover .dropdown-content2 {
+  display: block;
+}
+
+.dropdown-content2 a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content2 a:hover {
+  background-color: #ddd;
+  color: black;
+  font-weight: bold;
 }
 
 .nav-footer {
@@ -259,6 +329,43 @@ input:focus {
   padding-top: 3px;
   margin-bottom: 0;
   box-sizing: border-box;
+}
+
+.footer {
+  bottom: 0;
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 0;
+  background-color: white;
+}
+
+@media (min-width: 1280px) {
+  .lg\:footer {
+    bottom: 0;
+    width: 100%;
+    margin-top: 60px;
+    margin-bottom: 0;
+    background-color: white;
+  }
+}
+
+.profile-list {
+  margin-left: 30px;
+  width: 70%;
+}
+
+@media (min-width: 992px) {
+  .md\:profile-list {
+    margin-left: 40px;
+    width: 70%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .lg\:profile-list {
+    margin-left: 50px;
+    width: 900px;
+  }
 }
 
 /* photoSpot */
@@ -505,6 +612,33 @@ input:focus {
   color: rgb(255, 255, 255);
 }
 
+.photo-form-img {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  background-color: rgb(244, 244, 244);
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+}
+
+.photo-form-label {
+  margin-bottom: 0.5rem;
+}
+
+.photo-form-img-text {
+  color: rgb(106, 106, 106);
+  font-size: 50px;
+}
+
+.photo-form-img-text2 {
+  color: rgb(106, 106, 106);
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
 /* login & signin */
 .box {
   text-align: center;
@@ -570,7 +704,7 @@ btnYclogin:focus {
 }
 
 .sodalightblack {
-  color: #252525
+  color: #252525;
 }
 
 .sodadarkgray {
@@ -582,15 +716,15 @@ btnYclogin:focus {
 }
 
 .sodalightgray {
-  color: #9a9a9a
+  color: #9a9a9a;
 }
 
 .sodawhitegray {
-  color: #e9e9e9
+  color: #e9e9e9;
 }
 
 .sodared {
-  color: #ff3c26
+  color: #ff3c26;
 }
 
 /* search */
@@ -612,6 +746,7 @@ btnYclogin:focus {
   color: white;
   text-decoration: none;
 }
+
 #photospots-group .photospot-item:hover .photospot-info {
   display: flex;
 }
@@ -621,33 +756,39 @@ btnYclogin:focus {
   height: 350px;
   object-fit: cover;
 }
+
 #photospots-group .photospot-item:hover .photospot-img {
   filter: brightness(0.5);
 }
+
 @media (min-width:576px) and (max-width:768px) {
   #photospots-group .photospot-item .photospot-img {
     width: 400px;
     height: 400px;
   }
 }
+
 @media (min-width:768px) and (max-width:992px) {
   #photospots-group .photospot-item .photospot-img {
     width: 250px;
     height: 250px;
   }
 }
+
 @media (min-width:992px) and (max-width:1200px) {
   #photospots-group .photospot-item .photospot-img {
     width: 150px;
     height: 150px;
   }
 }
+
 @media (min-width:1200px) and (max-width:1400px) {
   #photospots-group .photospot-item .photospot-img {
     width: 200px;
     height: 200px;
   }
 }
+
 @media (min-width:1400px) {
   #photospots-group .photospot-item .photospot-img {
     width: 230px;
@@ -686,11 +827,13 @@ btnYclogin:focus {
   border-radius: 0%;
   border: none;
 }
+
 .region-group .btn-group .btn:focus {
   background-color: #00ce7c;
   color: white;
   border: none;
 }
+
 @media screen and (max-width: 768px) {
   .region-group .btn-group .btn {
     font-size: 2vw;
@@ -712,6 +855,7 @@ btnYclogin:focus {
   align-items: center;
   width: 300px;
 }
+
 @media screen and (max-width: 768px) {
   .hotel-search-form .search-form {
     width: 100%;
@@ -746,4 +890,77 @@ btnYclogin:focus {
   color: #00ce7c;
   border: 1px solid #00ce7c;
   border-radius: 0.5rem;
+}
+
+/* Qna */
+.qnaInpBox {
+  position: relative;
+  /* background: rgb(248, 248, 248); */
+  height: 45px;
+  border-color: rgb(233, 233, 233);
+}
+
+.qnaInpBox i {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  color: #9a9a9a;
+}
+
+.qnaTitleIpt {
+  width: 100%;
+  padding: 16px 30px;
+  border-radius: 5px;
+  border: 1px solid #e9e9e9;
+  color: #9a9a9a;
+}
+
+.qnaInpBox input:focus {
+  border: 2px solid rgb(0, 206, 124);
+  border-radius: 5px;
+}
+
+input:focus::placeholder {
+  color: transparent;
+}
+
+input:focus {
+  border: 2px solid rgb(0, 206, 124);
+}
+
+.qnaBtnSize {
+  /* box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 9%); */
+  width: 500px;
+  color: white;
+  background-color: #00ce7c;
+}
+
+.qna-gray-btn {
+  width: 48%;
+  border: none;
+  line-height: 20px;
+  border-radius: 4px;
+  padding: 17px 5px;
+  background-color: rgb(219, 219, 219);
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.qna-gray-btn:hover{
+  color: white;
+}
+
+.qna-green-btn {
+  width: 48%;
+  line-height: 20px;
+  border-radius: 4px;
+  border: none;
+  padding: 17px 5px;
+  background-color: rgb(0, 206, 124);
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
 }
