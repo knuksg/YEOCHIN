@@ -100,7 +100,7 @@
               <button class="dropbtn sm:display md:display lg:display">글쓰기</button>
               <div class="dropdown-content">
                 <a href="{% url 'friends:create' %}"><i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
-                <a href="#"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
+                <a href="{% url 'qna:create' %}"><i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
                 <a href="{% url 'photospots:create' %}"><i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
               </div>
             </div>
@@ -115,7 +115,7 @@
                 <div class="dropdown-content">
                   <a href="{% url 'friends:create' %}">
                     <i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
-                  <a href="#">
+                  <a href="{% url 'qna:create' %}">
                     <i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
                   <a href="{% url 'photospots:create' %}">
                     <i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
@@ -266,7 +266,7 @@
       <div class="dropdown-content2">
         <a href="{% url 'friends:create' %}">
           <i class="px-1 fa-regular fa-comments"></i>동행친구 찾기</a>
-        <a href="#">
+        <a href="{% url 'qna:create' %}">
           <i class="px-1 fa-regular fa-circle-question"></i>동행친구 QnA</a>
         <a href="{% url 'photospots:create' %}">
           <i class="px-1 fa fa-camera-retro"></i>인생사진 공유</a>
