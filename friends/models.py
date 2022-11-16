@@ -26,18 +26,14 @@ class Friend(models.Model):
         format="JPEG",
         options={"quality": 80},
     )
-
 class Friend_Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     friend =  models.ForeignKey(Friend, on_delete=models.CASCADE)
     
-
     
     
-
-
 @property 
 def created_string(self):
     time = datetime.now(tz=timezone.utc) - self.created_at
