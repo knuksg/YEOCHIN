@@ -82,7 +82,7 @@
             {{ friend.created_at }}
           </div>
           {% comment %} 댓글 폼 {% endcomment %}
-
+          {% if request.user.is_authenticated %}
           <form class="d-flex border rounded-3 mt-3" action="{% url 'friends:comment_create' friend.pk %}" method="POST">
             {% csrf_token %}
             <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요" class="form-control rounded-3 border-0 ms-3" required id="id_conent"></textarea>
@@ -92,6 +92,7 @@
               </button>
             </div>
           </form>
+          {% endif %}
           <br>
           {% comment %} 댓글 수 {% endcomment %}
           <h5 class="fw-bold">
