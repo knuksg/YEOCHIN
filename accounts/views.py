@@ -77,11 +77,14 @@ def detail(request, pk):
     friends = user.friend_set.all()
     print(friends)
     like_friends = user.like_friend.all()
+    photospots = user.photospot_set.all()
+    print(photospots)
 
     context = {
         "user": user,
         "friends": friends,
         "like_friends": like_friends,
+        "photospots": photospots,
     }
     return render(request, "accounts/detail.html", context)
 
@@ -207,12 +210,12 @@ def update(request, pk):
 
 
 @login_required
-def articles(request, pk):
-    articles = all.Articles.objects.filter(user=request.user).order_by("-pk")
+def friends(request, pk):
+    friends = all.friends.objects.filter(user=request.user).order_by("-pk")
     context = {
-        "articles": articles,
+        "friends": friends,
     }
-    return render(request, "accounts/articles.html", context)
+    return render(request, "accounts/friends.html", context)
 
 
 import secrets
