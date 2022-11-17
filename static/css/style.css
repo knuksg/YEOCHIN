@@ -3,6 +3,13 @@ body {
   height: 100%;
 }
 
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
 #wrap {
   min-height: 100%;
   position: relative;
@@ -1075,22 +1082,214 @@ input:focus {
   color: #919191
 }
 
+@media (min-width: 1200px){
+  .back {
+    padding: 0px;
+    width: unset;
+  }
+}
+
+.back {
+    position: relative;
+    background-image: url(/static/image/earth.png);
+    background-size: cover;
+    background-position: center center;
+}
 
 /* qna index */
-
-.title-banner {
-  position: relative;
+@media (min-width: 1200px){  
+  .title-banner {
+    position: relative;
+    width: 1200px;
+    margin: 0px auto;
+    min-height: 341px;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+}
 }
 
 .title-text {
-  position: absolute;
-  left: 50%;
-  bottom: 2rem;
-  transform: translate(-50%, -50%);
+  position: relative;
+  width: 1200px;
+  margin: 0px auto;
+  min-height: 341px;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: rgb(255, 255, 255);
 }
 
+.tilte-text1{
+  font-weight: 400;
+  font-size: 22px;
+  display: inline-block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.title-text2{
+  font-weight: 500;
+  font-size: 70px;
+  display: inline-block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.qnaMenuBox{
+  /* display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center; */
+
+}
+.qnaMenu{
+  display: flex;
+  justify-content: end;
+  margin-top: 40px;
+}
+
+.btnwait{
+  position: relative;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: auto;
+  height: fit-content;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(37, 37, 37);
+  padding: 10px 19px;
+  color: rgb(37, 37, 37);
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 50px;
+}
 .cardbox {
   border: 1px solid #e9e9e9;
+  padding: 10px 20px;
+  margin: 10px 10px;
+}
+
+.cardbox2 {
+  border: 1px solid #e9e9e9;
+  padding: 10px 40px;
+
+}
+
+.doneText{
+  color: #00ce7c;
+}
+
+.waitText{
+  color: rgb(106, 106, 106);
+}
+
+.qnaCard{
+  display: flex;
+  padding-top: 20px;
+}
+
+
+.loIn {
+  width: 12px;
+  height: 9px;
+  color: #6a6a6a;
+}
+
+.cardLocal{
+  font-size:14px;
+  color:rgb(106, 106, 106);
+}
+
+@media (min-width: 1200px) {
+.qCtit {
+  margin-top: 6px;
+  margin-right: 6px;
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+  color: rgb(37, 37, 37);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  justify-content: start;
+  }
+}
+
+.imNha {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+  
+.qCsub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  overflow-wrap: break-word;
+  -webkit-box-orient: vertical;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-line-clamp: 2;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  justify-content: start;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.qTag {
+  display: flex;
+  color: rgb(106, 106, 106);
+  font-size: 13px;
+  font-weight: 500;
+  background-color: rgb(245, 245, 245);
+  border-radius: 3px;
+  padding: 4px 7px; 
+}
+
+.exinfo {
+  margin-top: 10px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.proIm {
+  width: 24px;
+  height: 24px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+
+.qnaIBox{
+  margin-left: 14px;  
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  color: rgb(154, 154, 154);
+}
+
+
+.proN{
+  user-select: none;
+  -webkit-user-drag: none;
+  color: rgb(37, 37, 37);
+  margin-right: 4px;
 }
 
 /* friends second navbar  */
