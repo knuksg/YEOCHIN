@@ -1,6 +1,51 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block body %}
+
+  <!-- friends(home, index), qna(index), photospots(index)-->
+  <nav class="mb-3 s-nav">
+    <div class="container">
+      <ul class="d-flex s-list p-0">
+        <li class="s-item">
+          {% if request.resolver_match.namespace == 'friends' %}
+            {% if request.resolver_match.url_name == 'home' %}
+            <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+            {% else %}
+            <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+            {% endif %}
+          {% else %}
+          <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+          {% endif %}
+        </li>
+        <li class="s-item">
+          {% if request.resolver_match.namespace == 'friends' %}
+            {% if request.resolver_match.url_name == 'index' %}
+            <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+            {% else %}
+            <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+            {% endif %}
+          {% else %}
+          <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+          {% endif %}
+        </li>
+        <li class="s-item">
+          {% if request.resolver_match.namespace == 'qna' %}
+          <a class="s-item-link s-active" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
+          {% else %}
+          <a class="s-item-link" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
+          {% endif %}
+        </li>
+        <li class="s-item">
+          {% if request.resolver_match.namespace == 'photospots' %}
+          <a class="s-item-link s-active" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+          {% else %}
+          <a class="s-item-link" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
   <div class="container ">
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 friend-card ">

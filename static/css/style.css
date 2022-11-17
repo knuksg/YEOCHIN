@@ -988,7 +988,6 @@ input:focus {
   font-weight: bold;
   text-decoration: none;
   color: rgb(255, 255, 255);
-<<<<<<< HEAD
 }
 
 .qna-green-btn:hover {
@@ -996,12 +995,12 @@ input:focus {
 }
 
 .qnaTitle {
-  font-weight:700;
+  font-weight: 700;
   font-size: 24px;
   padding: 16px;
 }
 
-.qnaInfo{
+.qnaInfo {
   padding: 20px 30px;
   border: 1px solid #e9e9e9;
   margin-top: 40px;
@@ -1023,26 +1022,26 @@ input:focus {
   padding: 16px 36px;
 }
 
-.answerContent{
+.answerContent {
   font-size: 14px;
-  margin: 14px;
-  padding: 20px 30px;
+  margin: 15px;
+  padding: 5px 30px;
 }
 
 /* answer update */
-.qnaBox{
+.qnaBox {
   border: 1px solid #e9e9e9;
   padding: 16px 36px;
   margin: 20px 0px;
 }
 
-.qnaTitleInAnswer{
+.qnaTitleInAnswer {
   padding: 20px 7px;
   font-weight: 400;
   font-size: 14px;
 }
 
-.qnaContent{
+.qnaContent {
   padding-top: 20px;
   padding-bottom: 7px;
   font-size: 14px;
@@ -1073,13 +1072,13 @@ input:focus {
 }
 
 .addex span {
-  color:#919191
+  color: #919191
 }
 
 
 /* qna index */
 
-.title-banner{
+.title-banner {
   position: relative;
 }
 
@@ -1090,9 +1089,42 @@ input:focus {
   transform: translate(-50%, -50%);
 }
 
-.cardbox{
+.cardbox {
   border: 1px solid #e9e9e9;
 }
-=======
+
+/* friends second navbar  */
+.s-nav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
 }
->>>>>>> efd8346fc412cfc9624a4b389e952fcfb557b936
+
+.s-list {
+  font-size: 14px;
+}
+
+.s-item {
+  margin-right: 15px;
+  line-height: 3;
+}
+
+.s-item-link {
+  text-decoration: none;
+  color: black;
+}
+
+.s-item-link:hover {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.s-active {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 10px;
+  font-weight: bold;
+}

@@ -4,6 +4,75 @@
 {% load django_bootstrap5 %}
 
 {% block body %}
+
+  <!-- friends(home, index), qna(index), photospots(index)-->
+  <nav class="mb-3 s-nav">
+    <div class="container">
+      <ul class="d-flex s-list p-0">
+        <li class="s-item">
+          {% if request.resolver_match.namespace == 'friends' %}
+            {% if request.resolver_match.url_name == 'home' %}
+            <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+            {% else %}
+            <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+            {% endif %}
+          {% else %}
+          <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+          {% endif %}
+        </li>
+        <li class="s-item">
+          {% if request.resolver_match.namespace == 'friends' %}
+            {% if request.resolver_match.url_name == 'index' %}
+            <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+            {% else %}
+            <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+            {% endif %}
+          {% else %}
+          <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+          {% endif %}
+        </li>
+        <li class="s-item">
+          {% if request.resolver_match.namespace == 'qna' %}
+          <a class="s-item-link s-active" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
+          {% else %}
+          <a class="s-item-link" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
+          {% endif %}
+        </li>
+        <li class="s-item">
+          {% if request.resolver_match.namespace == 'photospots' %}
+          <a class="s-item-link s-active" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+          {% else %}
+          <a class="s-item-link" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+<body style="background-color: #F7F9FA">
+  <section class="title-banner">
+    <div class='d-flex justify-content-center' style='height:300px;'>
+      <img src="{% static 'image/earth.png' %}" alt="" class='w-100'
+        style='height:340px; object-fit:cover; filter:brightness(0.6);'>
+    </div>
+    <div class="title-text d-flex justify-content-center align-items-center flex-column">
+      <span style="color: white;">여행에 대한 질문을 해보세요</span>
+      <p style=" color: white; font-size:50px; font-weight:700;">여행 Q&A</p>
+    </div>
+  </section>
+  <section class="box section-center" height: calc(100vh - 60px);">
+    <div>
+      정렬 드롭다운 및 답변 대기중인 게시물만 보기 버튼 생성 영역
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <div class="row p-3 d-flex" style="width:1200px;">
+        {% for q in qna %}
+        <div class="cardbox m-2 col-lg-5" style="width: 45%;">
+          <div>
+            위치 영역
+            {% if Qna.closed != False %}
+            <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
+
 <section class="title-banner">
   <div class='d-flex justify-content-center' style='height:300px;'>
     <img src="{% static 'image/earth.png' %}" alt="" class='w-100'
