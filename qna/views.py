@@ -38,6 +38,44 @@ def test(request):
 def index(request):
     qna = Qna.objects.order_by("-pk")
     qna_hits = Qna.objects.order_by("-hits")
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        if status == 'True':
+            qna = qna.filter(closed=False)
+            qna_list = []
+            for q in qna:
+                qna_dict = {}
+                qna_dict['title'] = q.title
+                qna_dict['content'] = q.content
+                qna_dict['closed'] = q.closed
+                qna_dict['user'] = q.user
+                qna_dict['created_string'] = q.created_string
+                if q.user.profile.image.url:
+                    qna_dict['profile_image'] = q.user.profile.image.url
+                else: qna_dict['profile_image'] = 'None'
+                qna_list.append(qna_dict)
+            data = {
+                'qna': qna_list,
+            }
+            return JsonResponse(data)
+        else:
+            qna = Qna.objects.order_by("-pk")
+            qna_list = []
+            for q in qna:
+                qna_dict = {}
+                qna_dict['title'] = q.title
+                qna_dict['content'] = q.content
+                qna_dict['closed'] = q.closed
+                qna_dict['user'] = q.user
+                qna_dict['created_string'] = q.created_string
+                if q.user.profile.image.url:
+                    qna_dict['profile_image'] = q.user.profile.image.url
+                else: qna_dict['profile_image'] = 'None'
+                qna_list.append(qna_dict)
+            data = {
+                'qna': qna_list,
+            }
+            return JsonResponse(data)
     context = {
         "qna": qna,
         "qna_hits": qna_hits,
