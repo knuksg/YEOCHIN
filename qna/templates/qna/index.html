@@ -56,26 +56,44 @@
         qna.forEach((q) => {
           if (q.closed) {
             console.log('closed')
+            qnaContainer.innerHTML += 
+            `<div class="cardbox m-2 col-lg-5" style="width: 45%;">
+              <div>
+                위치 영역
+                <span style="color:#00ce7c; font-weight:bord;">답변완료</span>
+                <p class="cardTitle">${q.title}</p>
+                <p class="cardTitle">${q.content}</p>
+                <span>
+                  <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40"
+              height="40">
+                </span>
+                <p class="cardUsername">${q.user}</p>
+                <p class="text-muted">${q.created_string}</p>
+              </div>
+            </div>`
           } else {
             console.log('not closed')
-          }
-
-        })
-
-      })
-    })
-    {% comment %} qnaContainer.innerHTML += 
+            qnaContainer.innerHTML += 
             `<div class="cardbox m-2 col-lg-5" style="width: 45%;">
               <div>
                 위치 영역
                 <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
                 <p class="cardTitle">${q.title}</p>
                 <p class="cardTitle">${q.content}</p>
-                <p class="cardTitle">${q.closed}</p>
+                <span>
+                  <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40"
+              height="40">
+                </span>
                 <p class="cardUsername">${q.user}</p>
                 <p class="text-muted">${q.created_string}</p>
               </div>
-            </div>` {% endcomment %}
+            </div>`
+          }
+
+        })
+
+      })
+    })
   </script>
 
   <div>

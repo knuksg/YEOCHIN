@@ -48,11 +48,11 @@ def index(request):
                 qna_dict['title'] = q.title
                 qna_dict['content'] = q.content
                 qna_dict['closed'] = q.closed
-                qna_dict['user'] = q.user
+                qna_dict['user'] = q.user.username
                 qna_dict['created_string'] = q.created_string
-                if q.user.profile.image.url:
+                try:
                     qna_dict['profile_image'] = q.user.profile.image.url
-                else: qna_dict['profile_image'] = 'None'
+                except: qna_dict['profile_image'] = 'None'
                 qna_list.append(qna_dict)
             data = {
                 'qna': qna_list,
@@ -66,11 +66,11 @@ def index(request):
                 qna_dict['title'] = q.title
                 qna_dict['content'] = q.content
                 qna_dict['closed'] = q.closed
-                qna_dict['user'] = q.user
+                qna_dict['user'] = q.user.username
                 qna_dict['created_string'] = q.created_string
-                if q.user.profile.image.url:
+                try:
                     qna_dict['profile_image'] = q.user.profile.image.url
-                else: qna_dict['profile_image'] = 'None'
+                except: qna_dict['profile_image'] = 'None'
                 qna_list.append(qna_dict)
             data = {
                 'qna': qna_list,
