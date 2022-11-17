@@ -4,10 +4,10 @@
 {{ aritcles.click }}
 {% block body %}
 
-<div class="my-3 p-4 container" style="background-color:rgb(0, 206, 124)white;">
+<div class="my-3 p-4 container" style="background-color:white;">
     <div class="row">
         <!-- Qna 게시물 -->
-        <div class="col-12 col-lg-8 mx-auto">
+        <div class="col-12 col-lg-8 mx-auto p-0">
             <div class="d-flex align-items-center">
                 <i class="fa-solid fa-q fa-lg"></i>
                 <span class="qnaTitle">{{ qna.title }}</span>
@@ -38,62 +38,66 @@
             <div>
                 태그자리
             </div>
-            <div class="addex">
-                <span>{{qna.created_at}}</span>
-                &nbsp;
-                <span>조회수{{qna.hits}}</span>
-                &nbsp;
-                <span>답변수{{qna.answer_set.all|length}}</span>
-                &nbsp;
-                <span><a href="" style="color:#919191 ;">신고하기</a></span>
-            </div>
-            <!-- <div class="my-2 d-flex justify-content-center">
-                로그인 했다면
-                {% if request.user.is_authenticated %}
-                {% if request.user in qna.like_users.all %}
-                <i id="like-btn" class="fa-solid fa-heart"></i>
-                {% else %}
-                <i id="like-btn" class="fa-regular fa-heart"></i>
-                {% endif %}
-                <span id="like-count">{{ qna.like_users.count }}</span>
-                {% endif %}
-            </div> -->
-            <div class="d-flex justify-content-end">
-                <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
-                    href="{% url 'qna:index' %}">돌아가기</a>
-                {% if request.user == qna.user %}
-                <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
-                    href="{% url 'qna:update' qna.pk %}">수정</a>
-                {% endif %}
-                <!-- 삭제 모달 -->
-                <a class="btn btn-link p-0" style="text-decoration: none; color:rgb(0, 206, 124);" data-bs-toggle="modal"
-                    data-bs-target="#delete-modal">
-                    삭제
-                </a>
-                <!-- Modal -->
-                <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-liber"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="delete-liber">삭제하시겠습니까?</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                삭제하면 내용을 되돌릴 수 없습니다.
-                            </div>
-                            <div class="modal-footer">
-                                <a class="btn btn-secondary btn-sm" href="{% url 'qna:delete' qna.pk %}">삭제하기</a>
-                                </button>
+            <div class="d-flex justify-content-between">
+                <div class="addex my-1">
+                    <span>{{qna.created_at}}</span>
+                    &nbsp;
+                    <span>조회수{{qna.hits}}</span>
+                    &nbsp;
+                    <span>답변수{{qna.answer_set.all|length}}</span>
+                    &nbsp;
+                    <span><a href="" style="color:#919191 ;">신고하기</a></span>
+                </div>
+                <!-- <div class="my-2 d-flex justify-content-center">
+                    로그인 했다면
+                    {% if request.user.is_authenticated %}
+                    {% if request.user in qna.like_users.all %}
+                    <i id="like-btn" class="fa-solid fa-heart"></i>
+                    {% else %}
+                    <i id="like-btn" class="fa-regular fa-heart"></i>
+                    {% endif %}
+                    <span id="like-count">{{ qna.like_users.count }}</span>
+                    {% endif %}
+                </div> -->
+                <div class="d-flex">
+                    <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                        href="{% url 'qna:index' %}">돌아가기</a>
+                    {% if request.user == qna.user %}
+                    <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                        href="{% url 'qna:update' qna.pk %}">수정</a>
+                    {% endif %}
+                    <!-- 삭제 모달 -->
+                    <a class="btn btn-link p-0" style="text-decoration: none; color:rgb(0, 206, 124);" data-bs-toggle="modal"
+                        data-bs-target="#delete-modal">
+                        삭제
+                    </a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-liber"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="delete-liber">삭제하시겠습니까?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    삭제하면 내용을 되돌릴 수 없습니다.
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="btn btn-secondary btn-sm" href="{% url 'qna:delete' qna.pk %}">삭제하기</a>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <p class="my-3" style="color:rgb(0, 206, 124) rgb(115, 115, 115)"><span
-                    style="font-weight: 500; color:rgb(0, 206, 124);">{{qna.answer_set.all|length}}</span>개의 답변 </p>
+            <br>    
+            <h5 class="fw-bold">
+            답변 
+            <span class="green-text">{{qna.answer_set.all|length}}</span>
+            </h5>
             {% for answer in answers %}
             {% csrf_token %}
             <div class="px-1 py-3 d-flex flex-column">
@@ -134,19 +138,15 @@
 
         <!-- 프로필 -->
         <div class="profileSection col col-lg-3">
-            <div class="row">
-                <div class="col-3" style="padding-right: 0; padding-left: 35px;">
-                    {% if user.profile.image %}
-                    <img src="{{ qna.user.profile.image.url }}" alt="{{ qna.user.profile.image }}"
-                        class="rounded-circle border border-1" width="40" height="40">
-                    {% else %}
-                    <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2"
-                        width="40" height="40">
-                    {% endif %}
-                </div>
-                <div class="col">
-                    <p class="m-0" style="font-weight:700;">{{ qna.user.username }}</p>
-                    <p class="m-0" style="font-size: 13px;">소개글</p>
+            <div class="d-flex align-items-center">
+                {% if qna.user.profile.image %}
+                <img src="{{ qna.user.profile.image.url }}" alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+                {% else %}
+                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+                {% endif %}
+                <div class="d-flex flex-column">
+                    <p class="my-0 me-2 fw-bold" style="font-weight:700;">{{ qna.user.nickname }}</p>
+                    <p class="my-0" style="font-size: 13px;">소개글</p>
                 </div>
             </div>
             <div style="height:20px; border-top: 1px solid #e9e9e9; margin-top:20px;"></div>
