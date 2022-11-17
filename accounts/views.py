@@ -49,7 +49,7 @@ def login(request):
 
 def loginNormal(request):
     if request.user.is_authenticated:
-        return redirect("main:index")
+        return redirect("friends:index")
 
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -59,7 +59,7 @@ def loginNormal(request):
                 form.get_user(),
                 backend="django.contrib.auth.backends.ModelBackend",
             )
-            return redirect(request.GET.get("next") or "main:index")
+            return redirect(request.GET.get("next") or "friends:index")
     else:
         form = AuthenticationForm()
     context = {"form": form}
