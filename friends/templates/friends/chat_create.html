@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block body %}
+<div>
+  <h1> 채팅방 만들기 </h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <select name="member-select" class="form-select" multiple aria-label="multiple select example">
+      {% for user in request_users %}
+      <option value="{{ user }}">{{ user }}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" name="" id="">
+  </form>
+</div>
+{% endblock body %}

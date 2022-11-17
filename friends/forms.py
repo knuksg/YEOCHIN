@@ -1,5 +1,5 @@
 from django import forms
-from .models import Friend, Friend_Comment
+from .models import Friend, Friend_Comment, FriendRequest
 
 
 class DateInput(forms.DateInput):
@@ -49,5 +49,12 @@ class Friend_CommentForm(forms.ModelForm):
         fields = ["content"]
 
         labels = {
-            "content": "댓글",
+             "content": "댓글",
         }
+
+from chats.models import Room
+
+class FriendRoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = ['name', 'users',]
