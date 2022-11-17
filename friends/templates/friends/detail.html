@@ -63,11 +63,11 @@
           href="{% url 'friends:index' %}">돌아가기</a>
           {% if request.user == friend.user %}
           <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
-              href="{% url 'friends:update' friend.pk %}">수정</a>
-          {% endif %}
+            href="{% url 'friends:update' friend.pk %}">수정</a>
           <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
-              href="{% url 'friends:delete' friend.pk %}">삭제</a>
+            href="{% url 'friends:delete' friend.pk %}">삭제</a>
           </a>
+          {% endif %}
         </div>
       </div>
       <div class="my-5">

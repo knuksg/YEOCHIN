@@ -22,7 +22,7 @@
       <main class="photo-main lg:photo-main">
         <div class="card photo-content border-0">
           <!-- 카드 상단 -->
-          <div class="card-header bg-white border-bottom-0">
+          <div class="card-header bg-white border-bottom-0 px-0">
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex align-items-center">
                 <!-- 프로필 사진 -->
@@ -67,56 +67,57 @@
                   </div>
                 </div>
               </div>
-              <!-- 수정 / 삭제 버튼 : 로그인 유저 = 작성 유저-->
+              <!-- 비동기 좋아요 -->
               <div class="d-flex align-items-center">
-                {% if request.user.is_authenticated %}
-                {% if request.user == photospot.user %}
-                <a class="me-3 text-decoration-none gray-text" href="{% url 'photospots:update' photospot.pk %}">
-                  <i class="bi bi-pencil"></i>
-                </a>
-                <a class="text-decoration-none gray-text" href="{% url 'photospots:delete' photospot.pk %}">
-                  <i class="bi bi-trash"></i>
-                </a>
-                {% endif %}
-                {% endif %}
+                <div class="d-flex justify-content-end align-items-center gray-text">
+                  {% if request.user.is_authenticated %}
+                  <p class="m-0">
+                    {% if request.user in photospot.like_users.all %}
+                      <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart-fill" style="cursor: pointer;"></i>
+                    {% else %}
+                      <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart" style="cursor: pointer;"></i>
+                    {% endif %}
+                    <span id="like-count"> {{ photospot.like_users.count }}</span>
+                  </p>
+                  {% else %}
+                  <p class="m-0 me-2">
+                    <i class="bi bi-heart"></i>
+                    <span id="like-count"> {{ photospot.like_users.count }}</span>
+                  </p>
+                  {% endif %}
+                </div>
               </div>
             </div>
           </div>
           <!-- 카드 내용 -->
-          <div class="card-body">
+          <div class="card-body px-0">
             <p class="m-0">{{ photospot.content }}</p>
           </div>
           <!-- 인생사진 -->
           <img src="{{ photospot.photo_img.url }}">
           <!-- 카드 하단  -->
-          <div class="card-footer bg-white border-top-0">
-            <div class="d-flex justify-content-end align-items-center gray-text">
-              <!-- 조회수 -->
-              <p class="m-0 me-2">
-                <i class="bi bi-eye"></i>
-                <span> {{ photospot.hits }}</span>
-              </p>
-              <!-- 좋아요(비동기) / 좋아요수 -->
-              {% if request.user.is_authenticated %}
-              <p class="m-0 me-2">
-                {% if request.user in photospot.like_users.all %}
-                  <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart-fill" style="cursor: pointer;"></i>
-                {% else %}
-                  <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart" style="cursor: pointer;"></i>
+          <div class="card-footer bg-white border-top-0 px-0">
+            <div class="d-flex justify-content-between">
+              <div class="addex my-1">
+                <span>{{ photospot.created_at }}</span>
+                &nbsp;
+                <span>조회수{{ photospot.hits }}</span>
+                &nbsp;
+                <span>댓글수{{ photospot.photocomment_set.count }}</span>
+                &nbsp;
+                <span><a href="" style="color:#919191 ;">신고하기</a></span>
+              </div>
+              <div class="d-flex">
+                <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                href="{% url 'photospots:index' %}">돌아가기</a>
+                {% if request.user == photospot.user %}
+                <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                  href="{% url 'photospots:update' photospot.pk %}">수정</a>
+                <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                  href="{% url 'photospots:delete' photospot.pk %}">삭제</a>
+                </a>
                 {% endif %}
-                <span id="like-count"> {{ photospot.like_users.count }}</span>
-              </p>
-              {% else %}
-              <p class="m-0 me-2">
-                <i class="bi bi-heart"></i>
-                <span id="like-count"> {{ photospot.like_users.count }}</span>
-              </p>
-              {% endif %}
-              <!-- 댓글수 -->
-              <p class="m-0">
-                <i class="bi bi-chat"></i>
-                <span>{{ photospot.photocomment_set.count }}</span>
-              </p>
+              </div>
             </div>
             <!-- 댓글 -->
             <div class="d-flex flex-column">
@@ -148,22 +149,23 @@
                     {% else %}
                     <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
                     {% endif %}
-                    <p class="my-1 me-2 fw-bold">{{ comment.user.nickname }}</p>
-                    <p class="my-1 text-muted">{{ comment.created_at | date:'Y년 m월 d일 H:i' }}</p>
+                    <div class="d-flex flex-column">
+                      <p class="my-0 me-2 fw-bold">{{ comment.user.nickname }}</p>
+                      <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">{{ comment.created_at | date:'Y년 m월 d일 H:i' }}</p>
+                    </div>
                   </div>
                   <!-- 댓글 삭제 -->
                   <div>
                     {% if request.user.is_authenticated %}
                     {% if request.user == comment.user %}
-                    <a class="text-decoration-none gray-text" href="{% url 'photospots:comment_delete' comment.pk photospot.pk %}">
-                      <i class="bi bi-trash"></i>
-                    </a>
+                    <a class="" style="text-decoration: none; color:rgb(0, 206, 124);"
+                      href="{% url 'photospots:comment_delete' comment.pk photospot.pk %}">삭제</a>
                     {% endif %}
                     {% endif %}
                   </div>
                 </div>
                 <!-- 댓글 내용 -->
-                <p class='my-3'>{{ comment.content }}</p>
+                <p class='answerContent'>{{ comment.content }}</p>
               </div>
               {% endfor %}
             </div>
