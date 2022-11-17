@@ -3,26 +3,6 @@
 {% load django_bootstrap5 %} 
 {% block body %}
 
-<<<<<<< HEAD
-<div class="container my-5" style="width: 960px">
-  <div class="p-3">
-    <form class="p-4" action="" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="qnaInpBox">
-        <i class="fa-solid fa-q"></i>
-        <input class="qnaTitleIpt" placeholder="물음표로 끝나는 질문을 작성해보세요!" name="title" value="{{ qna.title }}" />
-      </div>
-      <textarea rows="18" cols="10" class="form-control" style="border: 1px solid #e9e9e9; margin: 3rem 0;"
-        name="content" placeholder="내용을 입력해주세요.">{{ qna.content }}</textarea>
-      <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
-      <div class=" d-flex justify-content-between mt-3">
-        <a class="qna-gray-btn" type="submit">취소</a>
-        <input class="qna-green-btn" type="submit" value="작성완료"></input>
-      </div>
-    </form>
-  </div>
-</div>
-=======
 <h3 class="fw-bold text-center" style="padding-top: 50px">동행친구 QnA</h3>
 <div class="container my-5">
   <form class="photo-form mx-auto" action="" method="POST" enctype="multipart/form-data">
@@ -50,5 +30,4 @@
   </form>
 </div>
 
->>>>>>> efd8346fc412cfc9624a4b389e952fcfb557b936
 {% endblock %}
