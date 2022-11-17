@@ -18,9 +18,19 @@ def home(request):
 def index(request):
     friends = Friend.objects.order_by('-pk')
     context = {
-        'friends':friends,
+        'friends': friends,
     }
     return render(request, "friends/index.html",context)
+
+def index_closed(request):
+    friends = Friend.objects.order_by('-pk')
+    status = False
+    if request.method == 'POST':
+        if status:
+            friends = Friend.objects.order_by('-pk')
+        else:
+            friends = friends.filter(closed=False)
+    return redirect("friends:index")
 
 def create(request):
     if request.user.is_authenticated:
@@ -126,16 +136,6 @@ def like(request, pk):
         friend.like_user.add(request.user)
     return redirect("friends:detail", pk)
 
-def friend_closed(request, pk):
-    friend = Friend.objects.get(pk=pk)
-    if friend.closed == False:
-        friend.closed = True
-        friend.save()
-    else:
-        friend.closed = False
-        friend.save()
-    return redirect("friends:detail", pk)
-    
 import lorem
 from accounts.models import User
 from chats.models import Room

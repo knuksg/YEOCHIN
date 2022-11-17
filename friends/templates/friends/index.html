@@ -2,6 +2,15 @@
 {% load static %}
 {% block body %}
 
+<form action="{% url 'friends:index_closed' %}" method='post' name="{{ status }}">
+  {% csrf_token %}
+  {% if status == 'True' %}
+  <input type="submit" value="전체 게시글 보기">
+  {% else %}
+  <input type="submit" value="모집중인 게시물만 보기">
+  {% endif %}
+</form>
+
   <!-- friends(home, index), qna(index), photospots(index)-->
   <nav class="mb-3 s-nav">
     <div class="container">
