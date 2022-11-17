@@ -51,3 +51,9 @@ def created_string(self):
         return str(time.days) + "일 전"
     else:
         return False
+
+from accounts.models import User
+
+class FriendRequest(models.Model):
+    friend = models.ForeignKey(Friend, on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='requests')

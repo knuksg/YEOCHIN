@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from . models import Friend, Friend_Comment
-from . forms import FriendForm,Friend_CommentForm
+from . models import Friend, Friend_Comment, FriendRequest
+from . forms import FriendForm,Friend_CommentForm, FriendRoomForm
+from chats.forms import RoomForm
 from django.http import HttpResponseForbidden
 from datetime import date, datetime, timedelta, timezone
 
@@ -135,3 +136,33 @@ def friend_closed(request, pk):
         friend.save()
     return redirect("friends:detail", pk)
     
+import lorem
+from accounts.models import User
+from chats.models import Room
+
+def chat_create(request, pk):
+    friend = Friend.objects.get(pk=pk)
+    friendrequest = FriendRequest.objects.get(friend=friend)
+    request_users = friendrequest.users.all()
+    if request.method == 'POST':
+        time = datetime.now().strftime('%Y%m%d%H%M%S')
+        room_name_variable = 'rnv'
+        room_name = request.user.username + room_name_variable + str(friend.pk) + room_name_variable + friend.title + room_name_variable + time
+        room = Room(name=room_name)
+        room.save()
+        selects = request.POST.getlist('member-select')
+        for select in selects:
+            user = User.objects.get(username=select)
+            room.users.add(user)
+        return redirect('chats:rooms')
+    context = {
+        "request_users": request_users
+        }
+    return render(request, "friends/chat_create.html", context)
+
+def request(request, pk):
+    friend = Friend.objects.get(pk=pk)
+    friendrequest = FriendRequest.objects.get_or_create(friend=friend)
+    friendrequest = friendrequest[0]
+    friendrequest.users.add(request.user)
+    return redirect("friends:detail", pk)
