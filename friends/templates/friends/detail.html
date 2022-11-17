@@ -21,6 +21,16 @@
             <div>
               <div class="d-flex mt-3 ms-3">
                 <p>
+                  <span style="color:#6a6a6a;">상태</span>
+                &nbsp;
+                <span>
+                    {% if friend.closed == False %}
+                    <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
+                    {% else %}
+                    답변완료
+                    {% endif %}
+                </span>
+                &nbsp;
                   <span class="text-muted">지역</span>&nbsp;&nbsp;{{friend.place}}</p>
                 <p class="ms-3">
                   <span class="text-muted">모집인원</span>&nbsp;&nbsp;{{friend.people_number}}명</p>
@@ -139,6 +149,18 @@
           <button type="button" class="btn btn-success" style=" background-color: rgb(0, 206, 124); width:90%; height:55px;"><a style="color:white ;text-decoration:none;" href="">동행 신청하기</a></button>
         </div>
       
+        {% comment %} 채택하기 {% endcomment %}
+        <div>
+          {% if request.user == friend.user %}
+          <a style="text-decoration: none;" href="{% url 'friends:friend_closed' friend.pk %}">
+              {% if friend.closed == False %}
+              <span style="color:#00ce7c; font-weight:bord;">채택하기</span>
+              {% else %}
+              취소
+              {% endif %}
+          </a>
+          {% endif %}
+      </div>
         
         
         

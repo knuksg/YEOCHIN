@@ -124,3 +124,13 @@ def like(request, pk):
     else:
         friend.like_user.add(request.user)
     return redirect("friends:detail", pk)
+
+def friend_closed(request, pk):
+    friend = Friend.objects.get(pk=pk)
+    if friend.closed == False:
+        friend.closed = True
+        friend.save()
+    else:
+        friend.closed = False
+        friend.save()
+    return redirect("friends:detail", pk)

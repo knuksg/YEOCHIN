@@ -27,6 +27,7 @@ class Friend(models.Model):
         options={"quality": 80},
     )
     hits = models.IntegerField(default=0)
+    closed = models.BooleanField(default=False)
 
 class Friend_Comment(models.Model):
     content = models.TextField()
