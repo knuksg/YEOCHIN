@@ -14,5 +14,6 @@ urlpatterns = [
     path("<int:qna_pk>/<int:answer_pk>/answers/update/", views.answers_update, name="answers_update"),    
     path("<int:qna_pk>/<int:answer_pk>/answers/delete/", views.answers_delete, name="answers_delete"),
     path("<int:pk>/like/", views.like, name="like"),
+    path("<int:pk>/qna_closed/", views.qna_closed, name="qna_closed"),
 
 ]

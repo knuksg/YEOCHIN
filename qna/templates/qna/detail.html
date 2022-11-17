@@ -5,6 +5,7 @@
 {% block body %}
 
 <div class="my-3 p-4 container" style="background-color:rgb(0, 206, 124)white; width: 1200px;">
+
     <div class="row">
         <!-- Qna 게시물 -->
         <div class="col col-lg-8 mx-5">
@@ -14,7 +15,7 @@
                 <span style="color:#6a6a6a;">상태</span>
                 &nbsp;
                 <span>
-                    {% if Qna.closed != False %}
+                    {% if qna.closed == False %}
                     <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
                     {% else %}
                     답변완료
@@ -153,9 +154,21 @@
             <div class=" d-flex justify-content-center">
                 <a href="{% url 'qna:answers_create' qna.pk %}" class="answerBtn text-center" type="submit">답변하기</a>
             </div>
+            <div>
+                {% if request.user == qna.user %}
+                <a style="text-decoration: none;" href="{% url 'qna:qna_closed' qna.pk %}">
+                    {% if qna.closed == False %}
+                    <span style="color:#00ce7c; font-weight:bord;">채택하기</span>
+                    {% else %}
+                    취소
+                    {% endif %}
+                </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     // (1) 도움돼요 버튼

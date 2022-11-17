@@ -92,7 +92,6 @@ def detail(request, pk):
     }
     return render(request, "qna/detail.html", context)
 
-
 @login_required
 def update(request, pk):
     qna = Qna.objects.get(pk=pk)
@@ -190,3 +189,14 @@ def like(request, pk):
     # 상세 페이지로 redirect
     context = {"isLiked": is_liked, "likeCount":qna.like_users.count()}
     return JsonResponse(context)
+
+
+def qna_closed(request, pk):
+    qna = Qna.objects.get(pk=pk)
+    if qna.closed == False:
+        qna.closed = True
+        qna.save()
+    else:
+        qna.closed = False
+        qna.save()
+    return redirect("qna:detail", pk)
