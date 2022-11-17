@@ -1,12 +1,59 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block body %}
-{% for room in rooms %}
-<p>채팅방 이름: {{ room.name }}</p>
-<a href="{% url 'chats:room' room.name %}">join</a>
-<span>채팅방 유저들</span>
-  {% for user in room.users.all %}
-  {{ user.username }}
+<div class="d-flex flex-column align-items-center">
+  {% for room in room_list %}
+  <div class="card mb-3 py-3 px-5">
+    <div class="row g-0">
+      <div class="col-4">
+        <div class="">
+          {% for user in room.users.all %}
+          {% if user.username.profile %}
+          <div>
+            <img src="{{ user.profile.image.url }}" alt="{{ user.profile.image }}">
+            <p>{{ user.username }}</p>
+          </div>
+          {% else %}
+          <div>
+            <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40">
+            <p>{{ user.username }}</p>
+          </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      </div>
+      <div class="col-8">
+        <div class="">
+          <div>
+            <h5 class="card-title">채팅방 이름: {{ room.name }}</h5>
+            <p class="card-text">채팅방 생성 시간: {{ room.created_at }}</p>
+            <p>가장 최근 채팅</p>
+          </div>
+          <div class="d-flex gap-3">
+            {% if room.latest_chat_user %}
+            <div class="d-flex flex-column">
+              {% if room.latest_chat_user_img %}
+              <img src="{{ room.latest_chat_user_img }}" alt="">
+              {% else %}
+              <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40">
+              {% endif %}
+              <p>{{ room.latest_chat_user }}</p>
+            </div>
+            {% else %}
+            {% endif %}
+            <div>
+              <p class="card-text">{{ room.latest_chat }}</p>
+              <p class="card-text"><small class="text-muted">{{ room.latest_chat_time }}</small></p>
+            </div>
+          </div>
+          <a href="{% url 'chats:room' room.name %}">join</a>
+        </div>
+      </div>
+    </div>
+  </div>
   {% endfor %}
-  <p>================</p>
-{% endfor %}
+</div>
+
+
+
 {% endblock body %}
