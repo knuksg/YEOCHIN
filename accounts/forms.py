@@ -9,10 +9,7 @@ from django.contrib.auth.hashers import check_password
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = (
-            "username",
-            "nickname",
-        )
+        fields = ("username", "nickname", "age")
         labels = {
             "nickname": "닉네임",
         }
@@ -37,16 +34,19 @@ class CustomUserChangeForm(UserChangeForm):
             "nickname": "닉네임",
         }
 
+
 # 비밀번호 확인
 class CheckPasswordForm(forms.Form):
-    password = forms.CharField(widget = forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput())
+
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
+
     def clean(self):
         cleaned_data = super().clean()
-        password = cleaned_data.get('password')
+        password = cleaned_data.get("password")
         confirm_password = self.user.password
         if password:
             if not check_password(password, confirm_password):
-                self.add_error('password', '비밀번호가 달라요.')
+                self.add_error("password", "비밀번호가 달라요.")

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from django.urls import reverse
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 
 # Create your models here.
@@ -16,6 +17,9 @@ class Qna(models.Model):
     image = models.ImageField(upload_to="image/%Y/%m/%d", blank=True)
     hits = models.PositiveIntegerField(default=0)
     closed = models.BooleanField(default=False)
+    like_users = models.ManyToManyField(
+    settings.AUTH_USER_MODEL, related_name="like_qna"
+    )
     tag = models.ManyToManyField('Tag', blank=True, verbose_name = "태그")
     
     def __str__(self):
@@ -24,7 +28,11 @@ class Qna(models.Model):
     class Meta:
         db_table = "qna_board"
         verbose_name = "qna"
-        verbose_name_plural = "qna"    
+        verbose_name_plural = "qna"  
+        
+    
+    def get_absolute_url(self):
+        return reverse("qna:detail", args=[self.pk])  
     
     @property
     def created_string(self):

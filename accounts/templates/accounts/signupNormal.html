@@ -57,7 +57,17 @@
           "
         />
       </div>
+  </div>
 
+<div class="my-5">
+  <div>
+    <h5 style="font-weight: bold">
+      입력사항<span style="color: #00ce7c">(선택)</span>
+    </h5>
+  </div>
+  <form action="{% url 'accounts:signupNormal' %}" method="POST">
+    {% csrf_token %}
+    <div class="signinInpBox">
       <div class="my-3">
         <select class="signupInp" name="signupYear" value="년도" style="width: 50%;">
           <option value="">출생 연도</option>
@@ -163,7 +173,7 @@
           <option value="1922">1922</option>
           <option value="1921">1921</option>
         </select>
-        <select class="signupInp" name="signupMonth" value="월" style="width: 23%;">
+        <select class="signupInp" name="signupMonth" value="월" style="width: 24%;">
           <option value="">월</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -178,7 +188,7 @@
           <option value="11">11</option>
           <option value="12">12</option>
         </select>
-        <select class="signupInp" name="signupDate" value="일" style="width: 23%;">
+        <select class="signupInp" name="signupDate" value="일" style="width: 24%;">
           <option value="">일</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -235,7 +245,8 @@
           <option value="2">여성</option>
         </select>
     
-    </div>
+      </div>
+  </div>
 
     <div class="pt-3">
       <input

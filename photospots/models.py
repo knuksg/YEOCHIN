@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.urls import reverse
 
 # Create your models here.
 class Photospot(models.Model):
@@ -33,7 +34,7 @@ class Photospot(models.Model):
         else:
             return False
 
-
+    
 class Photocomment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
