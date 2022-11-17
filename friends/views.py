@@ -154,7 +154,7 @@ def chat_create(request, pk):
         for select in selects:
             user = User.objects.get(username=select)
             room.users.add(user)
-        return redirect('chats:rooms')
+        return redirect('chats:rooms', request.user.pk)
     context = {
         "request_users": request_users
         }
