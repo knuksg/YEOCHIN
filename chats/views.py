@@ -6,12 +6,15 @@ from accounts.models import User
 def index(request):
     return render(request, "chats/index.html")
 
+from datetime import datetime
+
 def rooms(request, pk):
     user = User.objects.get(pk=pk)
     rooms = Room.objects.filter(name__icontains=user.username)
     room_list = []
     for room in rooms:
         room_dict = {}
+        room_dict['url'] = room.name
         room_dict['name'] = room.name.split('rnv')[2]
         room_dict['created_at'] = room.name.split('rnv')[3]
         room_dict['users'] = room.users.all()
@@ -24,11 +27,12 @@ def rooms(request, pk):
                 room_dict['latest_chat_user_img'] = latest_chat_user.profile.image.url
             except:
                 room_dict['latest_chat_user_img'] = None
-            room_dict['latest_chat_time'] = latest_chat.date_added
+            room_dict['latest_chat_time'] = str(latest_chat.date_added)
         except:
             room_dict['latest_chat'] = '아직 아무도 채팅을 시작하지 않았습니다.'
             room_dict['latest_chat_time'] = '채팅을 시작해주세요.'
         room_list.append(room_dict)
+    room_list = sorted(room_list, key=lambda x:(x['latest_chat_time'], x['created_at']), reverse=True)
     context = {
         'rooms': rooms,
         'room_list': room_list,
