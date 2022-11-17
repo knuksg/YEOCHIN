@@ -150,20 +150,18 @@
                 </div>
             </div>
             <div style="height:20px; border-top: 1px solid #e9e9e9; margin-top:20px;"></div>
-            <div class="text-center" style="margin-bottom: 5px; font-size: 14px;   font-weight:700;">프로필 사진을 클릭해보세요!
-            </div>
-            <div class=" d-flex justify-content-center">
-                <a href="{% url 'qna:answers_create' qna.pk %}" class="answerBtn text-center" type="submit">답변하기</a>
-            </div>
-            <div>
+            <div class="text-center" style="margin-bottom: 5px; font-size: 14px; font-weight:700;">프로필 사진을 클릭해보세요!</div>
+            <div class="d-flex justify-content-center">
                 {% if request.user == qna.user %}
-                <a style="text-decoration: none;" href="{% url 'qna:qna_closed' qna.pk %}">
+                <a class="answerBtn text-center" href="{% url 'qna:qna_closed' qna.pk %}" type="submit">
                     {% if qna.closed == False %}
-                    <span style="color:#00ce7c; font-weight:bord;">채택하기</span>
+                    채택하기
                     {% else %}
                     취소
                     {% endif %}
                 </a>
+                {% else %}
+                <a href="{% url 'qna:answers_create' qna.pk %}" class="answerBtn text-center" type="submit">답변하기</a>
                 {% endif %}
             </div>
         </div>
