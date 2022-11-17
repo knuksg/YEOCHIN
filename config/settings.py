@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "qna",
     "django_bootstrap5",
     "django_extensions",
-    "django_shortcuts",
+    # "django_shortcuts",
     "django_summernote",
     "imagekit",
     "daphne",
