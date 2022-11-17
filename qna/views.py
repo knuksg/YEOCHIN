@@ -38,6 +38,44 @@ def test(request):
 def index(request):
     qna = Qna.objects.order_by("-pk")
     qna_hits = Qna.objects.order_by("-hits")
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        if status == 'True':
+            qna = qna.filter(closed=False)
+            qna_list = []
+            for q in qna:
+                qna_dict = {}
+                qna_dict['title'] = q.title
+                qna_dict['content'] = q.content
+                qna_dict['closed'] = q.closed
+                qna_dict['user'] = q.user.username
+                qna_dict['created_string'] = q.created_string
+                try:
+                    qna_dict['profile_image'] = q.user.profile.image.url
+                except: qna_dict['profile_image'] = 'None'
+                qna_list.append(qna_dict)
+            data = {
+                'qna': qna_list,
+            }
+            return JsonResponse(data)
+        else:
+            qna = Qna.objects.order_by("-pk")
+            qna_list = []
+            for q in qna:
+                qna_dict = {}
+                qna_dict['title'] = q.title
+                qna_dict['content'] = q.content
+                qna_dict['closed'] = q.closed
+                qna_dict['user'] = q.user.username
+                qna_dict['created_string'] = q.created_string
+                try:
+                    qna_dict['profile_image'] = q.user.profile.image.url
+                except: qna_dict['profile_image'] = 'None'
+                qna_list.append(qna_dict)
+            data = {
+                'qna': qna_list,
+            }
+            return JsonResponse(data)
     context = {
         "qna": qna,
         "qna_hits": qna_hits,
@@ -91,7 +129,6 @@ def detail(request, pk):
         "answer_form": answer_form,
     }
     return render(request, "qna/detail.html", context)
-
 
 @login_required
 def update(request, pk):
@@ -190,3 +227,14 @@ def like(request, pk):
     # 상세 페이지로 redirect
     context = {"isLiked": is_liked, "likeCount":qna.like_users.count()}
     return JsonResponse(context)
+
+
+def qna_closed(request, pk):
+    qna = Qna.objects.get(pk=pk)
+    if qna.closed == False:
+        qna.closed = True
+        qna.save()
+    else:
+        qna.closed = False
+        qna.save()
+    return redirect("qna:detail", pk)

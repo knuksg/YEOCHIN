@@ -51,6 +51,7 @@
             <a id="link_like_friends" data-bs-toggle="collapse" href="#like_friends" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">좋아요</a>
             {% if user == request.user %}
               <a id="link_user_photospots" data-bs-toggle="collapse" href="#user_photospots" role="button" aria-expanded="false" aria-controls="collapseExample">인생사진</a>
+              <a href="{% url 'chats:rooms' user.pk %}">내 채팅방</a>
             {% endif %}
           </div>
           

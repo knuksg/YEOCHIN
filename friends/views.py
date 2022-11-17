@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from . models import Friend, Friend_Comment
-from . forms import FriendForm,Friend_CommentForm
+from . models import Friend, Friend_Comment, FriendRequest
+from . forms import FriendForm,Friend_CommentForm, FriendRoomForm
+from chats.forms import RoomForm
 from django.http import HttpResponseForbidden
 from datetime import date, datetime, timedelta, timezone
 
@@ -16,10 +17,42 @@ def home(request):
 
 def index(request):
     friends = Friend.objects.order_by('-pk')
+    sort = request.GET.get('sort','')
+    sort = request.GET.get('test','All')
+    if sort == 'Ongoing':
+        friends = friends.filter(closed=False)
+    elif sort == 'End':
+        friends = friends.filter(closed=True)
+    else:
+        friends = Friend.objects.order_by('-pk')
     context = {
-        'friends':friends,
+        'friends': friends,
     }
     return render(request, "friends/index.html",context)
+
+def index_closed(request):
+    friends = Friend.objects.order_by('-pk')
+    status = False
+    if request.method == 'POST':
+        if status == False:
+            print(status)
+            friends = Friend.objects.order_by('-pk')
+            status != status
+        else:
+            print(status)
+            friends = friends.filter(closed=False)
+            status != status
+    return redirect("friends:index")
+
+def friend_closed(request, pk):
+    friend = Friend.objects.get(pk=pk)
+    if friend.closed == False:
+        friend.closed = True
+        friend.save()
+    else:
+        friend.closed = False
+        friend.save()
+    return redirect("friends:detail", pk)
 
 def create(request):
     if request.user.is_authenticated:
@@ -123,4 +156,35 @@ def like(request, pk):
         friend.like_user.remove(request.user)
     else:
         friend.like_user.add(request.user)
+    return redirect("friends:detail", pk)
+
+import lorem
+from accounts.models import User
+from chats.models import Room
+
+def chat_create(request, pk):
+    friend = Friend.objects.get(pk=pk)
+    friendrequest = FriendRequest.objects.get(friend=friend)
+    request_users = friendrequest.users.all()
+    if request.method == 'POST':
+        time = datetime.now().strftime('%Y%m%d%H%M%S')
+        room_name_variable = 'rnv'
+        room_name = request.user.username + room_name_variable + str(friend.pk) + room_name_variable + friend.title + room_name_variable + time
+        room = Room(name=room_name)
+        room.save()
+        selects = request.POST.getlist('member-select')
+        for select in selects:
+            user = User.objects.get(username=select)
+            room.users.add(user)
+        return redirect('chats:rooms', request.user.pk)
+    context = {
+        "request_users": request_users
+        }
+    return render(request, "friends/chat_create.html", context)
+
+def request(request, pk):
+    friend = Friend.objects.get(pk=pk)
+    friendrequest = FriendRequest.objects.get_or_create(friend=friend)
+    friendrequest = friendrequest[0]
+    friendrequest.users.add(request.user)
     return redirect("friends:detail", pk)

@@ -27,6 +27,7 @@ class Friend(models.Model):
         options={"quality": 80},
     )
     hits = models.IntegerField(default=0)
+    closed = models.BooleanField(default=False)
 
 class Friend_Comment(models.Model):
     content = models.TextField()
@@ -50,3 +51,9 @@ def created_string(self):
         return str(time.days) + "일 전"
     else:
         return False
+
+from accounts.models import User
+
+class FriendRequest(models.Model):
+    friend = models.ForeignKey(Friend, on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='requests')
