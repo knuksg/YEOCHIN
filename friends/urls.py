@@ -13,7 +13,7 @@ urlpatterns = [
     path("<int:pk>/comment/create/", views.comment_create, name="comment_create"),
     path("<int:friend_pk>/<int:comment_pk>/comment/delete/", views.comment_delete, name="comment_delete"),
     path("<int:pk>/like/", views.like, name="like"),
+    path("<int:pk>/friend_closed/", views.friend_closed, name="friend_closed"),
     path("<int:pk>/chat_create/", views.chat_create, name="chat_create"),
     path("<int:pk>/request/", views.request, name="request"),
-
 ]
