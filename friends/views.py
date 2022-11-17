@@ -17,6 +17,13 @@ def home(request):
 
 def index(request):
     friends = Friend.objects.order_by('-pk')
+    sort = request.GET.get('sort','')
+    if sort == 'Ongoing':
+        friends = friends.filter(closed=False)
+    elif sort == 'End':
+        friends = friends.filter(closed=True)
+    else:
+        friends = Friend.objects.order_by('-pk')
     context = {
         'friends': friends,
     }
@@ -26,10 +33,14 @@ def index_closed(request):
     friends = Friend.objects.order_by('-pk')
     status = False
     if request.method == 'POST':
-        if status:
+        if status == False:
+            print(status)
             friends = Friend.objects.order_by('-pk')
+            status != status
         else:
+            print(status)
             friends = friends.filter(closed=False)
+            status != status
     return redirect("friends:index")
 
 def friend_closed(request, pk):

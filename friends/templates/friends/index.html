@@ -2,14 +2,26 @@
 {% load static %}
 {% block body %}
 
-<form action="{% url 'friends:index_closed' %}" method='post' name="{{ status }}">
-  {% csrf_token %}
-  {% if status == 'True' %}
-  <input type="submit" value="전체 게시글 보기">
-  {% else %}
-  <input type="submit" value="모집중인 게시물만 보기">
-  {% endif %}
-</form>
+  <form method="GET" action="{% url 'friends:index' %}">
+    <div class="col-4">
+      <select name="sort" id="sort">
+        <option value="All" id="All">전체보기</option>
+        <option value="Ongoing" id="Ongoing">모집중인 사람들</option>
+        <option value="End" id="End">모집끝난 사람들</option>
+
+      </select>
+      <button class="btn btn-primary" type="submit" value="">정렬</button>
+    </div>
+  </form>
+
+  <form action="{% url 'friends:index_closed' %}" method='post'>
+    {% csrf_token %}
+    {% if status == 'True' %}
+      <input type="submit" value="전체 게시글 보기">
+    {% else %}
+      <input type="submit" value="모집중인 게시물만 보기">
+    {% endif %}
+  </form>
 
   <!-- friends(home, index), qna(index), photospots(index)-->
   <nav class="mb-3 s-nav">
@@ -18,43 +30,43 @@
         <li class="s-item">
           {% if request.resolver_match.namespace == 'friends' %}
             {% if request.resolver_match.url_name == 'home' %}
-            <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+              <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:home' %}">홈</a>
             {% else %}
-            <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+              <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
             {% endif %}
           {% else %}
-          <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+            <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
           {% endif %}
         </li>
         <li class="s-item">
           {% if request.resolver_match.namespace == 'friends' %}
             {% if request.resolver_match.url_name == 'index' %}
-            <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+              <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:index' %}">동행</a>
             {% else %}
-            <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+              <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
             {% endif %}
           {% else %}
-          <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+            <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
           {% endif %}
         </li>
         <li class="s-item">
           {% if request.resolver_match.namespace == 'qna' %}
-          <a class="s-item-link s-active" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
+            <a class="s-item-link s-active" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
           {% else %}
-          <a class="s-item-link" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
+            <a class="s-item-link" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
           {% endif %}
         </li>
         <li class="s-item">
           {% if request.resolver_match.namespace == 'photospots' %}
-          <a class="s-item-link s-active" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+            <a class="s-item-link s-active" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
           {% else %}
-          <a class="s-item-link" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+            <a class="s-item-link" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
           {% endif %}
         </li>
       </ul>
     </div>
   </nav>
-  
+
   <div class="container ">
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 friend-card ">
