@@ -47,15 +47,27 @@
   <header class="p-3 mb-3 border-bottom">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <a href="{% url 'friends:index' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+        <a href="{% url 'friends:home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
           <img class="logoImg ps-0" src="{% static 'image/logo1.png'%}" alt=""/>
         </a>
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
           <li class="navMenuLeft sm:display md:display2 lg:display">
-            <a href="{% url 'friends:index' %}">동행친구 찾기</a>
+            {% if request.resolver_match.namespace != 'hotels' %}
+              {% if request.resolver_match.namespace != 'accounts' %}
+              <a style="text-decoration: underline 2px; text-underline-offset: 10px; font-weight: bold; color: black;" href="{% url 'friends:index' %}">커뮤니티</a>
+              {% else %}
+              <a href="{% url 'friends:home' %}">커뮤니티</a>
+              {% endif %}
+            {% else %}
+            <a href="{% url 'friends:home' %}">커뮤니티</a>
+            {% endif %}
           </li>
           <li class="navMenuLeft sm:display md:display2 lg:display">
+            {% if request.resolver_match.namespace == 'hotels' %}
+            <a style="text-decoration: underline 2px; text-underline-offset: 10px; font-weight: bold; color: black;" href="{% url 'hotels:index' %}">숙소</a>
+            {% else %}
             <a href="{% url 'hotels:index' %}">숙소</a>
+            {% endif %}
           </li>
         </ul>
         <div class="mx-2 searchBox sm:display md:display lg:display">
