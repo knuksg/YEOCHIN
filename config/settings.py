@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     "imagekit",
     "django_bootstrap5",
     "django_extensions",
-    "django_shortcuts",
+    # "django_shortcuts",
     "django_summernote",
     # 채팅 관련 앱
     "daphne",
