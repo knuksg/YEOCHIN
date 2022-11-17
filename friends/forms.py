@@ -32,3 +32,10 @@ class Friend_CommentForm(forms.ModelForm):
         labels = {
             'content' : '댓글',
         }
+
+from chats.models import Room
+
+class FriendRoomForm(forms.ModelForm):
+    class Meta:
+        model = Room
+        fields = ['name', 'users',]

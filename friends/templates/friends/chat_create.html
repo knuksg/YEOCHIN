@@ -3,10 +3,14 @@
 {% block body %}
 <div>
   <h1> 채팅방 만들기 </h1>
-  <form action="" method="post">
+  <form action="" method="POST">
     {% csrf_token %}
-    {% bootstrap_form form %}
-    <input type="submit">
+    <select name="member-select" class="form-select" multiple aria-label="multiple select example">
+      {% for user in request_users %}
+      <option value="{{ user }}">{{ user }}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" name="" id="">
   </form>
 </div>
 {% endblock body %}

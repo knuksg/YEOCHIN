@@ -51,6 +51,8 @@ def created_string(self):
     else:
         return False
 
+from accounts.models import User
+
 class FriendRequest(models.Model):
     friend = models.ForeignKey(Friend, on_delete=models.CASCADE)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    users = models.ManyToManyField(User, related_name='requests')

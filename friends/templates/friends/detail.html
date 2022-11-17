@@ -136,7 +136,10 @@
         </div>
         <hr>
         <div class="d-flex justify-content-center p-3 ">
-          <button type="button" class="btn btn-success" style=" background-color: rgb(0, 206, 124); width:90%; height:55px;"><a style="color:white ;text-decoration:none;" href="">동행 신청하기</a></button>
+          <button type="button" class="btn btn-success" style=" background-color: rgb(0, 206, 124); width:90%; height:55px;"><a href="{% url 'friends:request' friend.pk %}" style="color:white ;text-decoration:none;" href="">동행 신청하기</a></button>
+          {% if request.user == friend.user %}
+          <button type="button" class="btn btn-success" style=" background-color: rgb(0, 206, 124); width:90%; height:55px;"><a href="{% url 'friends:chat_create' friend.pk %}">(임시/위치 수정 필요/나중에 옮길 것) 채팅방 개설하기</a></button>
+          {% endif %}
         </div>
       
         
@@ -145,10 +148,6 @@
 
       </div>
     </div>
-
   </div>
-  {% if request.user == friend.user %}
-  <a href="{% url 'friends:chat_create' friend.pk %}">(임시/위치 수정 필요/나중에 옮길 것) 채팅방 개설하기</a>
-  {% endif %}
   
 {% endblock body %}

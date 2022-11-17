@@ -12,12 +12,16 @@ def rooms(request):
 
 def room(request, room_name):
     room = Room.objects.get(name=room_name)
+    friend_pk = room_name.split('rnv')[1]
     if room.users.filter(pk=request.user.pk).exists():
         messages = Message.objects.filter(room=room)
         context = {
             "room_name": room_name,
             "room": room,
             "messages": messages,
+            "friend_pk": friend_pk,
+            "room_real_name": room_name.split('rnv')[2],
+            "room_real_time": room_name.split('rnv')[3],
         }
         return render(request, "chats/room.html", context)
     else:
