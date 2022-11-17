@@ -32,6 +32,16 @@ def index_closed(request):
             friends = friends.filter(closed=False)
     return redirect("friends:index")
 
+def friend_closed(request, pk):
+    friend = Friend.objects.get(pk=pk)
+    if friend.closed == False:
+        friend.closed = True
+        friend.save()
+    else:
+        friend.closed = False
+        friend.save()
+    return redirect("friends:detail", pk)
+
 def create(request):
     if request.user.is_authenticated:
         if request.method == "POST":
