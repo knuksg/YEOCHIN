@@ -134,3 +134,4 @@ def friend_closed(request, pk):
         friend.closed = False
         friend.save()
     return redirect("friends:detail", pk)
+    
