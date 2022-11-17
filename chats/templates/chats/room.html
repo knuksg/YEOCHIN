@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% block body %}
-<div class="container d-flex justify-content-center my-5">
-    <div class="border p-3">
-        <h1>{{ room_name }}</h1>
+<div class="container d-flex flex-column align-items-center my-5">
+    <div>
+        <a href="{% url 'friends:detail' friend_pk %}" class="text-decoration-none">게시글 가기</a>
+        <h1>동행친구 게시글 이름: {{ room_real_name }}</h1>
         <h2>접속한 유저 이름: {{ request.user }}</h2>
+    </div>
+    <div class="border p-3">
         <div id="chat-log" cols="100" rows="20" class="overflow-auto my-3" style="height: 400px;">
             {% for m in messages %}
                 {% if request.user == m.user %}
