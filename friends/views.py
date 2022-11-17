@@ -18,6 +18,7 @@ def home(request):
 def index(request):
     friends = Friend.objects.order_by('-pk')
     sort = request.GET.get('sort','')
+    sort = request.GET.get('test','All')
     if sort == 'Ongoing':
         friends = friends.filter(closed=False)
     elif sort == 'End':
