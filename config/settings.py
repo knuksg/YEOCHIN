@@ -32,7 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
 	# "Elastic Beanstalk URL",
     # 예시 "sharestreet-env.eba-xqbmviyc.ap-northeast-2.elasticbeanstalk.com",
-    "Knuksgdjangobean-env.eba-rk6bccpm.ap-northeast-2.elasticbeanstalk.com",
+    "Knuksgdjangobean-env-1.eba-rk6bccpm.ap-northeast-2.elasticbeanstalk.com",
     "127.0.0.1",
     "localhost",
 ]
