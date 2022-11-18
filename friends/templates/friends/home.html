@@ -153,7 +153,15 @@
           </div>
           <div class="">
             <p class="fs-5 fw-bold mb-1 home-title2">
-              <span class="green-text me-1">모집중</span>
+              {% if friend.closed == False %}
+              <span class="green-text me-1">
+                모집중
+              </span>
+              {% else %}
+              <span class="me-1" style="color: rgb(106, 106, 106);">
+                모집완료
+              </span>
+              {% endif %}
               {{ friend.title }}
             </p>
             <p class="my-1 home-text">{{ friend.content }}</p>
@@ -186,31 +194,55 @@
         </a>
       </div>
       <div class="d-flex row">
-        <!-- 반복문 시작 -->
-        <div class="col-12 col-sm-6" style="cursor: pointer;" onclick="location.href='';">
+        {% for qna in lately_q %}
+        <div class="col-12 col-sm-6" style="cursor: pointer;" onclick="location.href='{% url 'qna:detail' qna.pk %}';">
           <div class="home-box2 my-3 px-3 py-4 border">
-            <!-- 회색 박스 / 지역 제목 / 내용 / 프로필사진 닉네임 / 답변-->
             <p class="fs-5 fw-bold mb-1 home-title2">
-              <span class="me-1" style="color: rgb(106, 106, 106);">모집중</span>
-              제목 들어갈 자리
+              {% if qna.closed == False %}
+              <span class="green-text me-1">
+                답변대기
+              </span>
+              {% else %}
+              <span class="me-1" style="color: rgb(106, 106, 106);">
+                채택완료
+              </span>
+              {% endif %}
+              {{ qna.title }}
             </p>
-            <p class="my-1 home-text">내용 들어갈 자리</p>
+            <p class="my-1 home-text">{{ qna.content }}</p>
             <div class="d-flex justify-content-between my-1">
-              <div class="d-flex">
+              <div class="d-flex align-items-center">
+                {% if qna.user.profile.image %}
+                <img src="{{ qna.user.profile.image.url }}" alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1 me-2" height="24px" width="24px">
+                {% else %}
                 <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="24" height="24">
-                <p class="m-0 gray-text">닉네임</p>
+                {% endif %}
+                <p class="m-0 gray-text">{{ qna.user.nickname }}</p>
               </div>
             </div>
-            <div class="home-qna border mt-3 p-3">
-              <p class="my-1 home-text">최근 답변 하나</p>
-              <div class="d-flex flex-column align-items-center gray-text justify-content-end">
-                <p class="m-0 me-2"><i class="bi bi-eye"></i> 조회수</p>
-                <p class="m-0"><i class="bi bi-chat"></i> 답변수</p>
+            <div class="home-qna border mt-3 p-3 d-flex flex-column justify-content-center">
+              <p class="my-1 home-text">
+                {% if qna.answer_set.all %}
+                  {% for q in qna.answer_set.all %}
+                    {% if forloop.counter == 1 %}
+                    " {{ q.content }} " - {{ q.user.nickname }}
+                    <span class="ms-1" style="color: rgb(106, 106, 106);">
+                      등 {{ qna.answer_set.all|length }}개의 답변
+                    </span>
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
+                아직 답변이 없어요ㅠㅠ
+                {% endif %}
+              </p>
+              <div class="d-flex align-items-center justify-content-end gray-text my-1">
+                  <p class="m-0 me-2"><i class="bi bi-eye"></i> {{ qna.hits }}</p>
+                  <p class="m-0"><i class="bi bi-chat"></i> {{ qna.answer_set.all|length }}</p>
               </div>
             </div>
           </div>
         </div>
-        <!-- 반복문 끝 -->
+        {% endfor %}
       </div>
     </div>
     <!-- 포토스팟 -->
