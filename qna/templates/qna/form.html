@@ -1,6 +1,6 @@
-{% extends 'base.html' %} 
-{% load static %} 
-{% load django_bootstrap5 %} 
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
 {% block body %}
 
 <h3 class="fw-bold text-center" style="padding-top: 50px">동행친구 QnA</h3>
@@ -12,10 +12,9 @@
       <input class="qnaTitleIpt" placeholder="물음표로 끝나는 질문을 작성해보세요!" name="title" value="{{ article.title }}" />
     </div>
     <textarea rows="13" cols="10" class="form-control mt-5 mb-3" style="border: 1px solid #e9e9e9;" name="content"
-      placeholder="내용을 입력해주세요.">{{ article.content }}</textarea>
+      placeholder="내용을 입력해주세요.">{{ qna.content }}</textarea>
     <div class="mb-3">
       <label class="form-label w-100 m-0" for="image">
-        <p class="photo-form-label">이미지</p>
         <div class="photo-form-img">
           <i class="fa-solid fa-image photo-form-img-text"></i>
           <p class="photo-form-img-text2">이미지를 업로드 해주세요</p>
@@ -23,8 +22,17 @@
       </label>
       <input style="display: none;" type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
     </div>
+    <div>
+      <label for="tags">태그</label>
+      <input type="text" class="form-control" id='tags'>
+      {{ board.tags.all|join:"# " }}
+      <!-- {% for tag in board.tags.all %}
+                      {{ tag.name }}
+                      {% endfor %} -->
+      </input>
+    </div>
     <div class="photo-form-btn">
-      <a class="photo-gray-btn" href="{% url 'photospots:index' %}">취소</a>
+      <a class="photo-gray-btn" href="{% url 'qna:index' %}">취소</a>
       <button class="photo-green-btn" type="submit">작성완료</button>
     </div>
   </form>
