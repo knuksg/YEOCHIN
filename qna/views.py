@@ -153,7 +153,7 @@ def update(request, pk):
                 qna.user = request.user
                 # print(tags)
                 qna.save()
-                
+                qna.tag.clear()
                 tags = request.POST.get('tags').split('#')
                 for tag in tags: # tags안에 있는 값들을 하나씩 꺼내서
                     if not tag:
