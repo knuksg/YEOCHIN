@@ -20,7 +20,7 @@ class Qna(models.Model):
     like_users = models.ManyToManyField(
     settings.AUTH_USER_MODEL, related_name="like_qna"
     )
-    tag = models.ManyToManyField('Tag', blank=True, verbose_name = "태그")
+    tag = models.ManyToManyField('tag.Tag', blank=True, verbose_name = "태그")
     
     def __str__(self):
         return self.title
@@ -60,18 +60,6 @@ class Qna(models.Model):
     def full_name(self):
         return f"{self.last_name}{self.first_name}"
 
-class Tag(models.Model):
-    name = models.CharField(max_length=32, verbose_name="태그명")
-    registered_date = models.DateTimeField(auto_now_add=True, verbose_name="등록시간")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        db_table = "qna_tag"
-        verbose_name = "태그"
-        verbose_name_plural = "태그"
-        
 
 # class Category(models.Model):
 #     name = models.CharField(max_length=20, db_index=True)

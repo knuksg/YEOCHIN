@@ -54,8 +54,12 @@ INSTALLED_APPS = [
     "daphne",
     "chats",
     "channels",
+<<<<<<< HEAD
     # 서버 배포 관련 앱
     "storages",
+=======
+    "tag",
+>>>>>>> qna
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
