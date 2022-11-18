@@ -1,35 +1,44 @@
 from django.shortcuts import render, redirect
-from . models import Friend, Friend_Comment, FriendRequest
-from . forms import FriendForm,Friend_CommentForm, FriendRoomForm
+from .models import Friend, Friend_Comment, FriendRequest
+from .forms import FriendForm, Friend_CommentForm, FriendRoomForm
 from chats.forms import RoomForm
 from django.http import HttpResponseForbidden
 from datetime import date, datetime, timedelta, timezone
+from qna.models import Qna
+from photospots.models import Photospot
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
     friends = Friend.objects.all()
     lately_f = Friend.objects.order_by("-pk")[:4]
+    # lately_q = Qna.obejcts.order_by("-pk")[:4]
+    best_p = Photospot.objects.all()
+    best_p = sorted(best_p, key=lambda a: -a.like_users.count())[:4]
     context = {
-        'friends':friends,
+        "friends": friends,
         "lately_f": lately_f,
+        # "lately_q": lately_q,
+        "best_p": best_p,
     }
-    return render(request, "friends/home.html",context)
+    return render(request, "friends/home.html", context)
+
 
 def index(request):
-    friends = Friend.objects.order_by('-pk')
-    sort = request.GET.get('sort','')
-    sort = request.GET.get('test','All')
-    if sort == 'Ongoing':
+    friends = Friend.objects.order_by("-pk")
+    sort = request.GET.get("sort", "")
+    sort = request.GET.get("test", "All")
+    if sort == "Ongoing":
         friends = friends.filter(closed=False)
-    elif sort == 'End':
+    elif sort == "End":
         friends = friends.filter(closed=True)
     else:
-        friends = Friend.objects.order_by('-pk')
+        friends = Friend.objects.order_by("-pk")
     context = {
-        'friends': friends,
+        "friends": friends,
     }
-    return render(request, "friends/index.html",context)
+    return render(request, "friends/index.html", context)
+
 
 def index2(request):
     friends = Friend.objects.order_by('-pk')
@@ -47,18 +56,19 @@ def index2(request):
     return render(request, "friends/index2.html",context)
 
 def index_closed(request):
-    friends = Friend.objects.order_by('-pk')
+    friends = Friend.objects.order_by("-pk")
     status = False
-    if request.method == 'POST':
+    if request.method == "POST":
         if status == False:
             print(status)
-            friends = Friend.objects.order_by('-pk')
+            friends = Friend.objects.order_by("-pk")
             status != status
         else:
             print(status)
             friends = friends.filter(closed=False)
             status != status
     return redirect("friends:index")
+
 
 def friend_closed(request, pk):
     friend = Friend.objects.get(pk=pk)
@@ -69,6 +79,7 @@ def friend_closed(request, pk):
         friend.closed = False
         friend.save()
     return redirect("friends:detail", pk)
+
 
 @login_required
 def create(request):
@@ -82,27 +93,25 @@ def create(request):
                 return redirect("friends:index")
         else:
             friend_form = FriendForm()
-        context = {
-            "friend_form": friend_form
-            }
+        context = {"friend_form": friend_form}
         return render(request, "friends/create.html", context)
     else:
         return HttpResponseForbidden()
+
 
 def detail(request, pk):
     friend = Friend.objects.get(pk=pk)
     comments = friend.friend_comment_set.all()
     comment_form = Friend_CommentForm()
-    Dday = (friend.end_at - friend.start_at).days +1
-    
+    Dday = (friend.end_at - friend.start_at).days + 1
 
     context = {
-        "friend":friend,
-        "comments":comments,
-        "comment_form":comment_form,
-        "Dday":Dday
+        "friend": friend,
+        "comments": comments,
+        "comment_form": comment_form,
+        "Dday": Dday,
     }
-    response = render(request,"friends/detail.html", context)
+    response = render(request, "friends/detail.html", context)
 
     expire_date, now = datetime.now(), datetime.now()
     expire_date += timedelta(days=1)
@@ -120,6 +129,8 @@ def detail(request, pk):
         friend.save()
 
     return response
+
+
 @login_required
 def update(request, pk):
     friend = Friend.objects.get(pk=pk)
@@ -131,9 +142,7 @@ def update(request, pk):
                 return redirect("friends:detail", pk)
         else:
             friend_form = FriendForm(instance=friend)
-        context = {
-            "friend_form":friend_form
-        }
+        context = {"friend_form": friend_form}
         return render(request, "friends/create.html", context)
     else:
         return HttpResponseForbidden()
@@ -147,6 +156,7 @@ def delete(request, pk):
     else:
         return HttpResponseForbidden()
 
+
 @login_required
 def comment_create(request, pk):
     friend = Friend.objects.get(pk=pk)
@@ -159,6 +169,7 @@ def comment_create(request, pk):
 
         return redirect("friends:detail", pk)
 
+
 @login_required
 def comment_delete(request, friend_pk, comment_pk):
     friend = Friend.objects.get(pk=friend_pk)
@@ -169,6 +180,7 @@ def comment_delete(request, friend_pk, comment_pk):
     else:
         return HttpResponseForbidden()
 
+
 @login_required
 def like(request, pk):
     friend = Friend.objects.get(pk=pk)
@@ -178,29 +190,38 @@ def like(request, pk):
         friend.like_user.add(request.user)
     return redirect("friends:detail", pk)
 
+
 import lorem
 from accounts.models import User
 from chats.models import Room
+
 
 def chat_create(request, pk):
     friend = Friend.objects.get(pk=pk)
     friendrequest = FriendRequest.objects.get(friend=friend)
     request_users = friendrequest.users.all()
-    if request.method == 'POST':
-        time = datetime.now().strftime('%Y%m%d%H%M%S')
-        room_name_variable = 'rnv'
-        room_name = request.user.username + room_name_variable + str(friend.pk) + room_name_variable + friend.title + room_name_variable + time
+    if request.method == "POST":
+        time = datetime.now().strftime("%Y%m%d%H%M%S")
+        room_name_variable = "rnv"
+        room_name = (
+            request.user.username
+            + room_name_variable
+            + str(friend.pk)
+            + room_name_variable
+            + friend.title
+            + room_name_variable
+            + time
+        )
         room = Room(name=room_name)
         room.save()
-        selects = request.POST.getlist('member-select')
+        selects = request.POST.getlist("member-select")
         for select in selects:
             user = User.objects.get(username=select)
             room.users.add(user)
-        return redirect('chats:rooms', request.user.pk)
-    context = {
-        "request_users": request_users
-        }
+        return redirect("chats:rooms", request.user.pk)
+    context = {"request_users": request_users}
     return render(request, "friends/chat_create.html", context)
+
 
 def request(request, pk):
     friend = Friend.objects.get(pk=pk)
