@@ -9,7 +9,7 @@
     {% csrf_token %}
     <div class="qnaInpBox">
       <i class="fa-solid fa-q"></i>
-      <input class="qnaTitleIpt" placeholder="물음표로 끝나는 질문을 작성해보세요!" name="title" value="{{ article.title }}" />
+      <input class="qnaTitleIpt" placeholder="물음표로 끝나는 질문을 작성해보세요!" name="title" value="{{ qna.title }}" />
     </div>
     <textarea rows="13" cols="10" class="form-control mt-5 mb-3" style="border: 1px solid #e9e9e9;" name="content"
       placeholder="내용을 입력해주세요.">{{ qna.content }}</textarea>
