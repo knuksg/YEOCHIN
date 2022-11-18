@@ -6,6 +6,7 @@ app_name = "friends"
 urlpatterns = [
     path("", views.home, name="home"),
     path("accompany", views.index, name="index"),
+    path("accompany2", views.index2, name="index2"),
     path("create/", views.create, name="create"),
     path("<int:pk>/detail/", views.detail, name="detail"),
     path("<int:pk>/update/", views.update, name="update"),
