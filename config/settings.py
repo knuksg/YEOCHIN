@@ -14,7 +14,7 @@ from pathlib import Path, os
 from dotenv import load_dotenv
 load_dotenv()
 
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = "False"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     # 서버 배포 관련 앱
     "storages",
     "django_redis",
+    "tag",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

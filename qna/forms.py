@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
-from django_summernote.widgets import SummernoteWidget
+from tag.models import *
+# from django_summernote.widgets import SummernoteWidget
 
 
 class QnaForm(forms.ModelForm):
@@ -12,9 +13,9 @@ class QnaForm(forms.ModelForm):
             "image",
             "tag"
         ]
-        widgets = {
-            'content': SummernoteWidget(),
-        }
+        # widgets = {
+        #     'content': SummernoteWidget(),
+        # }
         
 class AnswerForm(forms.ModelForm):
     class Meta:
