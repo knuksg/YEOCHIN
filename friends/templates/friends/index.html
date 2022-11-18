@@ -45,9 +45,6 @@
   <!-- friends(home, index), qna(index), photospots(index)-->
   <nav class="mb-3 s-nav">
     <div class="container">
-      <div class="qnaMenu">
-        <a class="btnwait" style="text-decoration: none;" href="{% url 'friends:index2'%}">모집중인 글만 보기</a>
-      </div>
       <ul class="d-flex s-list p-0">
         <li class="s-item">
           {% if request.resolver_match.namespace == 'friends' %}
@@ -90,7 +87,10 @@
   </nav>
 
   <div class="container ">
-
+    <!-- 모집 중인 글만 보기 -->
+    <div class="qnaMenu">
+      <a class="btnwait" style="text-decoration: none;" href="{% url 'friends:index2'%}">모집중인 글만 보기</a>
+    </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 friend-card ">
 
       {% for friend in friends %}

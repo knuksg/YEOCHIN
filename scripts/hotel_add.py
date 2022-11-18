@@ -10,6 +10,9 @@ import pandas as pd
 from hotels.models import Hotel
 from main.models import Region, DetailRegion
 
+# 명령어 실행 python manage.py runscript hotel_add 
+# 안 될 경우 python manage.py runscript -v2 hotel_add
+
 def create_region():
     # region & detail_region 생성하기
     resions_list = [
