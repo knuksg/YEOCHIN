@@ -41,12 +41,13 @@
   </form> {% endcomment %}
 
   
+  
 
   <!-- friends(home, index), qna(index), photospots(index)-->
   <nav class="mb-3 s-nav">
     <div class="container">
       <div class="qnaMenu">
-        <a class="btnwait" style="text-decoration: none;" href="{% url 'friends:index2'%}">모집중인 글만 보기</a>
+        <a class="btnwait" style="text-decoration: none; background-color: rgb(0, 206, 124); color:white;" href="{% url 'friends:index'%}">모집중인 글만 보기</a>
       </div>
       <ul class="d-flex s-list p-0">
         <li class="s-item">
@@ -62,7 +63,7 @@
         </li>
         <li class="s-item">
           {% if request.resolver_match.namespace == 'friends' %}
-            {% if request.resolver_match.url_name == 'index' %}
+            {% if request.resolver_match.url_name == 'index2' %}
               <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:index' %}">동행</a>
             {% else %}
               <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>

@@ -30,6 +30,21 @@ def index(request):
     }
     return render(request, "friends/index.html",context)
 
+def index2(request):
+    friends = Friend.objects.order_by('-pk')
+    sort = request.GET.get('sort','')
+    sort = request.GET.get('test','All')
+    if sort == 'Ongoing':
+        friends = friends.filter(closed=False)
+    elif sort == 'End':
+        friends = friends.filter(closed=True)
+    else:
+        friends = Friend.objects.filter(closed=False)
+    context = {
+        'friends': friends,
+    }
+    return render(request, "friends/index2.html",context)
+
 def index_closed(request):
     friends = Friend.objects.order_by('-pk')
     status = False
