@@ -143,13 +143,13 @@
         {% if request.user == friend.user %}
           <a class="answerBtn text-center" href="{% url 'friends:friend_closed' friend.pk %}" type="submit">
             {% if friend.closed == False %}
-              채택하기
+              마감하기
             {% else %}
               취소
             {% endif %}
           </a>
         {% else %}
-          <a href="#" class="answerBtn text-center" type="submit">답변하기</a>
+          {% comment %} <a href="#" class="answerBtn text-center" type="submit">답변하기</a> {% endcomment %}
         {% endif %}
       </div>
     </div>
