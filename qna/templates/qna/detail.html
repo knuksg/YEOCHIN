@@ -29,13 +29,13 @@
                     <span>지역별 카테고리 만들기</span>
                 </span>
             </div>
-            <div class="qnaContent">
+            <div class="qnaContent2">
                 <p>{{ qna.content }}</p>
             </div>
             {% if qna.image %}
-            <img src="{{ qna.image.url }}" alt="{{ qna.image }}" width=100 height="300">
+            <img src="{{ qna.image.url }}" alt="{{ qna.image.url }}" style="max-height: 350px;">
             {% endif %}
-            <div>
+            <div class="qTag">
                 태그자리
             </div>
             <div class="d-flex justify-content-between">
@@ -66,8 +66,8 @@
                     <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
                         href="{% url 'qna:update' qna.pk %}">수정</a>
                     <!-- 삭제 모달 -->
-                    <a class="btn btn-link p-0" style="text-decoration: none; color:rgb(0, 206, 124);" data-bs-toggle="modal"
-                        data-bs-target="#delete-modal">
+                    <a class="btn btn-link p-0" style="text-decoration: none; color:rgb(0, 206, 124);"
+                        data-bs-toggle="modal" data-bs-target="#delete-modal">
                         삭제
                     </a>
                     <!-- Modal -->
@@ -93,45 +93,48 @@
                     {% endif %}
                 </div>
             </div>
-            <br>    
+            <br>
             <h5 class="fw-bold">
-            답변 
-            <span class="green-text">{{qna.answer_set.all|length}}</span>
+                답변
+                <span class="green-text">{{qna.answer_set.all|length}}</span>
             </h5>
             {% for answer in answers %}
             {% csrf_token %}
             <div class="px-1 py-3 d-flex flex-column">
                 <div class="d-flex justify-content-between align-items-center">
-                  <!-- 프로필 사진 / 닉네임 / 작성시간 -->
-                  <div class="d-flex align-items-center">
-                    {% if answer.user.profile.image %}
-                    <img src="{{ answer.user.profile.image.url }}" alt="{{ answer.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
-                    {% else %}
-                    <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
-                    {% endif %}
-                    <div class="d-flex flex-column">
-                        <p class="my-0 me-2 fw-bold" style="font-size: 12px;">{{ answer.user.nickname }}</p>
-                        <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">{{ answer.created_at | date:'Y년 m월 d일 H:i' }}</p>
+                    <!-- 프로필 사진 / 닉네임 / 작성시간 -->
+                    <div class="d-flex align-items-center">
+                        {% if answer.user.profile.image %}
+                        <img src="{{ answer.user.profile.image.url }}" alt="{{ answer.user.profile.image }}"
+                            class="rounded-circle border border-1 me-2" width="40" height="40">
+                        {% else %}
+                        <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2"
+                            width="40" height="40">
+                        {% endif %}
+                        <div class="d-flex flex-column">
+                            <p class="my-0 me-2 fw-bold" style="font-size: 12px;">{{ answer.user.nickname }}</p>
+                            <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">{{ answer.created_at |
+                                date:'Y년 m월 d일 H:i' }}</p>
+                        </div>
                     </div>
-                  </div>
-                  <!-- 댓글 삭제 -->
-                  <div>
-                    {% if request.user.is_authenticated %}
-                    {% if request.user == answer.user %}
-                    <form action="{% url 'qna:answers_delete' qna.pk answer.pk %}" method="POST" class="d-inline">
-                        {% csrf_token %}
-                        <a class="me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
-                            href="{% url 'qna:answers_update' qna.pk answer.pk %}">수정</a>
-                        <a class="" style="text-decoration: none; color:rgb(0, 206, 124);"
-                            href="{% url 'qna:answers_delete' qna.pk answer.pk %}">삭제</a>
-                    </form>
-                    {% endif %}
-                    {% endif %}
-                  </div>
+                    <!-- 댓글 삭제 -->
+                    <div>
+                        {% if request.user.is_authenticated %}
+                        {% if request.user == answer.user %}
+                        <form action="{% url 'qna:answers_delete' qna.pk answer.pk %}" method="POST" class="d-inline">
+                            {% csrf_token %}
+                            <a class="me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                                href="{% url 'qna:answers_update' qna.pk answer.pk %}">수정</a>
+                            <a class="" style="text-decoration: none; color:rgb(0, 206, 124);"
+                                href="{% url 'qna:answers_delete' qna.pk answer.pk %}">삭제</a>
+                        </form>
+                        {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
                 <!-- 댓글 내용 -->
                 <p class="answerContent">{{ answer.content }}</p>
-              </div>
+            </div>
             {% empty %}
             {% endfor %}
         </div>
@@ -140,9 +143,11 @@
         <div class="profileSection col col-lg-3">
             <div class="d-flex align-items-center">
                 {% if qna.user.profile.image %}
-                <img src="{{ qna.user.profile.image.url }}" alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+                <img src="{{ qna.user.profile.image.url }}" alt="{{ qna.user.profile.image }}"
+                    class="rounded-circle border border-1 me-2" width="40" height="40">
                 {% else %}
-                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2"
+                    width="40" height="40">
                 {% endif %}
                 <div class="d-flex flex-column">
                     <p class="my-0 me-2 fw-bold" style="font-weight:700;">{{ qna.user.nickname }}</p>

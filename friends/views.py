@@ -6,6 +6,7 @@ from django.http import HttpResponseForbidden
 from datetime import date, datetime, timedelta, timezone
 from qna.models import Qna
 from photospots.models import Photospot
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -39,6 +40,21 @@ def index(request):
     return render(request, "friends/index.html", context)
 
 
+def index2(request):
+    friends = Friend.objects.order_by('-pk')
+    sort = request.GET.get('sort','')
+    sort = request.GET.get('test','All')
+    if sort == 'Ongoing':
+        friends = friends.filter(closed=False)
+    elif sort == 'End':
+        friends = friends.filter(closed=True)
+    else:
+        friends = Friend.objects.filter(closed=False)
+    context = {
+        'friends': friends,
+    }
+    return render(request, "friends/index2.html",context)
+
 def index_closed(request):
     friends = Friend.objects.order_by("-pk")
     status = False
@@ -65,6 +81,7 @@ def friend_closed(request, pk):
     return redirect("friends:detail", pk)
 
 
+@login_required
 def create(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -114,6 +131,7 @@ def detail(request, pk):
     return response
 
 
+@login_required
 def update(request, pk):
     friend = Friend.objects.get(pk=pk)
     if request.user == friend.user:
@@ -129,7 +147,7 @@ def update(request, pk):
     else:
         return HttpResponseForbidden()
 
-
+@login_required
 def delete(request, pk):
     friend = Friend.objects.get(pk=pk)
     if request.user == friend.user:
@@ -139,6 +157,7 @@ def delete(request, pk):
         return HttpResponseForbidden()
 
 
+@login_required
 def comment_create(request, pk):
     friend = Friend.objects.get(pk=pk)
     comment_form = Friend_CommentForm(request.POST)
@@ -151,6 +170,7 @@ def comment_create(request, pk):
         return redirect("friends:detail", pk)
 
 
+@login_required
 def comment_delete(request, friend_pk, comment_pk):
     friend = Friend.objects.get(pk=friend_pk)
     comment = Friend_Comment.objects.get(pk=comment_pk)
@@ -161,6 +181,7 @@ def comment_delete(request, friend_pk, comment_pk):
         return HttpResponseForbidden()
 
 
+@login_required
 def like(request, pk):
     friend = Friend.objects.get(pk=pk)
     if request.user in friend.like_user.all():
