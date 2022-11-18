@@ -217,8 +217,8 @@
               <h6 class="photo-aside-title fw-bold">{{ lately.title }}</h6>
               <p class="photo-aside-text gray-text">{{ lately.content }}</p>
             </div>
-            {% if lately.thumbnail %}
-            {% thumbnail "75x75" lately.thumbnail as thumb %}
+            {% if lately.image %}
+            {% thumbnail "75x75" lately.image as thumb %}
             <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
             {% else %}
             <img class="border rounded-3" src="{% static 'image/no_image.jpg'%}" alt="썸네일" width="75" height="75">

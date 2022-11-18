@@ -12,13 +12,13 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     friends = Friend.objects.all()
     lately_f = Friend.objects.order_by("-pk")[:4]
-    # lately_q = Qna.obejcts.order_by("-pk")[:4]
+    lately_q = Qna.objects.order_by("-pk")[:4]
     best_p = Photospot.objects.all()
     best_p = sorted(best_p, key=lambda a: -a.like_users.count())[:4]
     context = {
         "friends": friends,
         "lately_f": lately_f,
-        # "lately_q": lately_q,
+        "lately_q": lately_q,
         "best_p": best_p,
     }
     return render(request, "friends/home.html", context)
@@ -41,19 +41,20 @@ def index(request):
 
 
 def index2(request):
-    friends = Friend.objects.order_by('-pk')
-    sort = request.GET.get('sort','')
-    sort = request.GET.get('test','All')
-    if sort == 'Ongoing':
+    friends = Friend.objects.order_by("-pk")
+    sort = request.GET.get("sort", "")
+    sort = request.GET.get("test", "All")
+    if sort == "Ongoing":
         friends = friends.filter(closed=False)
-    elif sort == 'End':
+    elif sort == "End":
         friends = friends.filter(closed=True)
     else:
         friends = Friend.objects.filter(closed=False)
     context = {
-        'friends': friends,
+        "friends": friends,
     }
-    return render(request, "friends/index2.html",context)
+    return render(request, "friends/index2.html", context)
+
 
 def index_closed(request):
     friends = Friend.objects.order_by("-pk")
@@ -146,6 +147,7 @@ def update(request, pk):
         return render(request, "friends/create.html", context)
     else:
         return HttpResponseForbidden()
+
 
 @login_required
 def delete(request, pk):
