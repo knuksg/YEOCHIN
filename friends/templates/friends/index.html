@@ -2,50 +2,93 @@
 {% load static %}
 {% block body %}
 
+  {% comment %} <form method="GET" action="{% url 'friends:index' %}">
+    <input type="checkbox" name="test" class="btn-check" id="btn-check-outlined" value="Ongoing" autocomplete="off">
+    <label class="btn btn-outline-primary" for="btn-check-outlined">모집된글만 보기</label><br>
+    <button class="btn btn-primary" type="submit" value="">정렬</button>
+  </form>
+
+  <form method="GET" action="{% url 'friends:index' %}">
+    <div class="col-4">
+      <select name="sort" id="sort">
+        <option value="All" id="All">전체보기</option>
+        <option value="Ongoing" id="Ongoing">모집중인 사람들</option>
+        <option value="End" id="End">모집끝난 사람들</option>
+
+      </select>
+      <button class="btn btn-primary" type="submit" value="">정렬</button>
+    </div>
+  </form>
+
+  <form action="">
+    <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked="checked">
+    <label class="btn btn-outline-success" for="success-outlined">Checked success radio</label>
+
+    <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">
+    <label class="btn btn-outline-danger" for="danger-outlined">Danger radio</label>
+
+    <input type="radio" class="btn-check" name="options-outlined" id="notdanger-outlined" autocomplete="off">
+    <label class="btn btn-outline-danger" for="notdanger-outlined">몰루</label>
+  </form>
+
+  <form action="{% url 'friends:index_closed' %}" method='post'>
+    {% csrf_token %}
+    {% if status == 'True' %}
+      <input type="submit" value="전체 게시글 보기">
+    {% else %}
+      <input type="submit" value="모집중인 게시물만 보기">
+    {% endif %}
+  </form> {% endcomment %}
+
+  
+
   <!-- friends(home, index), qna(index), photospots(index)-->
   <nav class="mb-3 s-nav">
     <div class="container">
+      <div class="qnaMenu">
+        <a class="btnwait" style="text-decoration: none;" href="{% url 'friends:index2'%}">모집중인 글만 보기</a>
+      </div>
       <ul class="d-flex s-list p-0">
         <li class="s-item">
           {% if request.resolver_match.namespace == 'friends' %}
             {% if request.resolver_match.url_name == 'home' %}
-            <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+              <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:home' %}">홈</a>
             {% else %}
-            <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+              <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
             {% endif %}
           {% else %}
-          <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
+            <a class="s-item-link" aria-current="page" href="{% url 'friends:home' %}">홈</a>
           {% endif %}
         </li>
         <li class="s-item">
           {% if request.resolver_match.namespace == 'friends' %}
             {% if request.resolver_match.url_name == 'index' %}
-            <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+              <a class="s-item-link s-active" aria-current="page" href="{% url 'friends:index' %}">동행</a>
             {% else %}
-            <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+              <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
             {% endif %}
           {% else %}
-          <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
+            <a class="s-item-link" aria-current="page" href="{% url 'friends:index' %}">동행</a>
           {% endif %}
         </li>
         <li class="s-item">
           {% if request.resolver_match.namespace == 'qna' %}
-          <a class="s-item-link s-active" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
+            <a class="s-item-link s-active" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
           {% else %}
-          <a class="s-item-link" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
+            <a class="s-item-link" aria-current="page" href="{% url 'qna:index' %}">Q&A</a>
           {% endif %}
         </li>
         <li class="s-item">
           {% if request.resolver_match.namespace == 'photospots' %}
-          <a class="s-item-link s-active" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+            <a class="s-item-link s-active" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
           {% else %}
-          <a class="s-item-link" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
+            <a class="s-item-link" aria-current="page" href="{% url 'photospots:index' %}">포토스팟</a>
           {% endif %}
         </li>
       </ul>
     </div>
   </nav>
-  
+
   <div class="container ">
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 friend-card ">
@@ -75,7 +118,13 @@
               </div>
             {% endif %}
             <div class="mt-3">
-              <p class="friend-title mb-2" style="font-weight:bold">{{ friend.title|truncatechars:16 }}</p>
+              <p class="friend-title mb-2" style="font-weight:bold"><span>
+                {% if friend.closed == False %}
+                  <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
+                {% else %}
+                  <span class="waitText" style = "font-weight:bord;">채택완료</span>
+                {% endif %}
+              </span>{{ friend.title|truncatechars:16 }}</p>
 
               <p class="mb-2">{{ friend.content|truncatechars:20 }}</p>
 

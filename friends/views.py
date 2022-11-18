@@ -4,6 +4,7 @@ from . forms import FriendForm,Friend_CommentForm, FriendRoomForm
 from chats.forms import RoomForm
 from django.http import HttpResponseForbidden
 from datetime import date, datetime, timedelta, timezone
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -17,11 +18,59 @@ def home(request):
 
 def index(request):
     friends = Friend.objects.order_by('-pk')
+    sort = request.GET.get('sort','')
+    sort = request.GET.get('test','All')
+    if sort == 'Ongoing':
+        friends = friends.filter(closed=False)
+    elif sort == 'End':
+        friends = friends.filter(closed=True)
+    else:
+        friends = Friend.objects.order_by('-pk')
     context = {
-        'friends':friends,
+        'friends': friends,
     }
     return render(request, "friends/index.html",context)
 
+def index2(request):
+    friends = Friend.objects.order_by('-pk')
+    sort = request.GET.get('sort','')
+    sort = request.GET.get('test','All')
+    if sort == 'Ongoing':
+        friends = friends.filter(closed=False)
+    elif sort == 'End':
+        friends = friends.filter(closed=True)
+    else:
+        friends = Friend.objects.filter(closed=False)
+    context = {
+        'friends': friends,
+    }
+    return render(request, "friends/index2.html",context)
+
+def index_closed(request):
+    friends = Friend.objects.order_by('-pk')
+    status = False
+    if request.method == 'POST':
+        if status == False:
+            print(status)
+            friends = Friend.objects.order_by('-pk')
+            status != status
+        else:
+            print(status)
+            friends = friends.filter(closed=False)
+            status != status
+    return redirect("friends:index")
+
+def friend_closed(request, pk):
+    friend = Friend.objects.get(pk=pk)
+    if friend.closed == False:
+        friend.closed = True
+        friend.save()
+    else:
+        friend.closed = False
+        friend.save()
+    return redirect("friends:detail", pk)
+
+@login_required
 def create(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -71,7 +120,7 @@ def detail(request, pk):
         friend.save()
 
     return response
-
+@login_required
 def update(request, pk):
     friend = Friend.objects.get(pk=pk)
     if request.user == friend.user:
@@ -89,7 +138,7 @@ def update(request, pk):
     else:
         return HttpResponseForbidden()
 
-
+@login_required
 def delete(request, pk):
     friend = Friend.objects.get(pk=pk)
     if request.user == friend.user:
@@ -98,6 +147,7 @@ def delete(request, pk):
     else:
         return HttpResponseForbidden()
 
+@login_required
 def comment_create(request, pk):
     friend = Friend.objects.get(pk=pk)
     comment_form = Friend_CommentForm(request.POST)
@@ -109,6 +159,7 @@ def comment_create(request, pk):
 
         return redirect("friends:detail", pk)
 
+@login_required
 def comment_delete(request, friend_pk, comment_pk):
     friend = Friend.objects.get(pk=friend_pk)
     comment = Friend_Comment.objects.get(pk=comment_pk)
@@ -118,6 +169,7 @@ def comment_delete(request, friend_pk, comment_pk):
     else:
         return HttpResponseForbidden()
 
+@login_required
 def like(request, pk):
     friend = Friend.objects.get(pk=pk)
     if request.user in friend.like_user.all():
@@ -126,16 +178,6 @@ def like(request, pk):
         friend.like_user.add(request.user)
     return redirect("friends:detail", pk)
 
-def friend_closed(request, pk):
-    friend = Friend.objects.get(pk=pk)
-    if friend.closed == False:
-        friend.closed = True
-        friend.save()
-    else:
-        friend.closed = False
-        friend.save()
-    return redirect("friends:detail", pk)
-    
 import lorem
 from accounts.models import User
 from chats.models import Room
@@ -154,7 +196,7 @@ def chat_create(request, pk):
         for select in selects:
             user = User.objects.get(username=select)
             room.users.add(user)
-        return redirect('chats:rooms')
+        return redirect('chats:rooms', request.user.pk)
     context = {
         "request_users": request_users
         }
