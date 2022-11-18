@@ -24,12 +24,7 @@
     </div>
     <div>
       <label for="tags">태그</label>
-      <input type="text" class="form-control" id='tags'>
-      {{ board.tags.all|join:"# " }}
-      <!-- {% for tag in board.tags.all %}
-                      {{ tag.name }}
-                      {% endfor %} -->
-      </input>
+      <textarea type="text" class="form-control" id='tags' name='tags'>#{{ qna.tag.all|join:' #' }}</textarea>
     </div>
     <div class="photo-form-btn">
       <a class="photo-gray-btn" href="{% url 'qna:index' %}">취소</a>

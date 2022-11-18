@@ -54,6 +54,11 @@ def index(request):
                 try:
                     qna_dict['profile_image'] = q.user.profile.image.url
                 except: qna_dict['profile_image'] = 'None'
+                tags = q.tag.all()
+                tag_str = ''
+                for tag in tags:
+                    tag_str += tag.name + ' #'
+                qna_dict['tags'] = tag_str.rstrip(' #')
                 qna_list.append(qna_dict)
             data = {
                 'qna': qna_list,
@@ -72,6 +77,11 @@ def index(request):
                 try:
                     qna_dict['profile_image'] = q.user.profile.image.url
                 except: qna_dict['profile_image'] = 'None'
+                tags = q.tag.all()
+                tag_str = ''
+                for tag in tags:
+                    tag_str += tag.name + ' #'
+                qna_dict['tags'] = tag_str.rstrip(' #')
                 qna_list.append(qna_dict)
             data = {
                 'qna': qna_list,
@@ -97,15 +107,13 @@ def create(request):
             # print(tags)
             qna.save()
             
-            tag = request.POST.get('tag').split('#')
-            for t in tag: # tags안에 있는 값들을 하나씩 꺼내서
-                if not t:
+            tags = request.POST.get('tags').split('#')
+            for tag in tags: # tags안에 있는 값들을 하나씩 꺼내서
+                if not tag:
                     continue
                 # Tag models에 있는 model중 name필드 값이 입력받은 tag와 같은 값을 가져오고, 없다면 모델에 만들어라 (create 데이터는 _을 통해 안받음)
-                _tag, _ = Tag.objects.get_or_create(name=t)
-                Qna.tags.add(_tag) # 해당 태그들을 board 모델의 tags필드를 트리거함
-
-
+                _tag, _ = Tag.objects.get_or_create(name=tag)
+                qna.tag.add(_tag) # 해당 태그들을 board 모델의 tags필드를 트리거함
             return redirect("qna:index")
     else:
         qna_form = QnaForm()
@@ -135,17 +143,31 @@ def update(request, pk):
     qna = Qna.objects.get(pk=pk)
     if request.user == qna.user:
         if request.method == "POST":
+            # DB에 저장하는 로직
             qna_form = QnaForm(request.POST, request.FILES, instance=qna)
+            # 유효성 검사
             if qna_form.is_valid():
-                qna_form.save()
-                return redirect("qna:detail", qna.pk)
+                qna = qna_form.save(commit=False)
+                # 로그인한 유저 => 작성자네!
+                qna.user = request.user
+                # print(tags)
+                qna.save()
+                
+                tags = request.POST.get('tags').split('#')
+                for tag in tags: # tags안에 있는 값들을 하나씩 꺼내서
+                    if not tag:
+                        continue
+                    # Tag models에 있는 model중 name필드 값이 입력받은 tag와 같은 값을 가져오고, 없다면 모델에 만들어라 (create 데이터는 _을 통해 안받음)
+                    _tag, _ = Tag.objects.get_or_create(name=tag)
+                    qna.tag.add(_tag) # 해당 태그들을 board 모델의 tags필드를 트리거함
+                return redirect("qna:index")
         else:
             qna_form = QnaForm(instance=qna)
         context = {
-            "qna_form": qna_form,
+            "aqna_form": qna_form,
             "qna": qna,
-        }
-        return render(request, "qna/form.html", context)
+            }
+        return render(request, "qna/form.html", context=context)
     else:
         messages.warning(request, "작성자만 수정할 수 있습니다.")
         return redirect("qna:detail", qna.pk)

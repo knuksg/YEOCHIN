@@ -36,7 +36,7 @@
             <img src="{{ qna.image.url }}" alt="{{ qna.image.url }}" style="max-height: 350px;">
             {% endif %}
             <div class="qTag">
-                태그자리
+                #{{ qna.tag.all|join:' #' }}
             </div>
             <div class="d-flex justify-content-between">
                 <div class="addex my-1">
