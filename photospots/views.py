@@ -13,8 +13,8 @@ from .models import Photocomment, Photospot
 # Create your views here.
 def index(request):
     photospots = Photospot.objects.order_by("-pk")
-    best_p = Photospot.objects.all()[:5]
-    best_p = sorted(best_p, key=lambda a: -a.like_users.count())
+    best_p = Photospot.objects.all()
+    best_p = sorted(best_p, key=lambda a: -a.like_users.count())[:5]
     lately_f = Friend.objects.order_by("-pk")[:5]
     context = {
         "photospots": photospots,

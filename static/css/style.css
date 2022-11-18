@@ -4,12 +4,13 @@ body {
 }
 
 p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
 }
+
 #wrap {
   min-height: 100%;
   position: relative;
@@ -1082,7 +1083,7 @@ input:focus {
   color: #919191
 }
 
-@media (min-width: 1200px){
+@media (min-width: 1200px) {
   .back {
     padding: 0px;
     width: unset;
@@ -1090,14 +1091,14 @@ input:focus {
 }
 
 .back {
-    position: relative;
-    background-image: url(/static/image/earth.png);
-    background-size: cover;
-    background-position: center center;
+  position: relative;
+  background-image: url(/static/image/earth.png);
+  background-size: cover;
+  background-position: center center;
 }
 
 /* qna index */
-@media (min-width: 1200px){  
+@media (min-width: 1200px) {
   .title-banner {
     position: relative;
     width: 1200px;
@@ -1110,7 +1111,7 @@ input:focus {
     -webkit-box-pack: center;
     justify-content: center;
     color: rgb(255, 255, 255);
-}
+  }
 }
 
 .title-text {
@@ -1127,7 +1128,7 @@ input:focus {
   color: rgb(255, 255, 255);
 }
 
-.tilte-text1{
+.tilte-text1 {
   font-weight: 400;
   font-size: 22px;
   display: inline-block;
@@ -1135,7 +1136,7 @@ input:focus {
   -webkit-user-drag: none;
 }
 
-.title-text2{
+.title-text2 {
   font-weight: 500;
   font-size: 70px;
   display: inline-block;
@@ -1143,7 +1144,7 @@ input:focus {
   -webkit-user-drag: none;
 }
 
-.qnaMenuBox{
+.qnaMenuBox {
   /* display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -1151,13 +1152,14 @@ input:focus {
   justify-content: center; */
 
 }
-.qnaMenu{
+
+.qnaMenu {
   display: flex;
   justify-content: end;
   margin-top: 40px;
 }
 
-.btnwait{
+.btnwait {
   position: relative;
   display: flex;
   -webkit-box-align: center;
@@ -1174,6 +1176,7 @@ input:focus {
   font-size: 16px;
   border-radius: 50px;
 }
+
 .cardbox {
   border: 1px solid #e9e9e9;
   padding: 10px 20px;
@@ -1186,15 +1189,15 @@ input:focus {
 
 }
 
-.doneText{
+.doneText {
   color: #00ce7c;
 }
 
-.waitText{
+.waitText {
   color: rgb(106, 106, 106);
 }
 
-.qnaCard{
+.qnaCard {
   display: flex;
   padding-top: 20px;
 }
@@ -1206,26 +1209,26 @@ input:focus {
   color: #6a6a6a;
 }
 
-.cardLocal{
-  font-size:14px;
-  color:rgb(106, 106, 106);
+.cardLocal {
+  font-size: 14px;
+  color: rgb(106, 106, 106);
 }
 
 @media (min-width: 1200px) {
-.qCtit {
-  margin-top: 6px;
-  margin-right: 6px;
-  overflow: hidden;
-  display: -webkit-box;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow-wrap: break-word;
-  color: rgb(37, 37, 37);
-  font-weight: 700;
-  font-size: 16px;
-  display: flex;
-  justify-content: start;
+  .qCtit {
+    margin-top: 6px;
+    margin-right: 6px;
+    overflow: hidden;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+    color: rgb(37, 37, 37);
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    justify-content: start;
   }
 }
 
@@ -1234,7 +1237,7 @@ input:focus {
   -webkit-box-align: center;
   align-items: center;
 }
-  
+
 .qCsub {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1259,7 +1262,7 @@ input:focus {
   font-weight: 500;
   background-color: rgb(245, 245, 245);
   border-radius: 3px;
-  padding: 4px 7px; 
+  padding: 4px 7px;
 }
 
 .exinfo {
@@ -1276,8 +1279,8 @@ input:focus {
   border-radius: 50%;
 }
 
-.qnaIBox{
-  margin-left: 14px;  
+.qnaIBox {
+  margin-left: 14px;
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -1285,7 +1288,7 @@ input:focus {
 }
 
 
-.proN{
+.proN {
   user-select: none;
   -webkit-user-drag: none;
   color: rgb(37, 37, 37);
@@ -1326,4 +1329,108 @@ input:focus {
   text-decoration-thickness: 2px;
   text-underline-offset: 10px;
   font-weight: bold;
+}
+
+/* 커뮤니티 home */
+.direct-btn {
+  background-color: rgb(0, 206, 124);
+  text-decoration: none;
+  color: white;
+  line-height: 2.5;
+  text-align: center;
+  width: 150px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+}
+
+.direct-btn:hover {
+  background-color: #3e8e41;
+  text-decoration: none;
+  color: white;
+}
+
+.home-title {
+  color: black;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.home-title2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.home-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.home-box {
+  overflow: hidden;
+  position: relative;
+}
+
+.home-img:hover {
+  object-fit: cover;
+  transform: scale(1.3);
+}
+
+.home-plus {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
+  padding: 5px 10px;
+  color: white;
+  background-color: rgba(106, 106, 106, 0.6);
+  z-index: 3;
+}
+
+#home-friend-date {
+  display: none;
+}
+
+.home-plus:hover #home-friend-date {
+  display: block;
+}
+
+.home-img2:hover {
+  filter: brightness(0.5);
+}
+
+#home-photo-info {
+  display: none;
+  color: white;
+  font-size: 20px;
+  z-index: 3;
+}
+
+.home-img2:hover+#home-photo-info {
+  display: block;
+}
+
+.home-box2 {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(248, 248, 248);
+}
+
+.home-qna {
+  min-height: 100px;
+  background-color: white;
 }

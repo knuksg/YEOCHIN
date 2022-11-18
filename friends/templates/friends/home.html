@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load imagekit %}
 {% block body %}
 
   <!-- friends(home, index), qna(index), photospots(index)-->
@@ -46,60 +47,224 @@
     </div>
   </nav>
 
-  <div class="container ">
-    <h1>홈</h1>
-    <a href="{% url 'friends:create' %}"></a>
-    <div class="d-flex justify-content-between align-items-center">
-      <p class="fs-3 fw-bold">취향저격 동행찾기</p>
-      <a class="text-decoration-none more-view" href="{% url 'friends:index' %}">
-        전체 보기
-        <i class="bi bi-chevron-right"></i>
-      </a>
+  <!-- 캐러셀 -->
+  <div id="carouselExampleIndicators" class="carousel slide sm:display md:display2 lg:display" data-bs-ride="true">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 0"></button>
     </div>
+    <div class="carousel-inner" style="background-color: rgb(248, 248, 248);">
+      <div class="carousel-item active">
+        <div class="d-flex w-100 justify-content-center" style="height: 350px;">
+          <div class="d-flex flex-column justify-content-center">
+            <h1 style="font-weight: 800;">내 취향과 딱 맞는</h1>
+            <h1 style="font-weight: 800;" class="m-0">여행 동행을 찾아보세요!</h1>
+            <h3 class="my-3">바로 친구를 찾아볼까요?</h3>
+            <a class="direct-btn" href="{% url 'friends:index' %}">동행친구 찾기</a>
+          </div>
+          <div class="d-flex align-items-end">
+            <img src="https://tripsoda.s3.ap-northeast-2.amazonaws.com/test/1642575344750" alt="" height="300">
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="d-flex w-100 justify-content-center" style="height: 350px;">
+          <div class="d-flex flex-column justify-content-center">
+            <h1 style="font-weight: 800;">여행 전문가 모여라!</h1>
+            <h1 style="font-weight: 800;" class="m-0">여행 지식을 공유해보세요</h1>
+            <h3 class="my-3">바로 질문과 답변을 남겨볼까요?</h3>
+            <a class="direct-btn" href="{% url 'qna:index' %}">Q&A 보기</a>
+          </div>
+          <div class="d-flex align-items-end ms-5">
+            <img src="https://tripsoda.s3.ap-northeast-2.amazonaws.com/test/1642575418468" alt="" height="300">
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="d-flex w-100 justify-content-center" style="height: 350px;">
+          <div class="d-flex flex-column justify-content-center">
+            <h1 style="font-weight: 800;">여행을 떠나고 싶게 하는</h1>
+            <h1 style="font-weight: 800;" class="m-0">인생사진 포토스팟을 공유해주세요!</h1>
+            <h3 class="my-3">바로 구경하러 가볼까요?</h3>
+            <a class="direct-btn" href="{% url 'photospots:index' %}">인생사진 보기</a>
+          </div>
+          <div class="d-flex align-items-end">
+            <img src="https://tripsoda.s3.ap-northeast-2.amazonaws.com/test/1666838055567_cpd" alt="" height="300">
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="d-flex w-100 justify-content-center" style="height: 350px;">
+          <div class="d-flex flex-column justify-content-center">
+            <h1 style="font-weight: 800;">국내 숙소 정보를 확인하고</h1>
+            <h1 style="font-weight: 800;" class="m-0">리뷰를 남겨 보세요!</h1>
+            <h3 class="my-3">바로 숙소를 찾아볼까요?</h3>
+            <a class="direct-btn" href="{% url 'hotels:index' %}">숙소 찾기</a>
+          </div>
+          <div class="d-flex align-items-end">
+            <img src="https://tripsoda.s3.ap-northeast-2.amazonaws.com/prod/banner/1668587568429-1" alt="" height="300">
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 friend-card ">
-
-      {% for lately in lately_f %}
-        <a href="{% url 'friends:detail' lately.pk %}">
-          <div>
-            <div class="position-absolute mx-2 my-4" style="z-index: 1">
-              <div class="d-flex my-2 bg-dark  p-2 text-white bg-opacity-75 rounded-pill">
-                <div style="width: 21px; height: 21px; background-color: rgb(248, 248, 248); border-radius: 11px; display: inline-flex; align-items: center; justify-content: center;">
-                  <svg width="9" height="13" viewbox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4.03748 12.4779C0.633075 7.35238 0.000785276 6.82628 0.000785276 4.942C-0.0217027 3.72595 0.439589 2.55072 1.28327 1.67465C2.12694 0.798575 3.28396 0.293348 4.5 0.27002C5.71604 0.293348 6.87306 0.798575 7.71673 1.67465C8.56041 2.55072 9.0217 3.72595 8.99922 4.942C8.99922 6.82568 8.36693 7.35178 4.96252 12.4779C4.91259 12.5551 4.8441 12.6187 4.76331 12.6627C4.68251 12.7066 4.59199 12.7297 4.5 12.7297C4.40801 12.7297 4.31749 12.7066 4.23669 12.6627C4.1559 12.6187 4.08741 12.5551 4.03748 12.4779ZM4.5 6.88926C5.00667 6.87949 5.48873 6.66896 5.84025 6.30394C6.19177 5.93893 6.38399 5.44928 6.37467 4.9426C6.38415 4.43583 6.192 3.94603 5.84046 3.58088C5.48892 3.21573 5.00677 3.00512 4.5 2.99534C3.99333 3.00512 3.51127 3.21564 3.15975 3.58066C2.80823 3.94568 2.61601 4.43533 2.62533 4.942C2.61585 5.44878 2.808 5.93858 3.15954 6.30373C3.51108 6.66888 3.99323 6.87949 4.5 6.88926Z" fill="#6A6A64"></path>
-                  </svg>
-                </div>
-                <p class="m-0 ms-2 divbutton" style="color: rgb(255, 255, 255); font-size: 12px">{{lately.place}}
-                  <span class="button">{{lately.start_at|date:"M d"}}일~{{lately.end_at|date:"M d"}}일</span>
-                </p>
+  <!-- 커뮤니티 컨텐츠 -->
+  <div class="container mt-5">
+    <!-- 동행친구 -->
+    <div class="mb-5">
+      <div class="d-flex justify-content-between align-items-center">
+        <p class="home-title">취향저격 동행찾기</p>
+        <a class="text-decoration-none more-view" href="{% url 'friends:index' %}">
+          전체 보기
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </div>
+      <div class="d-flex row">
+        {% for friend in lately_f %}
+        <div class="col-12 col-sm-6 col-lg-3" style="cursor: pointer;" onclick="location.href='{% url 'friends:detail' friend.pk %}';">
+          <div class="home-box my-3 rounded-3">
+            <div class="home-plus rounded-pill">
+              <div class="me-2" style="width: 21px; height: 21px; background-color: rgb(248, 248, 248); border-radius: 11px; display: inline-flex; align-items: center; justify-content: center;">
+                <svg width="9" height="13" viewbox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4.03748 12.4779C0.633075 7.35238 0.000785276 6.82628 0.000785276 4.942C-0.0217027 3.72595 0.439589 2.55072 1.28327 1.67465C2.12694 0.798575 3.28396 0.293348 4.5 0.27002C5.71604 0.293348 6.87306 0.798575 7.71673 1.67465C8.56041 2.55072 9.0217 3.72595 8.99922 4.942C8.99922 6.82568 8.36693 7.35178 4.96252 12.4779C4.91259 12.5551 4.8441 12.6187 4.76331 12.6627C4.68251 12.7066 4.59199 12.7297 4.5 12.7297C4.40801 12.7297 4.31749 12.7066 4.23669 12.6627C4.1559 12.6187 4.08741 12.5551 4.03748 12.4779ZM4.5 6.88926C5.00667 6.87949 5.48873 6.66896 5.84025 6.30394C6.19177 5.93893 6.38399 5.44928 6.37467 4.9426C6.38415 4.43583 6.192 3.94603 5.84046 3.58088C5.48892 3.21573 5.00677 3.00512 4.5 2.99534C3.99333 3.00512 3.51127 3.21564 3.15975 3.58066C2.80823 3.94568 2.61601 4.43533 2.62533 4.942C2.61585 5.44878 2.808 5.93858 3.15954 6.30373C3.51108 6.66888 3.99323 6.87949 4.5 6.88926Z" fill="#6A6A64"></path>
+                </svg>
               </div>
+              <p class="m-0">{{ friend.place }}</p>
+              <p id="home-friend-date" class="m-0 ms-2">{{friend.start_at|date:"m/d"}}~{{friend.end_at|date:"m/d"}}</p>
             </div>
-            {% if lately.thumbnail %}
-              <div class="img" style="z-index: 2">
-                <div class=" my-3 p-3 rounded-3 border border-3 bg-light scale" style="width: 282px; height:282px; background-image:url({{ lately.image.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
-              </div>
+            {% if friend.image %}
+              {% thumbnail "600x600" friend.image as thumb %}
+              <img src="{{ thumb.url }}" alt="썸네일" class="img-fluid rounded-3 home-img">
             {% else %}
-              <div class="img" style="z-index: 2">
-                <img src="{% static 'image/no_image.jpg' %}" alt="{{ user.profile.image }}" class="my-3  rounded-3 border border-3 bg-light scale" height="282px" width="282px">
-              </div>
+              <img src="{% static 'image/no_image.jpg'%}" class="img-fluid rounded-3 home-img" alt="">
             {% endif %}
-            <div class="mt-3 ">
-              <p class="lately-title mb-2" style="font-weight:bold">{{ lately.title|truncatechars:16 }}</p>
-
-              <p class="mb-2">{{ lately.content|truncatechars:20 }}</p>
-
-              {% if lately.user.profile.image %}
-                <img src="{{ lately.user.profile.image.url }}" alt="{{ user.profile.image }}" class="rounded-circle border border-1" height="24px" width="24px">
-              {% else %}
+          </div>
+          <div class="">
+            <p class="fs-5 fw-bold mb-1 home-title2">
+              <span class="green-text me-1">모집중</span>
+              {{ friend.title }}
+            </p>
+            <p class="my-1 home-text">{{ friend.content }}</p>
+            <div class="d-flex justify-content-between my-1">
+              <div class="d-flex align-items-center">
+                {% if friend.user.profile.image %}
+                <img src="{{ friend.user.profile.image.url }}" alt="{{ friend.user.profile.image }}" class="rounded-circle border border-1 me-2" height="24px" width="24px">
+                {% else %}
                 <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="24" height="24">
-              {% endif %}
-              {{lately.user}}
-              <br>
+                {% endif %}
+                <p class="m-0 gray-text">{{ friend.user.nickname }}</p>
+              </div>
+              <div class="d-flex align-items-center gray-text">
+                <p class="m-0 me-2"><i class="bi bi-eye"></i> {{ friend.hits }}</p>
+                <p class="m-0"><i class="bi bi-chat"></i> {{ friend.friend_comment_set.count }}</p>
+              </div>
             </div>
           </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- QnA -->
+    <div class="mb-5">
+      <div class="d-flex justify-content-between align-items-center">
+        <p class="home-title">여행정보 공유해요</p>
+        <a class="text-decoration-none more-view" href="{% url 'qna:index' %}">
+          전체 보기
+          <i class="bi bi-chevron-right"></i>
         </a>
-      {% endfor %}
-
+      </div>
+      <div class="d-flex row">
+        <!-- 반복문 시작 -->
+        <div class="col-12 col-sm-6" style="cursor: pointer;" onclick="location.href='';">
+          <div class="home-box2 my-3 px-3 py-4 border">
+            <!-- 회색 박스 / 지역 제목 / 내용 / 프로필사진 닉네임 / 답변-->
+            <p class="fs-5 fw-bold mb-1 home-title2">
+              <span class="me-1" style="color: rgb(106, 106, 106);">모집중</span>
+              제목 들어갈 자리
+            </p>
+            <p class="my-1 home-text">내용 들어갈 자리</p>
+            <div class="d-flex justify-content-between my-1">
+              <div class="d-flex">
+                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="24" height="24">
+                <p class="m-0 gray-text">닉네임</p>
+              </div>
+            </div>
+            <div class="home-qna border mt-3 p-3">
+              <p class="my-1 home-text">최근 답변 하나</p>
+              <div class="d-flex flex-column align-items-center gray-text justify-content-end">
+                <p class="m-0 me-2"><i class="bi bi-eye"></i> 조회수</p>
+                <p class="m-0"><i class="bi bi-chat"></i> 답변수</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 반복문 끝 -->
+      </div>
+    </div>
+    <!-- 포토스팟 -->
+    <div class="mb-5">
+      <div class="d-flex justify-content-between align-items-center">
+        <p class="home-title">BEST 인생사진 포토스팟</p>
+        <a class="text-decoration-none more-view" href="{% url 'photospots:index' %}">
+          전체 보기
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </div>
+      <div class="d-flex row">
+        {% for photospot in best_p %}
+        <div class="col-12 col-sm-6 col-lg-3" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' photospot.pk %}';">
+          <div class="my-3 rounded-3 position-relative">
+            {% if photospot.photo_img %}
+              {% thumbnail "600x600" photospot.photo_img as thumb %}
+              <img src="{{ thumb.url }}" alt="썸네일" class="img-fluid rounded-3 home-img2">
+            {% else %}
+              <img src="{% static 'image/no_image.jpg'%}" class="img-fluid rounded-3 home-img2" alt="">
+            {% endif %}
+            <div id="home-photo-info" class="position-absolute top-50 start-50 translate-middle">
+              <div class="d-flex align-items-center">
+                <p class="m-0 me-3"><i class="bi bi-eye"></i> {{ photospot.hits }}</p>
+                <p class="m-0 me-3">
+                  {% if request.user in photospot.like_users.all %}
+                  <i class="bi bi-heart-fill"></i>
+                  {% else %}
+                  <i class="bi bi-heart"></i>
+                  {% endif %}
+                  {{ photospot.like_users.count }}
+                </p>
+                <p class="m-0"><i class="bi bi-chat"></i> {{ photospot.photocomment_set.all.count }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="d-flex justify-content-between my-1">
+              <div class="d-flex align-items-center">
+                {% if photospot.user.profile.image %}
+                <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-circle border border-1 me-2" height="24px" width="24px">
+                {% else %}
+                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="24" height="24">
+                {% endif %}
+                <p class="m-0 gray-text">{{ photospot.user.nickname }}</p>
+              </div>
+              <div class="d-flex align-items-center gray-text">
+                <p class="photo-place"><i class="bi bi-geo-alt-fill"></i> {{ photospot.place }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 {% endblock body %}
