@@ -144,6 +144,8 @@ def review_detail(request, pk, review_pk):
     hotel = get_object_or_404(Hotel, pk=pk)
     other_hotels = Hotel.objects.filter(detail_region=hotel.detail_region).exclude(pk=pk)[:5]
     review = get_object_or_404(HotelReview, pk=review_pk)
+    profile_image = review.user.profile.image
+    print(profile_image)
     comments = HotelReviewComment.objects.filter(review=review_pk).order_by('created_at')
     context = {
         'hotel': hotel,

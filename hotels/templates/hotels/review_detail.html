@@ -9,8 +9,6 @@
       <h3>{{ review.title }}</h3>
       <div class="d-flex justify-content-between align-items-end">
         <div>
-          {{ review.user.profile }}
-          <img src="" alt="">
           <div>
             <p class="mb-1">{{ review.user }}</p>
             <p class="text-muted">
@@ -257,6 +255,9 @@
           </div>`
         }
       })
+      reviewCommentForm.innerHTML = `
+      <input id="review-comment" type="text" class="w-100" placeholder="댓글을 작성하려면 로그인 해주세요." autofocus>
+      <input type="submit" class="d-none">`
     })
   })
 
@@ -280,6 +281,9 @@
       })
       .then((response) => {
         <!-- 댓글 목록 보여주기 -->
+        reviewCommentForm.innerHTML = `
+      <input id="review-comment" type="text" class="w-100" placeholder="댓글을 작성하려면 로그인 해주세요." autofocus>
+      <input type="submit" class="d-none">`
         const commentList = document.querySelector('#comment-list')
         commentList.innerHTML = ''
         const comments = response.data.comment_list
@@ -327,6 +331,9 @@
             </div>`
           }
         })
+        reviewCommentForm.innerHTML = `
+      <input id="review-comment" type="text" class="w-100" placeholder="댓글을 작성하려면 로그인 해주세요." autofocus>
+      <input type="submit" class="d-none">`
       })
     }
   })
