@@ -1062,6 +1062,13 @@ input:focus::placeholder {
   min-height: 200px;
 }
 
+.qnaContent2 {
+  padding-top: 20px;
+  padding-bottom: 7px;
+  font-size: 14px;
+  height: auto;
+}
+
 .answerBtn {
   width: 90%;
   line-height: 20px;
@@ -1182,8 +1189,8 @@ input:focus::placeholder {
   border-radius: 50px;
 }
 .cardbox {
-  border: 1px solid #e9e9e9;
-  padding: 10px 20px;
+  border-bottom: 1px solid #e9e9e9;
+  padding: 30px 20px;
   margin: 10px 10px;
 }
 
@@ -1236,6 +1243,21 @@ input:focus::placeholder {
   }
 }
 
+@media (max-width: 1199px){
+.qCtit {
+    color: rgb(37, 37, 37);
+    font-size: 16px;
+    font-weight: 500;
+    overflow: hidden;
+    display: -webkit-box;
+    overflow-wrap: break-word;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    margin-left: 6px;
+    width: calc(100vw - 96px);
+  }
+}
+
 .imNha {
   display: flex;
   -webkit-box-align: center;
@@ -1257,7 +1279,20 @@ input:focus::placeholder {
   justify-content: start;
   padding-top: 10px;
   padding-bottom: 20px;
+  color: #252525;
 }
+
+@media (max-width: 1199px){
+  .qCsub {
+    margin-left: 34px;
+}}
+
+
+
+@media (max-width: 1199px) {
+.exinfo {
+    margin-left: 24px;
+}}
 
 .qTag {
   display: flex;
@@ -1267,6 +1302,12 @@ input:focus::placeholder {
   background-color: rgb(245, 245, 245);
   border-radius: 3px;
   padding: 4px 7px; 
+}
+
+@media (min-width: 1200px){
+.qtag {
+  display: none;
+}
 }
 
 .exinfo {
