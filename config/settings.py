@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "channels",
     # 서버 배포 관련 앱
     "storages",
+    "django_redis",
     "tag",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -242,4 +243,15 @@ CHANNEL_LAYERS = {
             "hosts": [("127.0.0.1", 6379)],
         },
     },
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": [os.getenv("REDIS_LOCATION_PRIMARY"), os.getenv("REDIS_LOCATION_REPLICA")],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "MASTER_CACHE": os.getenv("REDIS_LOCATION_PRIMARY"),
+        }
+    }
 }
