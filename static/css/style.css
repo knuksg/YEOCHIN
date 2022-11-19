@@ -1485,6 +1485,21 @@ input:focus::placeholder {
   background-color: white;
 }
 
+.search-photo-img:hover {
+  filter: brightness(0.5);
+}
+
+#search-photo-info {
+  display: none;
+  color: white;
+  font-size: 15px;
+  z-index: 3;
+}
+
+.search-photo-img:hover+#search-photo-info {
+  display: block;
+}
+
 /* friends */
 .view-btn {
   text-decoration: none;

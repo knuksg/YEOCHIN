@@ -1,45 +1,58 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
+{% load imagekit %}
 {% load humanize %}
 {% block body %}
 <div class="container d-flex flex-column align-items-center">
   <!-- photospot -->
   <div class="w-75 my-5 border-bottom">
-    <h3 class="d-inline">{{ kw }} 포토스팟 인기 순위</h3>
-    <form action="{% url 'hotels:index' %}" method="post" class="d-inline">
-      {% csrf_token %}
-      <input type="submit" value="포토스팟 순위 더보기 >" style="border: none; background-color: white;">
-    </form>
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="home-title">{{ kw }} 포토스팟 인기 순위</p>
+      <a class="text-decoration-none more-view" href="{% url 'photospots:index' %}">
+        포토스팟 전체 보기
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </div>
     <!-- 포토스팟 목록 -->
     <div id="photospots-group" class="row my-5">
       {% for photospot in photospot_list %}
-      <div class="col-12 col-md-6 col-lg-3">
-        <a href="{% url 'photospots:detail' photospot.pk %}">
-          <div class="photospot-item">
-            <img src="{{ photospot.photo_img.url }}" class="photospot-img" alt="" >
-            <div class="photospot-info">
-              <div>
+      <div class="col-12 col-sm-6 col-lg-3" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' photospot.pk %}';">
+        <div class="my-3 rounded-3 position-relative">
+          {% if photospot.photo_img %}
+            {% thumbnail "600x600" photospot.photo_img as thumb %}
+            <img src="{{ thumb.url }}" alt="썸네일" class="img-fluid rounded-3 search-photo-img">
+          {% else %}
+            <img src="{% static 'image/no_image.jpg'%}" class="img-fluid rounded-3 search-photo-img" alt="">
+          {% endif %}
+          <div id="search-photo-info" class="position-absolute top-50 start-50 translate-middle">
+            <div class="d-flex justify-content-evenly w-100">
+              <p class="m-0 mx-1"><i class="bi bi-eye"></i> {{ photospot.hits }}</p>
+              <p class="m-0 mx-1">
                 {% if request.user in photospot.like_users.all %}
                 <i class="bi bi-heart-fill"></i>
                 {% else %}
                 <i class="bi bi-heart"></i>
                 {% endif %}
-                {{ photospot.like_users.count }}</div>
-              <div><i class="bi bi-chat"></i> {{ photospot.photocomment_set.all.count }}</div>
+                {{ photospot.like_users.count }}
+              </p>
+              <p class="m-0 mx-1"><i class="bi bi-chat"></i> {{ photospot.photocomment_set.all.count }}</p>
             </div>
           </div>
-        </a>
+        </div>
       </div>
       {% endfor %}
     </div>
   </div>
   <!-- hotel -->
   <div class="w-75 border-bottom my-5">
-    <h3 class="d-inline">{{ kw }} 호텔 인기 순위</h3>
-    <form action="{% url 'hotels:index' %}" method="post" class="d-inline">
-      {% csrf_token %}
-      <input type="submit" value="호텔 순위 더보기 >" style="border: none; background-color: white;">
-    </form>
+    <div class="d-flex justify-content-between align-items-center">
+      <p class="home-title">{{ kw }} 호텔 인기 순위</p>
+      <a class="text-decoration-none more-view" href="{% url 'photospots:index' %}">
+        호텔 전체 보기
+        <i class="bi bi-chevron-right"></i>
+      </a>
+    </div>
     <!-- 호텔 목록 -->
     <div id="hotels-group" class="row my-5">
       {% for hotel in hotel_list %}
