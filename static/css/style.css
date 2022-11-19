@@ -1246,8 +1246,8 @@ input:focus::placeholder {
   }
 }
 
-@media (max-width: 1199px){
-.qCtit {
+@media (max-width: 1199px) {
+  .qCtit {
     color: rgb(37, 37, 37);
     font-size: 16px;
     font-weight: 500;
@@ -1285,17 +1285,19 @@ input:focus::placeholder {
   color: #252525;
 }
 
-@media (max-width: 1199px){
+@media (max-width: 1199px) {
   .qCsub {
     margin-left: 34px;
-}}
+  }
+}
 
 
 
 @media (max-width: 1199px) {
-.exinfo {
+  .exinfo {
     margin-left: 24px;
-}}
+  }
+}
 
 .qTag {
   display: flex;
@@ -1307,10 +1309,10 @@ input:focus::placeholder {
   padding: 4px 7px;
 }
 
-@media (min-width: 1200px){
-.qtag {
-  display: none;
-}
+@media (min-width: 1200px) {
+  .qtag {
+    display: none;
+  }
 }
 
 .exinfo {
@@ -1481,4 +1483,14 @@ input:focus::placeholder {
 .home-qna {
   min-height: 100px;
   background-color: white;
+}
+
+/* friends */
+.view-btn {
+  text-decoration: none;
+}
+
+.view-btn:hover {
+  text-decoration: none;
+  color: rgb(37, 37, 37);
 }

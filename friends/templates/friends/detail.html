@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load imagekit %}
 {% load static %}
 {% block body %}
 
@@ -7,11 +8,12 @@
     <div class="row">
       <!-- 게시물 -->
       <div class="col-12 col-lg-8 mx-auto p-0">
-        {% if friend.image %}
-          <div class="mb-3 p-3 rounded-5" style="height:300px; background-image:url({{ friend.thumbnail.url }}); background-repeat:no-repeat; background-position:center; background-size:cover;"></div>
-        {% else %}
-          <div class="mb-3 p-3 rounded-5" style="height:300px; background-image:url({% static 'image/no_image.jpg' %}); background-repeat:repeat; background-position:center; background-size:contain;"></div>
-        {% endif %}
+        <div class="">
+          {% if friend.image %}
+            {% thumbnail "1200x300" friend.image as thumb %}
+            <img src="{{ thumb.url }}" alt="배경" class="img-fluid rounded-3">
+          {% endif %}
+        </div>
         <div class="my-4 d-flex justify-content-between align-items-center">
           <span class="qnaTitle">{{ friend.title }}</span>
           {% if request.user.is_authenticated %}
@@ -133,9 +135,9 @@
       </div>
       <div style="height:20px; border-top: 1px solid #e9e9e9; margin-top:20px;"></div>
       <div class="text-center" style="margin-bottom: 5px; font-size: 14px;   font-weight:700;">프로필 사진을 클릭해보세요!</div>
-      <div class=" d-flex justify-content-between">
-
+      <div class="d-flex justify-content-center">
         {% if request.user == friend.user %}
+        <div class="d-flex justify-content-between w-100">
           <a class="answerBtn text-center" href="{% url 'friends:friend_closed' friend.pk %}" type="submit">
             {% if friend.closed == False %}
               마감하기
@@ -144,11 +146,11 @@
             {% endif %}
           </a>
           <a href="{% url 'friends:chat_create' friend.pk %}" class="answerBtn text-center ms-2" type="submit">채팅방 개설하기</a>
+        </div>
         {% else %}
           <a href="{% url 'friends:request' friend.pk %}" class="answerBtn text-center" type="submit">동행 신청하기</a>
         {% endif %}
       </div>
-
     </div>
   </div>
 </div>
