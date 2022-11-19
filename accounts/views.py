@@ -59,7 +59,7 @@ def loginNormal(request):
                 form.get_user(),
                 backend="django.contrib.auth.backends.ModelBackend",
             )
-            return redirect(request.GET.get("next") or "friends:index")
+            return redirect(request.GET.get("next") or "friends:home")
     else:
         form = AuthenticationForm()
     context = {"form": form}
@@ -69,7 +69,7 @@ def loginNormal(request):
 def logout(request):
     auth_logout(request)
     messages.warning(request, "로그아웃 되었습니다.")
-    return redirect("main:index")
+    return redirect("friends:home")
 
 
 def detail(request, pk):

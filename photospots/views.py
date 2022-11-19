@@ -30,6 +30,10 @@ def detail(request, photospot_pk):
     best_p = sorted(best_p, key=lambda a: -a.like_users.count())
     lately_f = Friend.objects.order_by("-pk")[:5]
     comment_form = CommentForm()
+
+    photospot.hits += 1
+    photospot.save()
+
     context = {
         "photospot": photospot,
         "best_p": best_p,
@@ -38,21 +42,6 @@ def detail(request, photospot_pk):
         "comments": photospot.photocomment_set.all(),
     }
     response = render(request, "photospots/detail.html", context)
-
-    expire_date, now = datetime.now(), datetime.now()
-    expire_date += timedelta(days=1)
-    expire_date = expire_date.replace(hour=0, minute=0, second=0, microsecond=0)
-    expire_date -= now
-    max_age = expire_date.total_seconds()
-
-    cookie_value = request.COOKIES.get("hitboard", "_")
-    if f"_{photospot_pk}_" not in cookie_value:
-        cookie_value += f"_{photospot_pk}_"
-        response.set_cookie(
-            "hitboard", value=cookie_value, max_age=max_age, httponly=True
-        )
-        photospot.hits += 1
-        photospot.save()
 
     return response
 
@@ -79,11 +68,12 @@ def update(request, photospot_pk):
         photospot_form = PhotospotForm(request.POST, request.FILES, instance=photospot)
         if photospot_form.is_valid():
             photospot.is_updated = True
-            photospot_form.save()
+            photospot = photospot_form.save(commit=False)
+            photospot.save()
             return redirect("photospots:index")
     else:
         photospot_form = PhotospotForm(instance=photospot)
-    context = {"photospot_form": photospot_form}
+    context = {"photospot_form": photospot_form, "photospot": photospot}
     return render(request, "photospots/form.html", context)
 
 
