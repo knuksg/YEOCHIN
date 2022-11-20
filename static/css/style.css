@@ -1064,6 +1064,10 @@ input:focus::placeholder {
 }
 
 .qnaContent2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
   padding-top: 20px;
   padding-bottom: 7px;
   font-size: 14px;
@@ -1157,15 +1161,15 @@ input:focus::placeholder {
   user-select: none;
   -webkit-user-drag: none;
 }
-
+/* 
 .qnaMenuBox {
-  /* display: flex;
+  display: flex;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: center;
-  justify-content: center; */
+  justify-content: center; 
 
-}
+} */
 
 .qnaMenu {
   display: flex;
@@ -1270,18 +1274,15 @@ input:focus::placeholder {
 .qCsub {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
   display: -webkit-box;
-  overflow-wrap: break-word;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  user-select: none;
-  -webkit-user-drag: none;
-  -webkit-line-clamp: 2;
   margin-bottom: 20px;
   font-size: 14px;
-  display: flex;
-  justify-content: start;
   padding-top: 10px;
-  padding-bottom: 20px;
+  margin-bottom: 30px;
   color: #252525;
 }
 
@@ -1300,13 +1301,15 @@ input:focus::placeholder {
 }
 
 .qTag {
-  display: flex;
   color: rgb(106, 106, 106);
   font-size: 13px;
   font-weight: 500;
   background-color: rgb(245, 245, 245);
   border-radius: 3px;
   padding: 4px 7px;
+  margin: 4px;
+  border-radius: 5px;
+
 }
 
 @media (min-width: 1200px) {

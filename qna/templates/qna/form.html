@@ -7,24 +7,39 @@
 <div class="container my-5">
   <form class="photo-form mx-auto" action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="qnaInpBox">
+    <fieldset>
+      <legend style="font-size: 16px; font-weight:700; margin-bottom:16px;">지역 선택</legend>
+      <div class="d-flex justify-content-between" style="margin-bottom:16px;">
+        <input type="radio" id="서울" name="place" value="서울" checked><label for="서울">서울</label>
+        <input type="radio" id="제주" name="place" value="제주"><label for="제주">제주</label>
+        <input type="radio" id="인천" name="place" value="인천"><label for="인천">인천</label>
+        <input type="radio" id="부산" name="place" value="부산"><label for="부산">부산</label>
+        <input type="radio" id="경상" name="place" value="경상"><label for="경상">경상</label>
+        <input type="radio" id="경기" name="place" value="경기"><label for="경기">경기</label>
+        <input type="radio" id="강원" name="place" value="강원"><label for="강원">강원</label>
+        <input type="radio" id="전라" name="place" value="전라"><label for="전라">전라</label>
+        <input type="radio" id="충청" name="place" value="충청"><label for="충청">충청</label>
+      </div>
+    </fieldset>
+    <div class=" qnaInpBox">
       <i class="fa-solid fa-q"></i>
       <input class="qnaTitleIpt" placeholder="물음표로 끝나는 질문을 작성해보세요!" name="title" value="{{ qna.title }}" />
     </div>
     <textarea rows="13" cols="10" class="form-control mt-5 mb-3" style="border: 1px solid #e9e9e9;" name="content"
       placeholder="내용을 입력해주세요.">{{ qna.content }}</textarea>
-    <div class="mb-3">
-      <label class="form-label w-100 m-0" for="image">
-        <div class="photo-form-img">
-          <i class="fa-solid fa-image photo-form-img-text"></i>
-          <p class="photo-form-img-text2">이미지를 업로드 해주세요</p>
-        </div>
+    <div class=">
+      <label class=" form-label w-100 m-0" for="image">
+      <div class="photo-form-img">
+        <i class="fa-solid fa-image photo-form-img-text"></i>
+        <p class="photo-form-img-text2">이미지를 업로드 해주세요</p>
+      </div>
       </label>
       <input style="display: none;" type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
     </div>
     <div>
-      <label for="tags">태그</label>
-      <textarea type="text" class="form-control" id='tags' name='tags'>#{{ qna.tag.all|join:' #' }}</textarea>
+      <label for="tags"></label>
+      <textarea rows="1" type="text" class="qnaTagIpt" id='tags' name='tags'
+        style="margin-bottom:16px;">#{{ qna.tag.all|join:' #' }}</textarea>
     </div>
     <div class="photo-form-btn">
       <a class="photo-gray-btn" href="{% url 'qna:index' %}">취소</a>
