@@ -11,7 +11,8 @@ class QnaForm(forms.ModelForm):
             "title",
             "content",
             "image",
-            "tag"
+            "tag",
+            "place",
         ]
         # widgets = {
         #     'content': SummernoteWidget(),

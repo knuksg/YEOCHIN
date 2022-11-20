@@ -35,9 +35,14 @@
             {% if qna.image %}
             <img src="{{ qna.image.url }}" alt="{{ qna.image.url }}" style="max-height: 350px;">
             {% endif %}
-            <div class="qTag">
-                #{{ qna.tag.all|join:' #' }}
+            <div class="d-flex text-align-center">
+                {% for tag in qna.tag.all %}
+                <div class="qTag">
+                    #{{ tag }}
+                </div>
+                {% endfor %}
             </div>
+
             <div class="d-flex justify-content-between">
                 <div class="addex my-1">
                     <span>{{qna.created_at}}</span>
