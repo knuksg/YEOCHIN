@@ -2,7 +2,6 @@
 {% load django_bootstrap5 %}
 {% load static %}
 
-
 {% block body %}
 <h1 class="text-center my-5">
     <span class="text-primary">{{ user.nickname }}</span>님의 페이지</h1>
@@ -14,7 +13,7 @@
         {% if user.profile.image %}
           <img src="{{ user.profile.image.url }}" alt="" class="rounded-4 border border-1 w-100">
         {% else %}
-          <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-4 border border-1 w-100">
+          <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-4 border border-1 w-100">
         {% endif %}
       </div>
 
@@ -50,7 +49,7 @@
             <a id="link_user_friends" data-bs-toggle="collapse" href="#user_friends" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">내 게시글</a>
             <a id="link_like_friends" data-bs-toggle="collapse" href="#like_friends" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">좋아요</a>
             {% if user == request.user %}
-              <a id="link_user_photospots" data-bs-toggle="collapse" href="#user_photospots" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">인생사진</a>
+              <a id="link_users_photospots" data-bs-toggle="collapse" href="#users_photospots" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">인생사진</a>
               <a href="{% url 'chats:rooms' user.pk %}">내 채팅방</a>
             {% endif %}
           </div>
@@ -78,10 +77,10 @@
             <a href="{% url 'friends:detail' friend.pk %}">
               <div class="card glow">
                 <!-- 첫 번째 이미지를 썸네일로 -->
-                {% if friend.photo_set.all.0.image %}
-                  <img src="{{ friend.photo_set.all.0.image.url }}" class="card-img-top" alt="..." height="300px">
+                {% if friend.thumbnail %}
+                  <img src="{{ thumb.url }}" class="card-img-top" alt="..." height="300px">
                 {% else %}
-                  <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top" height="300px">
+                  <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
                 {% endif %}
 
                 <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
@@ -101,7 +100,7 @@
                   <div class="d-flex align-items-center mb-2">
                     <!-- <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2.31055C6.81525 2.31194 5.67942 2.78321 4.84166 3.62096C4.00391 4.45871 3.53265 5.59454 3.53125 6.7793C3.52984 7.74748 3.84609 8.6894 4.4315 9.46055C4.4315 9.46055 4.55338 9.62102 4.57329 9.64417L8 13.6855L11.4283 9.64214C11.4462 9.62061 11.5685 9.46055 11.5685 9.46055L11.5689 9.45933C12.154 8.68851 12.4701 7.74704 12.4688 6.7793C12.4674 5.59454 11.9961 4.45871 11.1583 3.62096C10.3206 2.78321 9.18476 2.31194 8 2.31055ZM9.4625 8.81055L8 7.87983L6.5375 8.81055L6.78125 7.15548L5.5625 6.03708L7.26875 5.83111L8 4.3418L8.77675 5.83152L10.4375 6.03708L9.21875 7.15548L9.4625 8.81055Z" fill="#0060FF"></path></svg>-->
                     <i class="bi bi-geo-alt-fill fs-6 text-primary"></i>
-                    <span class="fs-6 text-primary ms-1 location">{{friend.location}}</span>
+                    <span class="fs-6 text-primary ms-1 location">{{friend.place}}</span>
                   </div>
 
                   <div class="hashtags col-lg-8 col-md-10 mb-2">
@@ -110,7 +109,7 @@
                     {% endfor %}
                   </div>
 
-                  <!-- 좋아요, 댓글, 조회수, 인생사진 -->
+                  <!-- 좋아요, 댓글, 조회수 -->
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="text-muted fs-6">
                       {% if request.user.is_authenticated %}
@@ -132,17 +131,7 @@
                       </span>
                     </div>
 
-                    <div>
-                      {% if request.user.is_authenticated %}
-                        <div class="photospot-forms d-inline" data-photospot-id="{{ photospot.pk }}">
-                          {% if request.user in photospot.photospots_users.all %}
-                            <i id="btn-photospots-{{ photospot.pk }}" data-photospot-id="{{ photospot.pk }}" class="btn-none bi bi-photospots-fill"></i>
-                          {% else %}
-                            <i id="btn-photospots-{{ photospot.pk }}" data-photospots-id="{{ photospot.pk }}" class="btn-none bi bi-photospots"></i>
-                          {% endif %}
-                        </div>
-                      {% endif %}
-                    </div>
+
                   </div>
                 </div>
               </div>
@@ -160,10 +149,10 @@
             <a href="{% url 'friends:detail' friend.pk %}">
               <div class="card glow">
                 <!-- 첫 번째 이미지를 썸네일로 -->
-                {% if friend.photo_set.all.0.image %}
-                  <img src="{{ friend.photo_set.all.0.image.url }}" class="card-img-top" alt="..." height="300px">
+                {% if friend.thumbnail %}
+                  <img src="{{ thumb.url }}" class="card-img-top" alt="..." height="300px">
                 {% else %}
-                  <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top" height="300px">
+                  <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
                 {% endif %}
 
                 <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
@@ -183,7 +172,7 @@
                   <div class="d-flex align-items-center mb-2">
                     <!-- <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2.31055C6.81525 2.31194 5.67942 2.78321 4.84166 3.62096C4.00391 4.45871 3.53265 5.59454 3.53125 6.7793C3.52984 7.74748 3.84609 8.6894 4.4315 9.46055C4.4315 9.46055 4.55338 9.62102 4.57329 9.64417L8 13.6855L11.4283 9.64214C11.4462 9.62061 11.5685 9.46055 11.5685 9.46055L11.5689 9.45933C12.154 8.68851 12.4701 7.74704 12.4688 6.7793C12.4674 5.59454 11.9961 4.45871 11.1583 3.62096C10.3206 2.78321 9.18476 2.31194 8 2.31055ZM9.4625 8.81055L8 7.87983L6.5375 8.81055L6.78125 7.15548L5.5625 6.03708L7.26875 5.83111L8 4.3418L8.77675 5.83152L10.4375 6.03708L9.21875 7.15548L9.4625 8.81055Z" fill="#0060FF"></path></svg>-->
                     <i class="bi bi-geo-alt-fill fs-6 text-primary"></i>
-                    <span class="fs-6 text-primary ms-1 location">{friend.location}}</span>
+                    <span class="fs-6 text-primary ms-1 location">{{friend.place}}</span>
                   </div>
 
                   <div class="hashtags col-lg-8 col-md-10 mb-2">
@@ -192,7 +181,7 @@
                     {% endfor %}
                   </div>
                   
-                  <!-- 좋아요, 댓글, 조회수, 인생사진 -->
+                  <!-- 좋아요, 댓글, 조회수 -->
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="text-muted fs-6">
                       {% if request.user.is_authenticated %}
@@ -214,17 +203,7 @@
                       </span>
                     </div>
 
-                    <div>
-                      {% if request.user.is_authenticated %}
-                        <div class="photospot-forms d-inline" data-photospot-id="{{ photospot.pk }}">
-                          {% if request.user in photospot.photospots_users.all %}
-                            <i id="btn-photospots-{{ photospot.pk }}" data-photospot-id="{{ photospot.pk }}" class="btn-none bi bi-photospots-fill"></i>
-                          {% else %}
-                            <i id="btn-photospots-{{ photospot.pk }}" data-photospot-id="{{ photospot.pk }}" class="btn-none bi bi-photospots"></i>
-                          {% endif %}
-                        </div>
-                      {% endif %}
-                    </div>
+                    
                   </div>
                 </div>
               </div>
@@ -236,17 +215,17 @@
                   
     <!-- 인생사진 글 -->
     {% if user == request.user %}
-      <div class="collapse" id="user_photospots">
+      <div class="collapse" id="users_photospots">
         <div class="row">
           {% for photospot in photospots %}
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 p-3" id="photospots-{{ photospot.pk }}">
               <a href="{% url 'photospots:detail' photospot.pk %}">
                 <div class="card glow">
                   <!-- 첫 번째 이미지를 썸네일로 -->
-                  {% if photospot.photo_set.all.0.image %}
-                    <img src="{{ photospot.photo_set.all.0.image.url }}" class="card-img-top" alt="..." height="300px">
+                  {% if photospot.photo_img.url %}
+                    <img src="{{ photospot.photo_img.url }}" class="card-img-top" alt="..." height="300px">
                   {% else %}
-                    <img src="https://dummyimage.com/1200x960/000000/c4c4c4" class="card-img-top" height="300px">
+                    <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
                   {% endif %}
 
                   <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
@@ -262,11 +241,11 @@
                       </a>
                     </div>
 
-                    <h5 class="card-title card-title-text mb-2">{{ photospot.title }}</h5>
+                    <h5 class="card-title card-title-text mb-2">{{ photospot.content }}</h5>
                     <div class="d-flex align-items-center mb-2">
                       <!-- <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2.31055C6.81525 2.31194 5.67942 2.78321 4.84166 3.62096C4.00391 4.45871 3.53265 5.59454 3.53125 6.7793C3.52984 7.74748 3.84609 8.6894 4.4315 9.46055C4.4315 9.46055 4.55338 9.62102 4.57329 9.64417L8 13.6855L11.4283 9.64214C11.4462 9.62061 11.5685 9.46055 11.5685 9.46055L11.5689 9.45933C12.154 8.68851 12.4701 7.74704 12.4688 6.7793C12.4674 5.59454 11.9961 4.45871 11.1583 3.62096C10.3206 2.78321 9.18476 2.31194 8 2.31055ZM9.4625 8.81055L8 7.87983L6.5375 8.81055L6.78125 7.15548L5.5625 6.03708L7.26875 5.83111L8 4.3418L8.77675 5.83152L10.4375 6.03708L9.21875 7.15548L9.4625 8.81055Z" fill="#0060FF"></path></svg>-->
                       <i class="bi bi-geo-alt-fill fs-6 text-primary"></i>
-                      <span class="fs-6 text-primary ms-1 location">{{photospot.location}}</span>
+                      <span class="fs-6 text-primary ms-1 location">{{ photospot.place }}</span>
                     </div>
 
                     <div class="hashtags col-lg-8 col-md-10 mb-2">
@@ -275,7 +254,7 @@
                       {% endfor %}
                     </div>
 
-                    <!-- 좋아요, 댓글, 조회수, 인생사진 -->
+                    <!-- 좋아요, 댓글, 조회수 -->
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="text-muted fs-6">
                         {% if request.user.is_authenticated %}
@@ -297,17 +276,7 @@
                         </span>
                       </div>
 
-                      <div>
-                        {% if request.user.is_authenticated %}
-                          <div class="photospot-forms d-inline" data-photospot-id="{{ photospot.pk }}">
-                            {% if request.user in photospot.photospots_users.all %}
-                              <i id="btn-photospots-{{ photospot.pk }}" data-photospot-id="{{ photospot.pk }}" class="btn-none bi bi-photospots-fill"></i>
-                            {% else %}
-                              <i id="btn-photospots-{{ photospot.pk }}" data-photospot-id="{{ photospot.pk }}" class="btn-none bi bi-photospots"></i>
-                            {% endif %}
-                          </div>
-                        {% endif %}
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
@@ -361,45 +330,43 @@
 
     const link_user_friends = document.querySelector('#link_user_friends')
     const link_like_friends = document.querySelector('#link_like_friends')
-    const link_user_photospots = document.querySelector('#link_user_photospots')
+    const link_users_photospots = document.querySelector('#link_users_photospots')
     const user_friends = document.querySelector('#user_friends')
     const like_friends = document.querySelector('#like_friends')
-    const user_photospots = document.querySelector('#user_photospots')
+    const users_photospots = document.querySelector('#users_photospots')
 
     const userCollapse = new bootstrap.Collapse('#user_friends', {
       toggle: false
-    })
+    })  
     const likeCollapse = new bootstrap.Collapse('#like_friends', {
       toggle: false
     })
 
-    if (user_photospots) {
-      const photospotsCollapse = new bootstrap.Collapse('#user_photospots', {
+    if (users_photospots) {
+      const usersCollapse = new bootstrap.Collapse('#users_photospots', {
         toggle: false
     })
     
       user_friends.addEventListener('show.bs.collapse', event => {
         likeCollapse.hide()
-        photospotsCollapse.hide()
+        usersCollapse.hide()
       })
       like_friends.addEventListener('show.bs.collapse', event => {
         userCollapse.hide()
-        photospotsCollapse.hide()
+        usersCollapse.hide()
       })
-      user_photospots.addEventListener('show.bs.collapse', event => {
+      users_photospots.addEventListener('show.bs.collapse', event => {
         userCollapse.hide()
         likeCollapse.hide()
       })
     } else {
-      user_friends.addEventListener('show.bs.collapse', event => {
+      user_friends.addEventListener('hide.bs.collapse', event => {
         likeCollapse.hide()
       })
-      like_friends.addEventListener('show.bs.collapse', event => {
+      like_friends.addEventListener('hide.bs.collapse', event => {
         userCollapse.hide()
       })
     }
+    
   </script>
 {% endblock script %}
-
-
-
