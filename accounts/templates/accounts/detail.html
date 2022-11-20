@@ -50,7 +50,7 @@
             <a id="link_user_friends" data-bs-toggle="collapse" href="#user_friends" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">내 게시글</a>
             <a id="link_like_friends" data-bs-toggle="collapse" href="#like_friends" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">좋아요</a>
             {% if user == request.user %}
-              <a id="link_user_photospots" data-bs-toggle="collapse" href="#user_photospots" role="button" aria-expanded="false" aria-controls="collapseExample">인생사진</a>
+              <a id="link_user_photospots" data-bs-toggle="collapse" href="#user_photospots" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">인생사진</a>
               <a href="{% url 'chats:rooms' user.pk %}">내 채팅방</a>
             {% endif %}
           </div>
@@ -361,10 +361,10 @@
 
     const link_user_friends = document.querySelector('#link_user_friends')
     const link_like_friends = document.querySelector('#link_like_friends')
-    const link_user_photospots = document.querySelector('#link_photospots')
+    const link_user_photospots = document.querySelector('#link_user_photospots')
     const user_friends = document.querySelector('#user_friends')
     const like_friends = document.querySelector('#like_friends')
-    const user_photospots = document.querySelector('#photospots')
+    const user_photospots = document.querySelector('#user_photospots')
 
     const userCollapse = new bootstrap.Collapse('#user_friends', {
       toggle: false
@@ -374,17 +374,17 @@
     })
 
     if (user_photospots) {
-    const userCollapse = new bootstrap.Collapse('#photospots', {
-      toggle: false
+      const photospotsCollapse = new bootstrap.Collapse('#user_photospots', {
+        toggle: false
     })
     
       user_friends.addEventListener('show.bs.collapse', event => {
         likeCollapse.hide()
-        userCollapse.hide()
+        photospotsCollapse.hide()
       })
       like_friends.addEventListener('show.bs.collapse', event => {
         userCollapse.hide()
-        userCollapse.hide()
+        photospotsCollapse.hide()
       })
       user_photospots.addEventListener('show.bs.collapse', event => {
         userCollapse.hide()

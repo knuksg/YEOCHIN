@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path, os
 from dotenv import load_dotenv
+
 load_dotenv()
 
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = "False"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +30,7 @@ SECRET_KEY = "django-insecure-q9ifj9p#y*sht%9bk4r&70af-i$43#^iwu$ucdwi+qg_swv%^m
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = [
-	# "Elastic Beanstalk URL",
+    # "Elastic Beanstalk URL",
     # 예시 "sharestreet-env.eba-xqbmviyc.ap-northeast-2.elasticbeanstalk.com",
     "Knuksgdjangobean-env-1.eba-eqdmpmat.ap-northeast-2.elasticbeanstalk.com",
     "127.0.0.1",
@@ -48,7 +49,6 @@ INSTALLED_APPS = [
     "imagekit",
     "django_bootstrap5",
     "django_extensions",
-
     "django_summernote",
     # 채팅 관련 앱
     "daphne",
@@ -111,9 +111,9 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 if DEBUG:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
@@ -121,10 +121,10 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DATABASE_NAME"), # 코드 블럭 아래 이미지 참고하여 입력
+            "NAME": os.getenv("DATABASE_NAME"),  # 코드 블럭 아래 이미지 참고하여 입력
             "USER": "postgres",
-            "PASSWORD": os.getenv("DATABASE_PASSWORD"), # 데이터베이스 생성 시 작성한 패스워드
-            "HOST": os.getenv("DATABASE_HOST"), # 코드 블럭 아래 이미지 참고하여 입력
+            "PASSWORD": os.getenv("DATABASE_PASSWORD"),  # 데이터베이스 생성 시 작성한 패스워드
+            "HOST": os.getenv("DATABASE_HOST"),  # 코드 블럭 아래 이미지 참고하여 입력
             "PORT": "5432",
         }
     }
@@ -167,18 +167,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = "staticfiles"
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # Media files
 
-if DEBUG: 
+if DEBUG:
     MEDIA_URL = "/media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-else:   
+else:
     # 기본 파일 저장소
     # DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     # 커스텀 파일 저장소
