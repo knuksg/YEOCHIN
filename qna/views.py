@@ -64,7 +64,7 @@ def index(request):
                 try:
                     qna_dict['profile_image'] = q.user.profile.image.url
                 except:
-                    qna_dict['profile_image'] = 'None'
+                    qna_dict['profile_image'] = None
                 tags = q.tag.all()
                 tag_str = ''
                 for tag in tags:
@@ -103,7 +103,7 @@ def index(request):
                     qna_dict['profile_image'] = q.user.profile.image.url
                     print(q.user.profile.image.url)
                 except:
-                    qna_dict['profile_image'] = 'None'
+                    qna_dict['profile_image'] = None
                 tags = q.tag.all()
                 tag_str = ''
                 for tag in tags:
