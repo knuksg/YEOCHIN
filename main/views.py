@@ -28,7 +28,7 @@ def search(request):
     if kw:
         photospot_list = (
             photospot_list.filter(
-                Q(place__icontains=kw)  # 이름 검색
+                Q(region__icontains=kw)  # 이름 검색
                 # Q(address__icontains=kw) | # 주소 검색
                 # Q(tags__in=tag) # 태그 검색
             )
