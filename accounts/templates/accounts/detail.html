@@ -3,253 +3,121 @@
 {% load static %}
 
 {% block body %}
-<h1 class="text-center my-5">
-    <span class="text-success">{{ user.nickname }}</span>님의 페이지</h1>
 
-<!-- 프로필 이미지, 닉네임, 유저네임, 소개글 -->
-<div class="container d-grid p-2 rounded-4 border border-1 mb-5" style="background-color: white;">
-    <div class="row row-cols-2 align-items-center">
-      <div class="col-3">
-        {% if user.profile.image %}
-          <img src="{{ user.profile.image.url }}" alt="" class="rounded-4 border border-1 w-100">
-        {% else %}
-          <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-4 border border-1 w-100">
-        {% endif %}
+<!-- 프로필 이미지, 닉네임, 유저네임, 소개글  d-grid p-2 rounded-4 border border-1 mb-5-->
+
+<div class="container" style="margin-top: 200px; background-color: white;">
+  <div class="row align-items-center">
+    <div class="d-flex align-items-center">
+      {% if qna.user.profile.image %}
+      <a href="{% url 'accounts:detail' user.pk %}"><img src="{{ user.profile.image.url }}"
+          alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1" width="40" height="40"></a>
+      {% else %}
+      <a href="{% url 'accounts:detail'  user.pk %}"><img src="{% static 'image/no_profile.jpg'%}" alt=""
+          class="rounded-circle border border-1" width="40" height="40"></a>
+      {% endif %}
+      <div class="d-flex flex-column">
+        <p class="profilName">{{ user.nickname }}</p>
       </div>
+      <div>
 
-      <div class="col-9 p-3" style="height: 100%">
-        <div class="d-flex align-items-center justify-content-between">
-          <div class="d-flex align-items-center">
-            <h3 class="m-0 me-3">{{ user.nickname }}</h3>
-          </div>
+      </div>
+    </div>
 
-          <div>
-            <!-- 로그인 유저 == 회원 정보 페이지의 유저 -->
-            {% if request.user == user %}
-              <a href="{% url 'accounts:update' user.pk %}" class="green-btn p-2">회원 정보 수정</a>
-            <!-- 로그인 유저 -->
-            {% elif request.user.is_authenticated %}
-              <form id="follow-form" data-user-id="{{ user.pk }}">
-                {% csrf_token %}
+    <div class="p-3" style="height: 100%">
+      <div class="d-flex align-items-center justify-content-between">
+        <!-- <div class="d-flex align-items-center">
+        </div> -->
 
-                <!-- 로그인 한 유저가 이미 팔로잉 중일 때 -->
-                {% if request.user in user.followers.all %}
-                  <input class='btn btn-secondary' type="submit" value="언팔로우">
-                {% else %}
-                  <input class='btn btn-primary' type="submit" value="팔로우">
-                {% endif %}
-              </form>
-            {% endif %}
-          </div>
-        </div>
-        <hr>
-
-        <div class="d-flex justify-content-between mb-4">
-          <div>
-            <a id="link_user_friends" data-bs-toggle="collapse" href="#user_friends" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">내 게시글</a>
-            <a id="link_like_friends" data-bs-toggle="collapse" href="#like_friends" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">좋아요</a>
-            <a id="link_users_photospots" data-bs-toggle="collapse" href="#users_photospots" role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">인생사진</a>
-            {% if user == request.user %}
-              <a href="{% url 'chats:rooms' user.pk %}">내 채팅방</a>
-            {% endif %}
-          </div>
-          
-          <p class="text-muted m-0">
-            <span class="me-3">팔로잉 <span id="followings-count">{{ user.followings.all|length }}</span>명</span>
-            <span>팔로워 <span id="followers-count">{{ user.followers.all|length }}</span>명</span>        
-          </p>
-        </div>
 
         <div>
-          <p class="m-0">{{ user.profile.intro }}</p>
+          <p class="text-muted m-0">
+            <span class="mx-2" style="font-size: 16px;">팔로잉</span>
+            <span style="color: rgb(0, 206, 124); font-weight:700;" id="followings-count">
+              {{ user.followings.all|length }}</span><span class="mx-1">명</span>
+
+            <span class="mx-2" style="font-size: 16px;">팔로워</span> <span
+              style="color: rgb(0, 206, 124); font-weight:700;" id="followers-count">
+              {{ user.followers.all|length }}</span><span class="mx-1">명</span>
+          </p>
         </div>
+        <div>
+          <!-- 로그인 유저 == 회원 정보 페이지의 유저 -->
+          {% if request.user == user %}
+          <a href="{% url 'accounts:update' user.pk %}" class="green-btn p-2">회원 정보 수정</a>
+          <!-- 로그인 유저 -->
+          {% elif request.user.is_authenticated %}
+        </div>
+        <form id="follow-form" data-user-id="{{ user.pk }}" class="d-flex justify-content-end">
+          {% csrf_token %}
+
+          <!-- 로그인 한 유저가 이미 팔로잉 중일 때 -->
+          {% if request.user in user.followers.all %}
+          <input class="flow-green-btn" type="submit" value="unflow">
+          {% else %}
+          <input class='flow-green-btn' type="submit" value="flow">
+          {% endif %}
+        </form>
+        {% endif %}
       </div>
     </div>
   </div>
+  <hr>
+  <div class="row" style="max-height: 200px;">
 
-   <!-- 글 목록 -->
-   <div class="container">
-    <!-- 작성한 글 -->
-    <div class="collapse" id="user_friends">
-      <div class="row">
-        {% for friend in friends %}
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 p-3">
-            <a href="{% url 'friends:detail' friend.pk %}">
-              <div class="card glow">
-                <!-- 첫 번째 이미지를 썸네일로 -->
-                {% if friend.image %}
-                  <img src="{{ friend.image.url }}" class="card-img-top" alt="..." height="300px">
-                {% else %}
-                  <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
-                {% endif %}
+    <section class="divMenusetion col-xl-2 col-lg-2 col-md-12 col-sm-12" style="background-color:rgb(248, 248, 248)">
 
-                <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
-                  <!-- 유저 -->
-                  <div class="mb-2">
-                    <a href="{% url 'accounts:detail' friend.user.pk %}" class="text-dark">
-                      {% if friend.user.profile.image %}
-                        <img src="{{ friend.user.profile.image.url }}" alt="{{ friend.user.profile.image }}" class="rounded-2 border border-1" width="40px">
-                      {% else %}
-                        <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
-                      {% endif %}
-                      <span class="ms-2">{{ friend.user.nickname }}</span>
-                    </a>
-                  </div>
-
-                  <h5 class="card-title card-title-text mb-2">{{ friend.title }}</h5>
-                  <div class="d-flex align-items-center mb-2">
-                    <!-- <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2.31055C6.81525 2.31194 5.67942 2.78321 4.84166 3.62096C4.00391 4.45871 3.53265 5.59454 3.53125 6.7793C3.52984 7.74748 3.84609 8.6894 4.4315 9.46055C4.4315 9.46055 4.55338 9.62102 4.57329 9.64417L8 13.6855L11.4283 9.64214C11.4462 9.62061 11.5685 9.46055 11.5685 9.46055L11.5689 9.45933C12.154 8.68851 12.4701 7.74704 12.4688 6.7793C12.4674 5.59454 11.9961 4.45871 11.1583 3.62096C10.3206 2.78321 9.18476 2.31194 8 2.31055ZM9.4625 8.81055L8 7.87983L6.5375 8.81055L6.78125 7.15548L5.5625 6.03708L7.26875 5.83111L8 4.3418L8.77675 5.83152L10.4375 6.03708L9.21875 7.15548L9.4625 8.81055Z" fill="#0060FF"></path></svg>-->
-                    <i class="bi bi-geo-alt-fill fs-6 text-primary"></i>
-                    <span class="fs-6 text-primary ms-1 location">{{friend.place}}</span>
-                  </div>
-
-                  <div class="hashtags col-lg-8 col-md-10 mb-2">
-                    {% for tag in friend.tags.all %}
-                      <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
-                    {% endfor %}
-                  </div>
-
-                  <!-- 좋아요, 댓글, 조회수 -->
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="text-muted fs-6">
-                      {% if request.user.is_authenticated %}
-                        <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
-                          {% if request.user in friend.like_users.all %}
-                            <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"></i>
-                          {% else %}
-                            <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
-                          {% endif %}
-                        </div>
-                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_users.count }}</span>
-                      {% endif %}
-
-                      <span class="bi bi-chat-dots-fill me-3"> 
-                        <span class="">{{ friend.comment_set.all.count }}</span>
-                      </span>
-                      <span class="bi bi-eye-fill"> 
-                        <span class="">{{ friend.view_count }}</span>
-                      </span>
-                    </div>
-
-
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-
-    <!-- 좋아요한 글 -->
-    <div class="collapse" id="like_friends">
-      <div class="row">
-        {% for friend in like_friends %}
-          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 p-3" id="like-{{ friend.pk }}">
-            <a href="{% url 'friends:detail' friend.pk %}">
-              <div class="card glow">
-                <!-- 첫 번째 이미지를 썸네일로 -->
-                {% if friend.image %}
-                  <img src="{{ friend.image.url }}" class="card-img-top" alt="..." height="300px">
-                {% else %}
-                  <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
-                {% endif %}
-
-                <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
-                  <!-- 유저 -->
-                  <div class="mb-2">
-                    <a href="{% url 'accounts:detail' friend.user.pk %}" class="text-dark">
-                      {% if friend.user.profile.image %}
-                        <img src="{{ friend.user.profile.image.url }}" alt="{{ friend.user.profile.image }}" class="rounded-2 border border-1" width="40px">
-                      {% else %}
-                        <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
-                      {% endif %}
-                      <span class="ms-2">{{ friend.user.nickname }}</span>
-                    </a>
-                  </div>
-
-                  <h5 class="card-title card-title-text mb-2">{{ friend.title }}</h5>
-                  <div class="d-flex align-items-center mb-2">
-                    <!-- <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2.31055C6.81525 2.31194 5.67942 2.78321 4.84166 3.62096C4.00391 4.45871 3.53265 5.59454 3.53125 6.7793C3.52984 7.74748 3.84609 8.6894 4.4315 9.46055C4.4315 9.46055 4.55338 9.62102 4.57329 9.64417L8 13.6855L11.4283 9.64214C11.4462 9.62061 11.5685 9.46055 11.5685 9.46055L11.5689 9.45933C12.154 8.68851 12.4701 7.74704 12.4688 6.7793C12.4674 5.59454 11.9961 4.45871 11.1583 3.62096C10.3206 2.78321 9.18476 2.31194 8 2.31055ZM9.4625 8.81055L8 7.87983L6.5375 8.81055L6.78125 7.15548L5.5625 6.03708L7.26875 5.83111L8 4.3418L8.77675 5.83152L10.4375 6.03708L9.21875 7.15548L9.4625 8.81055Z" fill="#0060FF"></path></svg>-->
-                    <i class="bi bi-geo-alt-fill fs-6 text-primary"></i>
-                    <span class="fs-6 text-primary ms-1 location">{{friend.place}}</span>
-                  </div>
-
-                  <div class="hashtags col-lg-8 col-md-10 mb-2">
-                    {% for tag in friend.tags.all %}
-                      <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
-                    {% endfor %}
-                  </div>
-                  
-                  <!-- 좋아요, 댓글, 조회수 -->
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="text-muted fs-6">
-                      {% if request.user.is_authenticated %}
-                        <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
-                          {% if request.user in friend.like_users.all %}
-                            <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"></i>
-                          {% else %}
-                            <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
-                          {% endif %}
-                        </div>
-                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_users.count }}</span>
-                      {% endif %}
-
-                      <span class="bi bi-chat-dots-fill me-3"> 
-                        <span class="">{{ friend.comment_set.all.count }}</span>
-                      </span>
-                      <span class="bi bi-eye-fill"> 
-                        <span class="">{{ friend.view_count }}</span>
-                      </span>
-                    </div>
-
-                    
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-                  
-    <!-- 인생사진 글 -->
-      <div class="collapse" id="users_photospots">
-        <div class="row">
-          {% for photospot in photospots %}
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 p-3" id="photospots-{{ photospot.pk }}">
-              <a href="{% url 'photospots:detail' photospot.pk %}">
+      <div class="MenusetionItem"><a id="link_user_friends" data-bs-toggle="collapse" href="#user_friends" role="button"
+          aria-expanded="false" aria-controls="collapseExample" class="me-3">내 동행 게시물</a></div>
+      <div class="MenusetionItem"><a id="link_like_friends" data-bs-toggle="collapse" href="#like_friends" role="button"
+          aria-expanded="false" aria-controls="collapseExample" class="me-3">내 좋아요</a></div>
+      <div class="MenusetionItem"><a id="link_users_photospots" data-bs-toggle="collapse" href="#users_photospots"
+          role="button" aria-expanded="false" aria-controls="collapseExample" class="me-3">내 포토스팟</a></div>
+      <!-- <div><a href="{% url 'chats:rooms' user.pk %}">내 채팅방</a></div> -->
+    </section>
+    <section class="divMenusetion col-xl-9 col-lg-10 col-md-12 col-sm-12">
+      <!-- 글 목록 -->
+      <div class="container">
+        <!-- 작성한 글 -->
+        <div class="collapse" id="user_friends">
+          <div class="row">
+            {% for friend in friends %}
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 p-3">
+              <a href="{% url 'friends:detail' friend.pk %}">
                 <div class="card glow">
                   <!-- 첫 번째 이미지를 썸네일로 -->
-                  {% if photospot.photo_img.url %}
-                    <img src="{{ photospot.photo_img.url }}" class="card-img-top" alt="..." height="300px">
+                  {% if friend.image %}
+                  <img src="{{ friend.image.url }}" class="card-img-top" alt="..." height="300px">
                   {% else %}
-                    <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
+                  <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
                   {% endif %}
 
                   <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
                     <!-- 유저 -->
                     <div class="mb-2">
-                      <a href="{% url 'accounts:detail' photospot.user.pk %}" class="text-dark">
-                        {% if photospot.user.profile.image %}
-                          <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-2 border border-1" width="40px">
+                      <a href="{% url 'accounts:detail' friend.user.pk %}" class="text-dark">
+                        {% if friend.user.profile.image %}
+                        <img src="{{ friend.user.profile.image.url }}" alt="{{ friend.user.profile.image }}"
+                          class="rounded-2 border border-1" width="40px">
                         {% else %}
-                          <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1" width="40px">
+                        <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1"
+                          width="40px">
                         {% endif %}
-                        <span class="ms-2">{{ photospot.user.nickname }}</span>
+                        <span class="">{{ friend.user.nickname }}</span>
                       </a>
                     </div>
 
-                    <h5 class="card-title card-title-text mb-2">{{ photospot.content }}</h5>
+                    <h5 class="card-title card-title-text mb-2" style="font-weight: 700;">{{ friend.title }}</h5>
                     <div class="d-flex align-items-center mb-2">
                       <!-- <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2.31055C6.81525 2.31194 5.67942 2.78321 4.84166 3.62096C4.00391 4.45871 3.53265 5.59454 3.53125 6.7793C3.52984 7.74748 3.84609 8.6894 4.4315 9.46055C4.4315 9.46055 4.55338 9.62102 4.57329 9.64417L8 13.6855L11.4283 9.64214C11.4462 9.62061 11.5685 9.46055 11.5685 9.46055L11.5689 9.45933C12.154 8.68851 12.4701 7.74704 12.4688 6.7793C12.4674 5.59454 11.9961 4.45871 11.1583 3.62096C10.3206 2.78321 9.18476 2.31194 8 2.31055ZM9.4625 8.81055L8 7.87983L6.5375 8.81055L6.78125 7.15548L5.5625 6.03708L7.26875 5.83111L8 4.3418L8.77675 5.83152L10.4375 6.03708L9.21875 7.15548L9.4625 8.81055Z" fill="#0060FF"></path></svg>-->
-                      <i class="bi bi-geo-alt-fill fs-6 text-primary"></i>
-                      <span class="fs-6 text-primary ms-1 location">{{ photospot.place }}</span>
+                      <i class="bi bi-geo-alt-fill fs-6 text-mute"></i>
+                      <span class="fs-6 text-mute ms-1 location">{{ friend.region }}</span>
                     </div>
 
                     <div class="hashtags col-lg-8 col-md-10 mb-2">
-                      {% for tag in photospot.tags.all %}
-                        <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}" class="text-decoration-none fs-6">#{{ tag.name }}</a>
+                      {% for tag in friend.tags.all %}
+                      <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}"
+                        class="text-decoration-none fs-6">#{{ tag.name }}</a>
                       {% endfor %}
                     </div>
 
@@ -257,64 +125,242 @@
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="text-muted fs-6">
                         {% if request.user.is_authenticated %}
-                          <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
-                            {% if request.user in friend.like_users.all %}
-                              <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"></i>
-                            {% else %}
-                              <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
-                            {% endif %}
-                          </div>
-                          <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_users.count }}</span>
+                        <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
+                          {% if request.user in friend.like_users.all %}
+                          <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"></i>
+                          {% else %}
+                          <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
+                          {% endif %}
+                        </div>
+                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">
+                          {{ friend.like_users.count}}</span>
                         {% endif %}
 
-                        <span class="bi bi-chat-dots-fill me-3"> 
+                        <span class="bi bi-chat-dots-fill me-3">
                           <span class="">{{ friend.comment_set.all.count }}</span>
                         </span>
-                        <span class="bi bi-eye-fill"> 
+                        <span class="bi bi-eye-fill">
                           <span class="">{{ friend.view_count }}</span>
                         </span>
                       </div>
 
-                      
+
                     </div>
                   </div>
                 </div>
               </a>
             </div>
-          {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- 좋아요한 글 -->
+        <div class="collapse" id="like_friends">
+          <div class="row">
+            {% for friend in like_friends %}
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 p-3" id="like-{{ friend.pk }}">
+              <a href="{% url 'friends:detail' friend.pk %}">
+                <div class="card glow">
+                  <!-- 첫 번째 이미지를 썸네일로 -->
+                  {% if friend.image %}
+                  <img src="{{ friend.image.url }}" class="card-img-top" alt="..." height="300px">
+                  {% else %}
+                  <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
+                  {% endif %}
+
+                  <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
+                    <!-- 유저 -->
+                    <div class="mb-2">
+                      <a href="{% url 'accounts:detail' friend.user.pk %}" class="text-dark">
+                        {% if friend.user.profile.image %}
+                        <img src="{{ friend.user.profile.image.url }}" alt="{{ friend.user.profile.image }}"
+                          class="rounded-2 border border-1" width="40px">
+                        {% else %}
+                        <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1"
+                          width="40px">
+                        {% endif %}
+                        <span class="">{{ friend.user.nickname }}</span>
+                      </a>
+                    </div>
+
+                    <h5 class="card-title card-title-text mb-2" style="font-weight: 700;">{{ friend.title }}</h5>
+                    <div class="d-flex align-items-center mb-2">
+                      <!-- <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2.31055C6.81525 2.31194 5.67942 2.78321 4.84166 3.62096C4.00391 4.45871 3.53265 5.59454 3.53125 6.7793C3.52984 7.74748 3.84609 8.6894 4.4315 9.46055C4.4315 9.46055 4.55338 9.62102 4.57329 9.64417L8 13.6855L11.4283 9.64214C11.4462 9.62061 11.5685 9.46055 11.5685 9.46055L11.5689 9.45933C12.154 8.68851 12.4701 7.74704 12.4688 6.7793C12.4674 5.59454 11.9961 4.45871 11.1583 3.62096C10.3206 2.78321 9.18476 2.31194 8 2.31055ZM9.4625 8.81055L8 7.87983L6.5375 8.81055L6.78125 7.15548L5.5625 6.03708L7.26875 5.83111L8 4.3418L8.77675 5.83152L10.4375 6.03708L9.21875 7.15548L9.4625 8.81055Z" fill="#0060FF"></path></svg>-->
+                      <i class="bi bi-geo-alt-fill fs-6 text-mute"></i>
+                      <span class="fs-6 text-mute ms-1 location">{{ friend.region }}</span>
+                    </div>
+
+                    <div class="hashtags col-lg-8 col-md-10 mb-2">
+                      {% for tag in friend.tags.all %}
+                      <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}"
+                        class="text-decoration-none fs-6">#{{ tag.name }}</a>
+                      {% endfor %}
+                    </div>
+
+                    <!-- 좋아요, 댓글, 조회수 -->
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="text-muted fs-6">
+                        {% if request.user.is_authenticated %}
+                        <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
+                          {% if request.user in friend.like_users.all %}
+                          <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"></i>
+                          {% else %}
+                          <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
+                          {% endif %}
+                        </div>
+                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">
+                          {{ friend.like_users.count }}</span>
+                        {% endif %}
+
+                        <span class="bi bi-chat-dots-fill me-3">
+                          <span class="">{{ friend.comment_set.all.count }}</span>
+                        </span>
+                        <span class="bi bi-eye-fill">
+                          <span class="">{{ friend.view_count }}</span>
+                        </span>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- 인생사진 글 -->
+        <div class="collapse" id="users_photospots">
+          <div class="row">
+            {% for photospot in photospots %}
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-1 p-3" id="photospots-{{ photospot.pk }}">
+              <a href="{% url 'photospots:detail' photospot.pk %}">
+                <div class="card glow">
+                  <!-- 첫 번째 이미지를 썸네일로 -->
+                  {% if photospot.photo_img.url %}
+                  <img src="{{ photospot.photo_img.url }}" class="card-img-top" alt="..." height="300px">
+                  {% else %}
+                  <img src="https://dummyimage.com/1200x300/000000/c4c4c4" class="card-img-top" height="300px">
+                  {% endif %}
+
+                  <div class="card-body d-flex flex-column justify-content-between" style="height: 12rem">
+                    <!-- 유저 -->
+                    <div class="mb-2">
+                      <a href="{% url 'accounts:detail' photospot.user.pk %}" class="text-dark">
+                        {% if photospot.user.profile.image %}
+                        <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}"
+                          class="rounded-2 border border-1" width="40px">
+                        {% else %}
+                        <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1"
+                          width="40px">
+                        {% endif %}
+                        <span class="">{{ photospot.user.nickname }}</span>
+                      </a>
+                    </div>
+
+                    <h5 class="card-title card-title-text mb-2" style="font-weight: 700;">{{ photospot.content }}</h5>
+                    <div class="d-flex align-items-center mb-2">
+                      <!-- <svg width="26" height="26" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2.31055C6.81525 2.31194 5.67942 2.78321 4.84166 3.62096C4.00391 4.45871 3.53265 5.59454 3.53125 6.7793C3.52984 7.74748 3.84609 8.6894 4.4315 9.46055C4.4315 9.46055 4.55338 9.62102 4.57329 9.64417L8 13.6855L11.4283 9.64214C11.4462 9.62061 11.5685 9.46055 11.5685 9.46055L11.5689 9.45933C12.154 8.68851 12.4701 7.74704 12.4688 6.7793C12.4674 5.59454 11.9961 4.45871 11.1583 3.62096C10.3206 2.78321 9.18476 2.31194 8 2.31055ZM9.4625 8.81055L8 7.87983L6.5375 8.81055L6.78125 7.15548L5.5625 6.03708L7.26875 5.83111L8 4.3418L8.77675 5.83152L10.4375 6.03708L9.21875 7.15548L9.4625 8.81055Z" fill="#0060FF"></path></svg>-->
+                      <i class="bi bi-geo-alt-fill fs-6" style="color: #9a9a9a;"></i>
+                      <span class="fs-6 ms-1 location" style="color: #9a9a9a;">{{ photospot.place }}</span>
+                    </div>
+
+                    <div class="hashtags col-lg-8 col-md-10 mb-2">
+                      {% for tag in photospot.tags.all %}
+                      <a href="/search/?search_option=hashtag&amp;search={{ tag.name }}"
+                        class="text-decoration-none fs-6">#{{
+                        tag.name }}</a>
+                      {% endfor %}
+                    </div>
+
+                    <!-- 좋아요, 댓글, 조회수 -->
+                    <div class="d-flex justify-content-between align-items-center">
+                      <div class="text-muted fs-6">
+                        {% if request.user.is_authenticated %}
+                        <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
+                          {% if request.user in friend.like_users.all %}
+                          <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"
+                            style="color: #9a9a9a;"></i>
+                          {% else %}
+                          <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart" style="color: #9a9a9a;"></i>
+                          {% endif %}
+                        </div>
+                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">
+                          {{ friend.like_users.count }}</span>
+                        {% endif %}
+
+                        <span class="bi bi-chat-dots-fill me-3">
+                          <span class="">{{ friend.comment_set.all.count }}</span>
+                        </span>
+                        <span class="bi bi-eye-fill">
+                          <span class="">{{ friend.view_count }}</span>
+                        </span>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
         </div>
       </div>
   </div>
+
+  <!-- <div class="d-flex justify-content-between mb-4">
+    <div>
+      <a id="link_user_friends" data-bs-toggle="collapse" href="#user_friends" role="button" aria-expanded="false"
+        aria-controls="collapseExample" class="me-3">내 게시글</a>
+      <a id="link_like_friends" data-bs-toggle="collapse" href="#like_friends" role="button" aria-expanded="false"
+        aria-controls="collapseExample" class="me-3">좋아요</a>
+      <a id="link_users_photospots" data-bs-toggle="collapse" href="#users_photospots" role="button"
+        aria-expanded="false" aria-controls="collapseExample" class="me-3">인생사진</a>
+      {% if user == request.user %}
+      <a href="{% url 'chats:rooms' user.pk %}">내 채팅방</a>
+      {% endif %}
+    </div>
+  </div> -->
+
+  <div>
+    <p class="m-0">{{ user.profile.intro }}</p>
+  </div>
+</div>
+</section>
+
+
 {% endblock body %}
 
 {% block script %}
-  <script>
-    const form = document.querySelector("#follow-form")
-    if (form) {
-      const csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
-      form.addEventListener('submit', function (event) {
-        event.preventDefault()
-        const userId = event.target.dataset.userId
+<script>
+  const form = document.querySelector("#follow-form")
+  if (form) {
+    const csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
+    form.addEventListener('submit', function (event) {
+      event.preventDefault()
+      const userId = event.target.dataset.userId
 
-        axios({
-          method: "post",
-          url: `/accounts/${userId}/follow/`,
-          headers: {
-            'X-CSRFToken': csrf_token
-          }
-        })
+      axios({
+        method: "post",
+        url: `/accounts/${userId}/follow/`,
+        headers: {
+          'X-CSRFToken': csrf_token
+        }
+      })
         .then((response) => {
           const followersCount = response.data.followers_count
           const followingsCount = response.data.followings_count
           const isFollowed = response.data.is_followed
           const followBtn = document.querySelector('#follow-form > input[type=submit]')
           if (isFollowed === true) {
-            followBtn.value = '언팔로우'
+            followBtn.value = 'unflow'
             followBtn.classList.add('btn-secondary')
-            followBtn.classList.remove('btn-primary')
+            followBtn.classList.remove('btn-mute')
           } else {
-            followBtn.value = '팔로우'
-            followBtn.classList.add('btn-primary')
+            followBtn.value = 'flow'
+            followBtn.classList.add('btn-mute')
             followBtn.classList.remove('btn-secondary')
           }
 
@@ -323,48 +369,48 @@
           followersCountTag.innerText = followersCount
           followingsCountTag.innerText = followingsCount
         })
-      })
-    }
+    })
+  }
 
-    const link_user_friends = document.querySelector('#link_user_friends')
-    const link_like_friends = document.querySelector('#link_like_friends')
-    const link_users_photospots = document.querySelector('#link_users_photospots')
-    const user_friends = document.querySelector('#user_friends')
-    const like_friends = document.querySelector('#like_friends')
-    const users_photospots = document.querySelector('#users_photospots')
+  const link_user_friends = document.querySelector('#link_user_friends')
+  const link_like_friends = document.querySelector('#link_like_friends')
+  const link_users_photospots = document.querySelector('#link_users_photospots')
+  const user_friends = document.querySelector('#user_friends')
+  const like_friends = document.querySelector('#like_friends')
+  const users_photospots = document.querySelector('#users_photospots')
 
-    const userCollapse = new bootstrap.Collapse('#user_friends', {
-      toggle: false
-    })  
-    const likeCollapse = new bootstrap.Collapse('#like_friends', {
+  const userCollapse = new bootstrap.Collapse('#user_friends', {
+    toggle: false
+  })
+  const likeCollapse = new bootstrap.Collapse('#like_friends', {
+    toggle: false
+  })
+
+  if (users_photospots) {
+    const usersCollapse = new bootstrap.Collapse('#users_photospots', {
       toggle: false
     })
 
-    if (users_photospots) {
-      const usersCollapse = new bootstrap.Collapse('#users_photospots', {
-        toggle: false
+    user_friends.addEventListener('show.bs.collapse', event => {
+      likeCollapse.hide()
+      usersCollapse.hide()
     })
-    
-      user_friends.addEventListener('show.bs.collapse', event => {
-        likeCollapse.hide()
-        usersCollapse.hide()
-      })
-      like_friends.addEventListener('show.bs.collapse', event => {
-        userCollapse.hide()
-        usersCollapse.hide()
-      })
-      users_photospots.addEventListener('show.bs.collapse', event => {
-        userCollapse.hide()
-        likeCollapse.hide()
-      })
-    } else {
-      user_friends.addEventListener('hide.bs.collapse', event => {
-        likeCollapse.hide()
-      })
-      like_friends.addEventListener('hide.bs.collapse', event => {
-        userCollapse.hide()
-      })
-    }
-    
-  </script>
+    like_friends.addEventListener('show.bs.collapse', event => {
+      userCollapse.hide()
+      usersCollapse.hide()
+    })
+    users_photospots.addEventListener('show.bs.collapse', event => {
+      userCollapse.hide()
+      likeCollapse.hide()
+    })
+  } else {
+    user_friends.addEventListener('hide.bs.collapse', event => {
+      likeCollapse.hide()
+    })
+    like_friends.addEventListener('hide.bs.collapse', event => {
+      userCollapse.hide()
+    })
+  }
+
+</script>
 {% endblock script %}

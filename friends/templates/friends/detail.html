@@ -134,7 +134,7 @@
     </div>
     <!-- 프로필 -->
     <div class="profileSection col col-lg-3">
-      < class="d-flex align-items-center">
+      <div class="d-flex align-items-center">
         {% if friend.user.profile.image %}
         <a href="{% url 'accounts:detail' friend.user.pk %}"></a>
         <img src="{{ friend.user.profile.image.url }}" alt="{{ friend.user.profile.image }}"
@@ -150,28 +150,28 @@
           <p class="my-0 me-2 fw-bold" style="font-weight:700;">{{ friend.user.nickname }}</p>
           <p class="my-0" style="font-size: 13px;">소개글</p>
         </div>
-    </div>
-    <div style="height:20px; border-top: 1px solid #e9e9e9; margin-top:20px;"></div>
-    <div class="text-center" style="margin-bottom: 5px; font-size: 14px;   font-weight:700;">프로필 사진을 클릭해보세요!</div>
-    <div class="d-flex justify-content-center">
-      {% if request.user == friend.user %}
-      <div class="d-flex justify-content-between w-100">
-        <a class="answerBtn text-center" href="{% url 'friends:friend_closed' friend.pk %}" type="submit">
-          {% if friend.closed == False %}
-          마감하기
-          {% else %}
-          마감 취소하기
-          {% endif %}
-        </a>
-        <a href="{% url 'friends:chat_create' friend.pk %}" class="answerBtn text-center ms-2" type="submit">채팅방
-          개설하기</a>
       </div>
-      {% else %}
-      <a href="{% url 'friends:request' friend.pk %}" class="answerBtn text-center" type="submit">동행 신청하기</a>
-      {% endif %}
+      <div style="height:20px; border-top: 1px solid #e9e9e9; margin-top:20px;"></div>
+      <div class="text-center" style="margin-bottom: 5px; font-size: 14px;   font-weight:700;">프로필 사진을 클릭해보세요!</div>
+      <div class="d-flex justify-content-center">
+        {% if request.user == friend.user %}
+        <div class="d-flex justify-content-between w-100">
+          <a class="answerBtn text-center" href="{% url 'friends:friend_closed' friend.pk %}" type="submit">
+            {% if friend.closed == False %}
+            마감하기
+            {% else %}
+            마감 취소하기
+            {% endif %}
+          </a>
+          <a href="{% url 'friends:chat_create' friend.pk %}" class="answerBtn text-center ms-2" type="submit">채팅방
+            개설하기</a>
+        </div>
+        {% else %}
+        <a href="{% url 'friends:request' friend.pk %}" class="answerBtn text-center" type="submit">동행 신청하기</a>
+        {% endif %}
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 {% endblock body %}
