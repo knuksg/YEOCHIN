@@ -95,86 +95,151 @@
               qnaContainer.innerHTML = ''
               qna.forEach((q) => {
                 if (q.closed) {
-                  console.log('closed')
-                  qnaContainer.innerHTML +=
-                    `
-        <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">
-        
-          <div class="cardbox">
-            <div class="qnaCard d-flex justify-content-between">
-              <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
-                <span class="waitText" font-weight:bord;">채택완료</span>
-            </div>
-            <div class="qCtit">${q.title}</div>
-            <div class="qCsub">${q.content}</div>
-            <div class="qTag">
-              #${q.tags}
-            </div>
-            <!-- 마지막줄 -->
-            <div class="exinfo">
-              <div class="imNha">
-                {% if q.user.profile.image.url %}
-                  <img src="${q.profileImage}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
-                  print(q.user.profile.image.url)                                
-                {% else %}
-                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="proIm rounded-circle border border-1 me-2">
-                {% endif %}
-                <div class="proN">
-                  ${q.user}
+                  if(q.profile_image)
+                  {
+                    console.log('closed')
+                    qnaContainer.innerHTML +=
+                      `
+          <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">          
+            <div class="cardbox">
+              <div class="qnaCard d-flex justify-content-between">
+                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
+                  <span class="waitText" font-weight:bord;">채택완료</span>
+              </div>
+              <div class="qCtit">${q.title}</div>
+              <div class="qCsub">${q.content}</div>
+              <div class="qTag">
+                #${q.tags}
+              </div>
+              <!-- 마지막줄 -->
+              <div class="exinfo">
+                <div class="imNha">
+                  <img src="${q.profile_image}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
+                  <div class="proN">
+                    ${q.user}
+                  </div>
+                  <span style="color:rgb(154, 154, 154);">
+                    |
+                  </span>
+                  <div class="qnaIBox">
+                    <i class="fa-regular fa-eye"></i>&nbsp;${q.hits | length}
+                    <i style="margin-left: 6px;" class="fa-regular fa-comment-dots"></i>&nbsp;{{qna.answer|length}}
+                  </div>
                 </div>
-                <span style="color:rgb(154, 154, 154);">
-                  |
-                </span>
-                <div class="qnaIBox">
-                  <i class="fa-regular fa-eye"></i>&nbsp;${q.hits | length}
-                  <i style="margin-left: 6px;" class="fa-regular fa-comment-dots"></i>&nbsp;{{qna.answer|length}}
-                </div>
-                <!-- <p class="text-muted">{{q.created_string}}</p> -->
               </div>
             </div>
-          </div>
-        </a>
-                    `
-                } else {
-                  console.log('not closed')
-                  qnaContainer.innerHTML +=
-                    `
-        <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">
-          <div class="cardbox">
-            <div class="qnaCard d-flex justify-content-between">
-              <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
-              <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
-            </div>
-            <div class="qCtit">${q.title}</div>
-            <div class="qCsub">${q.content}</div>
-            <div class="qTag">
-              #${q.tags}
-            </div>
-            <!-- 마지막줄 -->
-            <div class="exinfo">
-              <div class="imNha">
-                {% if q.user.profile.image.url %}
-                  <img src="${q.profileImage}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
-                  print(q.user.profile.image.url)            
-                {% else %}
+          </a>
+                      `
+                  }
+                  else {
+                    console.log('closed')
+                    qnaContainer.innerHTML +=
+                      `
+          <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">          
+            <div class="cardbox">
+              <div class="qnaCard d-flex justify-content-between">
+                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
+                  <span class="waitText" font-weight:bord;">채택완료</span>
+              </div>
+              <div class="qCtit">${q.title}</div>
+              <div class="qCsub">${q.content}</div>
+              <div class="qTag">
+                #${q.tags}
+              </div>
+              <!-- 마지막줄 -->
+              <div class="exinfo">
+                <div class="imNha">
                   <img src="{% static 'image/no_profile.jpg'%}" alt="" class="proIm rounded-circle border border-1 me-2">
-                {% endif %}
-                <div class="proN">
-                  ${q.user}
+                  <div class="proN">
+                    ${q.user}
+                  </div>
+                  <span style="color:rgb(154, 154, 154);">
+                    |
+                  </span>
+                  <div class="qnaIBox">
+                    <i class="fa-regular fa-eye"></i>&nbsp;${q.hits | length}
+                    <i style="margin-left: 6px;" class="fa-regular fa-comment-dots"></i>&nbsp;{{qna.answer|length}}
+                  </div>
                 </div>
-                <span style="color:rgb(154, 154, 154);">
-                  |
-                </span>
-                <div class="qnaIBox">
-                  <i class="fa-regular fa-eye"></i>&nbsp;${q.hits | length}
-                  <i style="margin-left: 6px;" class="fa-regular fa-comment-dots"></i>&nbsp;${qna.answer | length}
-                </div>
-                <!-- <p class="text-muted">{{q.created_string}}</p> -->
               </div>
             </div>
-          </div>
-        </a>
-        `
+          </a>
+                      `                    
+                  }
+                } else {
+                  if (q.profile_image)
+                  {
+                    console.log('not closed')
+                    qnaContainer.innerHTML +=
+                      `
+          <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">
+            <div class="cardbox">
+              <div class="qnaCard d-flex justify-content-between">
+                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
+                <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
+              </div>
+              <div class="qCtit">${q.title}</div>
+              <div class="qCsub">${q.content}</div>
+              <div class="qTag">
+                #${q.tags}
+              </div>
+              <!-- 마지막줄 -->
+              <div class="exinfo">
+                <div class="imNha">
+                    <img src="${q.profile_image}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
+                  <div class="proN">
+                    ${q.user}
+                  </div>
+                  <span style="color:rgb(154, 154, 154);">
+                    |
+                  </span>
+                  <div class="qnaIBox">
+                    <i class="fa-regular fa-eye"></i>&nbsp;${q.hits | length}
+                    <i style="margin-left: 6px;" class="fa-regular fa-comment-dots"></i>&nbsp;${qna.answer | length}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          `
+                  }
+                  else
+                  {
+                    console.log('not closed')
+                    qnaContainer.innerHTML +=
+                      `
+          <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">
+            <div class="cardbox">
+              <div class="qnaCard d-flex justify-content-between">
+                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
+                <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
+              </div>
+              <div class="qCtit">${q.title}</div>
+              <div class="qCsub">${q.content}</div>
+              <div class="qTag">
+                #${q.tags}
+              </div>
+              <!-- 마지막줄 -->
+              <div class="exinfo">
+                <div class="imNha">
+                  <img src="{% static 'image/no_profile.jpg'%}" alt="" class="proIm rounded-circle border border-1 me-2">
+                  <div class="proN">
+                    ${q.user}
+                  </div>
+                  <span style="color:rgb(154, 154, 154);">
+                    |
+                  </span>
+                  <div class="qnaIBox">
+                    <i class="fa-regular fa-eye"></i>&nbsp;${q.hits | length}
+                    <i style="margin-left: 6px;" class="fa-regular fa-comment-dots"></i>&nbsp;${qna.answer | length}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          `
+
+                  }
                 }
 
               })
