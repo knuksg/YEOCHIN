@@ -143,7 +143,7 @@ def update(request, pk):
                 return redirect("friends:detail", pk)
         else:
             friend_form = FriendForm(instance=friend)
-        context = {"friend_form": friend_form}
+        context = {"friend_form": friend_form, "friend": friend}
         return render(request, "friends/create.html", context)
     else:
         return HttpResponseForbidden()
@@ -197,6 +197,7 @@ import lorem
 from accounts.models import User
 from chats.models import Room
 
+
 @login_required
 def chat_create(request, pk):
     friend = Friend.objects.get(pk=pk)
@@ -223,6 +224,7 @@ def chat_create(request, pk):
         return redirect("chats:rooms", request.user.pk)
     context = {"request_users": request_users}
     return render(request, "friends/chat_create.html", context)
+
 
 @login_required
 def request(request, pk):

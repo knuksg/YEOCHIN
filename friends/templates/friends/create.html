@@ -7,7 +7,47 @@
   <div class="container my-5">
     <form class="photo-form mx-auto" action="" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      {% bootstrap_form friend_form %}
+      <fieldset>
+        <legend style="font-size: 16px; margin-bottom:16px;">지역</legend>
+        <div class="d-flex justify-content-between" style="margin-bottom:16px;">
+          <input class="radioInp" type="radio" id="서울" name="region" value="서울" checked><label for="서울">서울</label>
+          <input class="radioInp" type="radio" id="제주" name="region" value="제주"><label for="제주">제주</label>
+          <input class="radioInp" type="radio" id="인천" name="region" value="인천"><label for="인천">인천</label>
+          <input class="radioInp" type="radio" id="부산" name="region" value="부산"><label for="부산">부산</label>
+          <input class="radioInp" type="radio" id="경상" name="region" value="경상"><label for="경상">경상</label>
+          <input class="radioInp" type="radio" id="경기" name="region" value="경기"><label for="경기">경기</label>
+          <input class="radioInp" type="radio" id="강원" name="region" value="강원"><label for="강원">강원</label>
+          <input class="radioInp" type="radio" id="전라" name="region" value="전라"><label for="전라">전라</label>
+          <input class="radioInp" type="radio" id="충청" name="region" value="충청"><label for="충청">충청</label>
+        </div>
+      </fieldset>
+      <div class="mb-3">
+        <label class="form-label" for="id_title">제목</label>
+        <input type="text" name="title" placeholder="제목을 작성해 해주세요" maxlength="30" class="form-control" required="" id="id_title" value="{{ friend.title }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="id_content">내용</label>
+        <textarea name="content" cols="40" rows="10" placeholder="자유롭게 작성해 주세요(ex. 동행 계획, 여행 스타일 등)" class="form-control" required="" id="id_content">{{ friend.content }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="id_start_at">시작날짜</label>
+        <input type="date" name="start_at" class="form-control" placeholder="시작날짜" required="" id="id_start_at">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="id_end_at">마감날짜</label>
+        <input type="date" name="end_at" class="form-control" placeholder="마감날짜" required="" id="id_end_at">
+      </div>
+      <div class="mb-3"><label class="form-label" for="id_place">장소</label>
+        <input type="text" name="place" placeholder="원하는 동행 장소를 작성해 주세요" maxlength="30" class="form-control" required="" id="id_place" value="{{ friend.place }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="id_people_number">인원</label>
+        <input type="number" name="people_number" placeholder="원하는 동행 인원을 작성해 주세요" min="0" class="form-control" required="" id="id_people_number" value="{{ friend.people_number }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="id_image">이미지</label>
+        <input type="file" name="image" accept="image/*" class="form-control" id="id_image">
+      </div>
       <div class="photo-form-btn">
         <a class="photo-gray-btn" href="{% url 'friends:index' %}">취소</a>
         <button class="photo-green-btn" type="submit">작성완료</button>
