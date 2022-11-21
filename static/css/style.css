@@ -1096,6 +1096,9 @@ input:focus::placeholder {
   font-weight: bold;
   text-decoration: none;
   color: rgb(255, 255, 255);
+  text-align: center;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .answerBtn:hover {
@@ -1550,6 +1553,22 @@ input[type=radio]:checked+label {
 
 }
 
-.textarea{
+textarea{
 white-space:pre-line
+}
+
+.answerdonBtn {
+  width: 90%;
+  line-height: 20px;
+  border-radius: 4px;
+  border: none;
+  padding: 17px 5px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  color: rgb(154, 154, 154);
+  background-color: rgb(244, 244, 244);
+  text-align: center;
+  user-select: none;
+  -webkit-user-drag: none;
 }

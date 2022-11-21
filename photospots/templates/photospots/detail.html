@@ -27,9 +27,13 @@
               <div class="d-flex align-items-center">
                 <!-- 프로필 사진 -->
                 {% if photospot.user.profile.image %}
+                <a href="{% url 'accounts:detail' photospot.user.pk %}">
                 <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+                </a>
                 {% else %}
+                <a href="{% url 'accounts:detail' photospot.user.pk %}">
                 <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+                </a>
                 {% endif %}
                 <div class="d-flex flex-column">
                   <!-- 닉네임 -->
@@ -145,9 +149,13 @@
                   <!-- 프로필 사진 / 닉네임 / 작성시간 -->
                   <div class="d-flex align-items-center">
                     {% if comment.user.profile.image %}
+                    <a href="{% url 'accounts:detail' comment.user.pk %}">
                     <img src="{{ comment.user.profile.image.url }}" alt="{{ comment.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+                    </a>
                     {% else %}
+                    <a href="{% url 'accounts:detail' comment.user.pk %}">
                     <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+                    </a>
                     {% endif %}
                     <div class="d-flex flex-column">
                       <p class="my-0 me-2 fw-bold">{{ comment.user.nickname }}</p>
