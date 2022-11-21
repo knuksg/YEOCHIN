@@ -46,14 +46,17 @@ def index(request):
             qna_list = []
             for q in qna:
                 qna_dict = {}
+                qna_dict['pk'] = q.pk
                 qna_dict['title'] = q.title
                 qna_dict['content'] = q.content
                 qna_dict['closed'] = q.closed
                 qna_dict['user'] = q.user.username
+                qna_dict['place'] = q.place
                 qna_dict['created_string'] = q.created_string
                 try:
                     qna_dict['profile_image'] = q.user.profile.image.url
-                except: qna_dict['profile_image'] = 'None'
+                except:
+                    qna_dict['profile_image'] = 'None'
                 tags = q.tag.all()
                 tag_str = ''
                 for tag in tags:
@@ -69,14 +72,18 @@ def index(request):
             qna_list = []
             for q in qna:
                 qna_dict = {}
+                qna_dict['pk'] = q.pk
                 qna_dict['title'] = q.title
                 qna_dict['content'] = q.content
                 qna_dict['closed'] = q.closed
                 qna_dict['user'] = q.user.username
+                qna_dict['place'] = q.place
                 qna_dict['created_string'] = q.created_string
                 try:
                     qna_dict['profile_image'] = q.user.profile.image.url
-                except: qna_dict['profile_image'] = 'None'
+                    print(q.user.profile.image.url)
+                except:
+                    qna_dict['profile_image'] = 'None'
                 tags = q.tag.all()
                 tag_str = ''
                 for tag in tags:

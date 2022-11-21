@@ -26,7 +26,7 @@
                 <span>
                     <span style="color:#6a6a6a;">지역</span>
                     &nbsp;
-                    <span>지역별 카테고리 만들기</span>
+                    <span>{{qna.place}}</span>
                 </span>
             </div>
             <div class="qnaContent2">
@@ -110,16 +110,17 @@
                     <!-- 프로필 사진 / 닉네임 / 작성시간 -->
                     <div class="d-flex align-items-center">
                         {% if answer.user.profile.image %}
-                        <img src="{{ answer.user.profile.image.url }}" alt="{{ answer.user.profile.image }}"
-                            class="rounded-circle border border-1 me-2" width="40" height="40">
+                        <a href="{% url 'accounts:detail' answer.pk %}"><img src="{{ answer.user.profile.image.url }}"
+                                alt="{{ answer.user.profile.image }}" class="rounded-circle border border-1 me-2"
+                                width="40" height="40"></a>
                         {% else %}
-                        <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2"
-                            width="40" height="40">
+                        <a href="{% url 'accounts:detail' answer.pk %}"><img src="{% static 'image/no_profile.jpg'%}"
+                                alt="" class="rounded-circle border border-1 me-2" width="40" height="40"></a>
                         {% endif %}
                         <div class="d-flex flex-column">
                             <p class="my-0 me-2 fw-bold" style="font-size: 12px;">{{ answer.user.nickname }}</p>
-                            <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">{{ answer.created_at |
-                                date:'Y년 m월 d일 H:i' }}</p>
+                            <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">{{ answer.created_at }}
+                            </p>
                         </div>
                     </div>
                     <!-- 댓글 삭제 -->
@@ -148,11 +149,12 @@
         <div class="profileSection col col-lg-3">
             <div class="d-flex align-items-center">
                 {% if qna.user.profile.image %}
-                <img src="{{ qna.user.profile.image.url }}" alt="{{ qna.user.profile.image }}"
-                    class="rounded-circle border border-1 me-2" width="40" height="40">
+                <a href="{% url 'accounts:detail' qna.pk %}"><img src="{{ qna.user.profile.image.url }}"
+                        alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40"
+                        height="40"></a>
                 {% else %}
-                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2"
-                    width="40" height="40">
+                <a href="{% url 'accounts:detail' qna.pk %}"><img src="{% static 'image/no_profile.jpg'%}" alt=""
+                        class="rounded-circle border border-1 me-2" width="40" height="40"></a>
                 {% endif %}
                 <div class="d-flex flex-column">
                     <p class="my-0 me-2 fw-bold" style="font-weight:700;">{{ qna.user.nickname }}</p>

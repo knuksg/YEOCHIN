@@ -1161,6 +1161,7 @@ input:focus::placeholder {
   user-select: none;
   -webkit-user-drag: none;
 }
+
 /* 
 .qnaMenuBox {
   display: flex;
@@ -1284,6 +1285,8 @@ input:focus::placeholder {
   padding-top: 10px;
   margin-bottom: 30px;
   color: #252525;
+  height: 50px;
+  max-width: 300px;
 }
 
 @media (max-width: 1199px) {
@@ -1511,4 +1514,8 @@ input:focus::placeholder {
 .view-btn:hover {
   text-decoration: none;
   color: rgb(37, 37, 37);
+}
+
+.hotel-form {
+  max-width: 750px;
 }
