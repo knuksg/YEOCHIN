@@ -14,6 +14,7 @@ class FriendForm(forms.ModelForm):
             "content",
             "start_at",
             "end_at",
+            "region",
             "place",
             "people_number",
             "image",

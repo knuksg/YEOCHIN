@@ -12,6 +12,7 @@ class QnaForm(forms.ModelForm):
             "content",
             "image",
             "tag",
+            "region",
             "place",
         ]
         # widgets = {

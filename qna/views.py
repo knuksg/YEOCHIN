@@ -51,6 +51,7 @@ def index(request):
                 qna_dict['content'] = q.content
                 qna_dict['closed'] = q.closed
                 qna_dict['user'] = q.user.username
+                qna_dict['region'] = q.region
                 qna_dict['place'] = q.place
                 qna_dict['created_string'] = q.created_string
                 try:
@@ -77,6 +78,7 @@ def index(request):
                 qna_dict['content'] = q.content
                 qna_dict['closed'] = q.closed
                 qna_dict['user'] = q.user.username
+                qna_dict['region'] = q.region
                 qna_dict['place'] = q.place
                 qna_dict['created_string'] = q.created_string
                 try:

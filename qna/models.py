@@ -17,7 +17,8 @@ class Qna(models.Model):
     image = models.ImageField(upload_to="image/%Y/%m/%d", blank=True)
     hits = models.PositiveIntegerField(default=0)
     closed = models.BooleanField(default=False)
-    place = models.TextField()
+    region = models.TextField()
+    place = models.CharField(max_length=30)
     like_users = models.ManyToManyField(
     settings.AUTH_USER_MODEL, related_name="like_qna"
     )

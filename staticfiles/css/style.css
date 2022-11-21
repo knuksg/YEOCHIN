@@ -968,6 +968,16 @@ input:focus::placeholder {
   font-size: 12px;
 }
 
+.qnaPlace {
+  width: 100%;
+  padding: 7px 15px;
+  border-radius: 5px 5px;
+  border: 1px solid #e9e9e9;
+  color: #9a9a9a;
+  margin-top:16px;
+  font-size: 13px;
+}
+
 .qnaBtnSize {
   /* box-shadow: 4px 12px 30px 6px rgb(0 0 0 / 9%); */
   width: 500px;
@@ -1387,6 +1397,23 @@ input:focus::placeholder {
   text-underline-offset: 10px;
   font-weight: bold;
 }
+
+.radioInp {
+  opacity: 0;
+}
+
+.radioInp>label{
+  border: 1px solid #00ce7c;
+  border-radius: 15px;
+}
+
+input[type=radio]:checked + label
+{
+  background: #00ce7c;
+  color: white;
+  padding: 0 10px;
+  border-radius: 5px;
+
 
 /* 커뮤니티 home */
 .direct-btn {
