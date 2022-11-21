@@ -74,14 +74,16 @@ def logout(request):
 
 def detail(request, pk):
     user = get_user_model().objects.get(pk=pk)
+    users = get_user_model().objects.get(pk=pk)
     friends = user.friend_set.all()
     print(friends)
     like_friends = user.like_friend.all()
-    photospots = user.photospot_set.all()
+    photospots = users.photospot_set.all()
     print(photospots)
 
     context = {
         "user": user,
+        "users": users,
         "friends": friends,
         "like_friends": like_friends,
         "photospots": photospots,

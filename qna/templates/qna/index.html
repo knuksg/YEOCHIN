@@ -113,8 +113,8 @@
             <!-- 마지막줄 -->
             <div class="exinfo">
               <div class="imNha">
-                {% if profile_image %}
-                  <img src="${q.profile_image}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
+                {% if q.user.profile.image.url %}
+                  <img src="${q.profileImage}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
                   print(q.user.profile.image.url)                                
                 {% else %}
                 <img src="{% static 'image/no_profile.jpg'%}" alt="" class="proIm rounded-circle border border-1 me-2">
@@ -153,8 +153,8 @@
             <!-- 마지막줄 -->
             <div class="exinfo">
               <div class="imNha">
-                {% if profile_image %}
-                  <img src="${q.profile_image}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
+                {% if q.user.profile.image.url %}
+                  <img src="${q.profileImage}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
                   print(q.user.profile.image.url)            
                 {% else %}
                   <img src="{% static 'image/no_profile.jpg'%}" alt="" class="proIm rounded-circle border border-1 me-2">

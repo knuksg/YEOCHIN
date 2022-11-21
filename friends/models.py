@@ -1,8 +1,6 @@
 from django.db import models
 from datetime import timedelta , datetime, timezone 
 from django.contrib.auth import get_user_model
-from imagekit.models import ProcessedImageField
-from imagekit.processors import ResizeToFill
 
 
 # Create your models here.
@@ -16,16 +14,9 @@ class Friend(models.Model):
     place = models.CharField(max_length=30)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     like_user = models.ManyToManyField(get_user_model(), related_name="like_friend")
-    people_number = models.IntegerField()
+    people_number = models.PositiveIntegerField()
 
     image = models.ImageField(upload_to="image/", blank=True)
-    thumbnail = ProcessedImageField(
-        upload_to="image/",
-        blank=True,
-        processors=[ResizeToFill(100, 100)],
-        format="JPEG",
-        options={"quality": 80},
-    )
     hits = models.IntegerField(default=0)
     closed = models.BooleanField(default=False)
 
