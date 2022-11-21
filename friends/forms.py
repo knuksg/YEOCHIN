@@ -17,7 +17,6 @@ class FriendForm(forms.ModelForm):
             "place",
             "people_number",
             "image",
-            "thumbnail",
         ]
         widgets = {
             "title": forms.TextInput(attrs={"placeholder": "제목을 작성해 해주세요"}),
@@ -39,7 +38,6 @@ class FriendForm(forms.ModelForm):
             "place": "장소",
             "people_number": "인원",
             "image": "이미지",
-            "thumbnail": "썸네일",
         }
 
 
