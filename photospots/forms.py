@@ -7,11 +7,13 @@ class PhotospotForm(forms.ModelForm):
         model = Photospot
         fields = [
             "photo_img",
+            "region",
             "place",
             "content",
         ]
         labels = {
             "photo_img": "인생사진",
+            "region": "지역",
             "place": "포토스팟",
             "content": "이야기",
         }

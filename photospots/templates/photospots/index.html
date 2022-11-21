@@ -101,7 +101,7 @@
                   <div class="d-flex gray-text">
                     <p class="photo-place">
                       <i class="bi bi-geo-alt-fill"></i>
-                       {{ photospot.place }}
+                       {{ photospot.region }} {{ photospot.place }}
                     </p>
                     <!-- 업데이트 X -->
                     {% if photospot.is_updated == False %}
@@ -134,11 +134,10 @@
               <div class="d-flex align-items-center">
                 {% if request.user.is_authenticated %}
                 {% if request.user == photospot.user %}
-                <a class="me-3 text-decoration-none gray-text" href="{% url 'photospots:update' photospot.pk %}">
-                  <i class="bi bi-pencil"></i>
-                </a>
-                <a class="text-decoration-none gray-text" href="{% url 'photospots:delete' photospot.pk %}">
-                  <i class="bi bi-trash"></i>
+                <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                  href="{% url 'photospots:update' photospot.pk %}">수정</a>
+                <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                  href="{% url 'photospots:delete' photospot.pk %}">삭제</a>
                 </a>
                 {% endif %}
                 {% endif %}
