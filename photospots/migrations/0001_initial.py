@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Photospot",
+            name='Photospot',
             fields=[
                 (
                     "id",
@@ -50,33 +50,13 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name="Photocomment",
+            name='Photocomment',
             fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("content", models.TextField()),
-                ("created_at", models.DateTimeField(auto_now_add=True)),
-                (
-                    "photospot",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="photospots.photospot",
-                    ),
-                ),
-                (
-                    "user",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('content', models.TextField()),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('photospot', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='photospots.photospot')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

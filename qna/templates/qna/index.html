@@ -98,7 +98,8 @@
                   console.log('closed')
                   qnaContainer.innerHTML +=
                     `
-        <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail` + q.pk + `/">
+        <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">
+        
           <div class="cardbox">
             <div class="qnaCard d-flex justify-content-between">
               <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
@@ -112,8 +113,9 @@
             <!-- 마지막줄 -->
             <div class="exinfo">
               <div class="imNha">
-                {% if user.profile.image %}
-                <img src="` + q.user.profile.image + `" alt="{{ q.user.profile.image.url }} class="proIm rounded-circle border border-1" width="24" height="24">
+                {% if q.user.profile.image.url %}
+                  <img src="${q.profileImage}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
+                  print(q.user.profile.image.url)                                
                 {% else %}
                 <img src="{% static 'image/no_profile.jpg'%}" alt="" class="proIm rounded-circle border border-1 me-2">
                 {% endif %}
@@ -137,7 +139,7 @@
                   console.log('not closed')
                   qnaContainer.innerHTML +=
                     `
-        <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail` + q.pk + `/">
+        <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">
           <div class="cardbox">
             <div class="qnaCard d-flex justify-content-between">
               <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
@@ -151,10 +153,11 @@
             <!-- 마지막줄 -->
             <div class="exinfo">
               <div class="imNha">
-                {% if user.profile.image %}
-                <img src="` + q.user.profile.image + `" alt="{{ q.user.profile.image.url }}  class="proIm rounded-circle border border-1" width="24" height="24">
+                {% if q.user.profile.image.url %}
+                  <img src="${q.profileImage}" alt="{{q.user}}"  class="proIm rounded-circle border border-1" width="24" height="24">
+                  print(q.user.profile.image.url)            
                 {% else %}
-                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="proIm rounded-circle border border-1 me-2">
+                  <img src="{% static 'image/no_profile.jpg'%}" alt="" class="proIm rounded-circle border border-1 me-2">
                 {% endif %}
                 <div class="proN">
                   ${q.user}
@@ -164,7 +167,7 @@
                 </span>
                 <div class="qnaIBox">
                   <i class="fa-regular fa-eye"></i>&nbsp;${q.hits | length}
-                  <i style="margin-left: 6px;" class="fa-regular fa-comment-dots"></i>&nbsp;{{qna.answer|length}}
+                  <i style="margin-left: 6px;" class="fa-regular fa-comment-dots"></i>&nbsp;${qna.answer | length}
                 </div>
                 <!-- <p class="text-muted">{{q.created_string}}</p> -->
               </div>
@@ -187,7 +190,7 @@
             <div class="cardbox">
               <div class="qnaCard d-flex justify-content-between">
                 <div class=""><i class="loIn fa-solid fa-location-dot" style="width: 12px; height: 9px;"></i><span
-                    class="cardLocal px-1">${q.place}</span>
+                    class="cardLocal px-1">{{q.place}}</span>
                 </div>
                 {% if q.closed == False %}
                 <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
@@ -203,12 +206,12 @@
               <!-- 마지막줄 -->
               <div class="exinfo">
                 <div class="imNha">
-                  {% if user.profile.image %}
-                  <img src="{{ q.user.profile.image.url }}" alt="{{ q.user.profile.image }}"
-                    class="proIm rounded-circle border border-1" width="24" height="24">
+                  {% if q.user.profile.image %}
+                  <img src="{{ q.user.profile.image.url }}" alt="{{ friend.user.profile.image }}"
+                    class="rounded-circle border border-1 me-2" height="24px" width="24px">
                   {% else %}
-                  <img src="{% static 'image/no_profile.jpg'%}" alt=""
-                    class="proIm rounded-circle border border-1 me-2">
+                  <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2"
+                    width="24" height="24">
                   {% endif %}
                   <div class="proN">
                     {{q.user}}
