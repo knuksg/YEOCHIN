@@ -1648,3 +1648,12 @@ white-space:pre-line
   color: rgb(255, 255, 255);
   font-weight: bold;
 }
+
+.report{
+  border: 1px solid #e9e9e9;
+}
+
+.report:focus {
+  border: 2px solid rgb(0, 206, 124);
+  border-radius: 5px;
+}

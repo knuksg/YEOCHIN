@@ -11,7 +11,7 @@
       <!-- 게시글 상단 -->
       <header class="photo-header lg:photo-header">
         <!-- 돌아가기 버튼 -->
-        <a href="{% url 'photospots:index' %}" class="text-dark text-decoration-none" >
+        <a href="{% url 'photospots:index' %}" class="text-dark text-decoration-none">
           <p class="photo-header2">
             <i class="bi bi-chevron-left"></i>
             돌아가기
@@ -28,11 +28,13 @@
                 <!-- 프로필 사진 -->
                 {% if photospot.user.profile.image %}
                 <a href="{% url 'accounts:detail' photospot.user.pk %}">
-                <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+                  <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}"
+                    class="rounded-circle border border-1 me-2" width="40" height="40">
                 </a>
                 {% else %}
                 <a href="{% url 'accounts:detail' photospot.user.pk %}">
-                <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+                  <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2"
+                    width="40" height="40">
                 </a>
                 {% endif %}
                 <div class="d-flex flex-column">
@@ -77,9 +79,11 @@
                   {% if request.user.is_authenticated %}
                   <p class="m-0">
                     {% if request.user in photospot.like_users.all %}
-                      <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart-fill" style="cursor: pointer;"></i>
+                    <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart-fill"
+                      style="cursor: pointer;"></i>
                     {% else %}
-                      <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart" style="cursor: pointer;"></i>
+                    <i id="like-btn" data-photospot-id="{{ photospot.pk }}" class="bi bi-heart"
+                      style="cursor: pointer;"></i>
                     {% endif %}
                     <span id="like-count"> {{ photospot.like_users.count }}</span>
                   </p>
@@ -109,11 +113,37 @@
                 &nbsp;
                 <span>댓글수{{ photospot.photocomment_set.count }}</span>
                 &nbsp;
-                <span><a href="" style="color:#919191 ;">신고하기</a></span>
+                <span> <a class="btn btn-link p-0" style="color: #919191; font-size: 12px;" data-bs-toggle="modal"
+                    data-bs-target="#delete-modal">
+                    신고하기</a>
+                  <!-- Modal -->
+                  <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-liber"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header  d-flex flex-column">
+                          <p class="m-0" style="font-size:18px; font-weight:800;" id="delete-liber">해당
+                            사용자를 신고하시겠습니까?
+                          </p>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <textarea rows="8" cols="15" class="form-control mb-3"
+                            style="border: 1px solid #e9e9e9; color:black;"
+                            placeholder="신고 내용을 입력해주세요. 허위 신고시 불이익이 있을 수 있습니다.(200자 이내)"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                          <a class="btn btn-link btn-sm" style="color:rgb(0, 206, 124);" href="">신고 등록</a>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </span>
               </div>
               <div class="d-flex">
                 <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
-                href="{% url 'photospots:index' %}">돌아가기</a>
+                  href="{% url 'photospots:index' %}">돌아가기</a>
                 {% if request.user == photospot.user %}
                 <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
                   href="{% url 'photospots:update' photospot.pk %}">수정</a>
@@ -127,9 +157,11 @@
             <div class="d-flex flex-column">
               <br>
               <!-- 댓글폼 -->
-              <form class="d-flex border rounded-3" action="{% url 'photospots:comment_create' photospot.pk %}" method="POST">
+              <form class="d-flex border rounded-3" action="{% url 'photospots:comment_create' photospot.pk %}"
+                method="POST">
                 {% csrf_token %}
-                <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요" class="form-control rounded-3 border-0 ms-3" required id="id_conent"></textarea>
+                <textarea name="content" rows="1" placeholder="댓글을 입력해 주세요" class="form-control rounded-3 border-0 ms-3"
+                  required id="id_conent"></textarea>
                 <div class="d-flex flex-column justify-content-end">
                   <button class="btn btn-link text-decoration-none" type="submit">
                     <i class="bi bi-send-fill green-text"></i>
@@ -139,7 +171,7 @@
               <br>
               <!-- 댓글수 -->
               <h5 class="fw-bold">
-                댓글 
+                댓글
                 <span class="green-text">{{ photospot.photocomment_set.count }}</span>
               </h5>
               <!-- 댓글 출력 -->
@@ -150,16 +182,19 @@
                   <div class="d-flex align-items-center">
                     {% if comment.user.profile.image %}
                     <a href="{% url 'accounts:detail' comment.user.pk %}">
-                    <img src="{{ comment.user.profile.image.url }}" alt="{{ comment.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40">
+                      <img src="{{ comment.user.profile.image.url }}" alt="{{ comment.user.profile.image }}"
+                        class="rounded-circle border border-1 me-2" width="40" height="40">
                     </a>
                     {% else %}
                     <a href="{% url 'accounts:detail' comment.user.pk %}">
-                    <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40">
+                      <img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2"
+                        width="40" height="40">
                     </a>
                     {% endif %}
                     <div class="d-flex flex-column">
                       <p class="my-0 me-2 fw-bold">{{ comment.user.nickname }}</p>
-                      <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">{{ comment.created_at | date:'Y년 m월 d일 H:i' }}</p>
+                      <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">{{ comment.created_at | date:'Y년
+                        m월 d일 H:i' }}</p>
                     </div>
                   </div>
                   <!-- 댓글 삭제 -->
@@ -192,13 +227,15 @@
           </div>
           <!-- 좋아요 인기순 5개 출력 -->
           {% for best in best_p %}
-          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' best.pk %}';">
+          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;"
+            onclick="location.href='{% url 'photospots:detail' best.pk %}';">
             <div class="d-flex flex-column w-100">
               <h6 class="fw-bold">{{ best.user.nickname }} 님의 인생사진</h6>
               <p class="photo-aside-text gray-text w-100 pe-3">{{ best.content }}</p>
             </div>
             {% thumbnail "75x75" best.photo_img as thumb %}
-            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
+            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}"
+              height="{{ thumb.height }}">
           </div>
           {% empty %}
           <p class="text-center w-100">게시글 없음</p>
@@ -220,13 +257,15 @@
           </div>
           <!-- 좋아요 인기순 5개 출력 -->
           {% for best in best_p %}
-          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'photospots:detail' best.pk %}';">
+          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;"
+            onclick="location.href='{% url 'photospots:detail' best.pk %}';">
             <div class="d-flex flex-column w-100">
               <h6 class="fw-bold">{{ best.user.nickname }} 님의 인생사진</h6>
               <p class="photo-aside-text gray-text">{{ best.content }}</p>
             </div>
             {% thumbnail "75x75" best.photo_img as thumb %}
-            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
+            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}"
+              height="{{ thumb.height }}">
           </div>
           {% empty %}
           <p class="text-center w-100">게시글 없음</p>
@@ -245,14 +284,16 @@
           </div>
           <!-- 최근 5개 출력 -->
           {% for lately in lately_f %}
-          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;" onclick="location.href='{% url 'friends:detail' lately.pk %}';">
+          <div class="d-flex photo-aside-content last:photo-aside-content" style="cursor: pointer;"
+            onclick="location.href='{% url 'friends:detail' lately.pk %}';">
             <div class="d-flex flex-column w-100">
               <h6 class="photo-aside-title fw-bold">{{ lately.title }}</h6>
               <p class="photo-aside-text gray-text">{{ lately.content }}</p>
             </div>
             {% if lately.image %}
             {% thumbnail "75x75" lately.image as thumb %}
-            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}" height="{{ thumb.height }}">
+            <img class="border rounded-3" src="{{ thumb.url }}" alt="썸네일" width="{{ thumb.width }}"
+              height="{{ thumb.height }}">
             {% else %}
             <img class="border rounded-3" src="{% static 'image/no_image.jpg'%}" alt="썸네일" width="75" height="75">
             {% endif %}
@@ -275,20 +316,20 @@
       method: 'get',
       url: `/photospots/${event.target.dataset.photospotId}/like`
     })
-    .then(response => {
-      console.log(response)
-      console.log(response.data)
-      if (response.data.isLiked === true) {
-        event.target.classList.add('bi-heart-fill')
-        event.target.classList.remove('bi-heart')
-      }
-      else {
-        event.target.classList.add('bi-heart')
-        event.target.classList.remove('bi-heart-fill')
-      }
-      const likeCount = document.querySelector('#like-count')
-      likeCount.innerText = response.data.likeCount
-    })
+      .then(response => {
+        console.log(response)
+        console.log(response.data)
+        if (response.data.isLiked === true) {
+          event.target.classList.add('bi-heart-fill')
+          event.target.classList.remove('bi-heart')
+        }
+        else {
+          event.target.classList.add('bi-heart')
+          event.target.classList.remove('bi-heart-fill')
+        }
+        const likeCount = document.querySelector('#like-count')
+        likeCount.innerText = response.data.likeCount
+      })
   })
 </script>
 

@@ -62,7 +62,31 @@
           <span>댓글수{{ friend.friend_comment_set.count }}</span>
           &nbsp;
           <span>
-            <a href="" style="color:#919191 ;">신고하기</a>
+            <a class="btn btn-link p-0" style="color: #919191; font-size: 12px;" data-bs-toggle="modal"
+              data-bs-target="#delete-modal">
+              신고하기</a>
+            <!-- Modal -->
+            <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-liber" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header  d-flex flex-column">
+                    <p class="m-0" style="font-size:18px; font-weight:800;" id="delete-liber">해당
+                      사용자를 신고하시겠습니까?
+                    </p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <textarea rows="8" cols="15" class="form-control mb-3"
+                      style="border: 1px solid #e9e9e9; color:black;"
+                      placeholder="신고 내용을 입력해주세요. 허위 신고시 불이익이 있을 수 있습니다.(200자 이내)"></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <a class="btn btn-link btn-sm" style="color:rgb(0, 206, 124);" href="">신고 등록</a>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </span>
         </div>
         <div class="d-flex">
