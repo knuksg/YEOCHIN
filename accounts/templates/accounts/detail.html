@@ -26,7 +26,7 @@
           <div>
             <!-- 로그인 유저 == 회원 정보 페이지의 유저 -->
             {% if request.user == user %}
-              <a href="{% url 'accounts:update' user.pk %}" class="btn btn-success">회원 정보 수정</a>
+              <a href="{% url 'accounts:update' user.pk %}" class="green-btn p-2">회원 정보 수정</a>
             <!-- 로그인 유저 -->
             {% elif request.user.is_authenticated %}
               <form id="follow-form" data-user-id="{{ user.pk }}">
