@@ -1112,10 +1112,11 @@ input:focus::placeholder {
   color: #919191
 }
 
-@media (min-width: 1200px) {
+@media (max-width: 1200px) {
   .back {
     padding: 0px;
     width: unset;
+    display: none;
   }
 }
 
