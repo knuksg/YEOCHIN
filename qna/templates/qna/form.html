@@ -36,7 +36,6 @@
       </label>
       <input style="display: none;" type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg">
     </div>
-      <input class="qnaPlace" type="text" value="{{ qna.place }}" name="place" placeholder="위치를 공유해주세요!" maxlength="30" class="form-control" required="" id="id_place">
     <div>
     <textarea rows="1" type="text" class="qnaTagIpt  mt-3" id='tags' name='tags'
         style="margin-bottom:16px;">#{{ qna.tag.all|join:' #' }}</textarea>
