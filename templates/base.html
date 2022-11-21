@@ -55,7 +55,11 @@
           <li class="navMenuLeft sm:display md:display2 lg:display">
             {% if request.resolver_match.namespace != 'hotels' %}
               {% if request.resolver_match.namespace != 'accounts' %}
-              <a style="text-decoration: underline 2px; text-underline-offset: 10px; font-weight: bold; color: black;" href="{% url 'friends:home' %}">커뮤니티</a>
+                {% if request.resolver_match.namespace != 'main' %}
+                <a style="text-decoration: underline 2px; text-underline-offset: 10px; font-weight: bold; color: black;" href="{% url 'friends:home' %}">커뮤니티</a>
+                {% else %}
+                <a href="{% url 'friends:home' %}">커뮤니티</a>
+                {% endif %}
               {% else %}
               <a href="{% url 'friends:home' %}">커뮤니티</a>
               {% endif %}
