@@ -11,13 +11,16 @@
     <div class="d-flex align-items-center">
       {% if qna.user.profile.image %}
       <a href="{% url 'accounts:detail' user.pk %}"><img src="{{ user.profile.image.url }}"
-          alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1" width="40" height="40"></a>
+          alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1" width="50" height="50"></a>
       {% else %}
       <a href="{% url 'accounts:detail'  user.pk %}"><img src="{% static 'image/no_profile.jpg'%}" alt=""
-          class="rounded-circle border border-1" width="40" height="40"></a>
+          class="rounded-circle border border-1" width="50" height="50"></a>
       {% endif %}
       <div class="d-flex flex-column">
         <p class="profilName">{{ user.nickname }}</p>
+        <div class="px-3">
+          <p class="m-0" style="font-size: 15px;">{{ user.profile.intro }}</p>
+        </div>
       </div>
       <div>
 
@@ -98,10 +101,10 @@
                       <a href="{% url 'accounts:detail' friend.user.pk %}" class="text-dark">
                         {% if friend.user.profile.image %}
                         <img src="{{ friend.user.profile.image.url }}" alt="{{ friend.user.profile.image }}"
-                          class="rounded-2 border border-1" width="40px">
+                          class="rounded-2 border border-1" width="50px">
                         {% else %}
                         <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1"
-                          width="40px">
+                          width="50px">
                         {% endif %}
                         <span class="">{{ friend.user.nickname }}</span>
                       </a>
@@ -174,10 +177,10 @@
                       <a href="{% url 'accounts:detail' friend.user.pk %}" class="text-dark">
                         {% if friend.user.profile.image %}
                         <img src="{{ friend.user.profile.image.url }}" alt="{{ friend.user.profile.image }}"
-                          class="rounded-2 border border-1" width="40px">
+                          class="rounded-2 border border-1" width="50px">
                         {% else %}
                         <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1"
-                          width="40px">
+                          width="50px">
                         {% endif %}
                         <span class="">{{ friend.user.nickname }}</span>
                       </a>
@@ -250,10 +253,10 @@
                       <a href="{% url 'accounts:detail' photospot.user.pk %}" class="text-dark">
                         {% if photospot.user.profile.image %}
                         <img src="{{ photospot.user.profile.image.url }}" alt="{{ photospot.user.profile.image }}"
-                          class="rounded-2 border border-1" width="40px">
+                          class="rounded-2 border border-1" width="50px">
                         {% else %}
                         <img src="{% static 'images/dummy-image-square.jpg' %}" alt="" class="rounded-2 border border-1"
-                          width="40px">
+                          width="50px">
                         {% endif %}
                         <span class="">{{ photospot.user.nickname }}</span>
                       </a>
@@ -324,9 +327,6 @@
     </div>
   </div> -->
 
-  <div>
-    <p class="m-0">{{ user.profile.intro }}</p>
-  </div>
 </div>
 </section>
 
