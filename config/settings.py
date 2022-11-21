@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DEBUG = "False"
+DEBUG = os.getenv("DEBUG") == "True"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,10 +46,10 @@ INSTALLED_APPS = [
     "hotels",
     "photospots",
     "qna",
-    "imagekit",
     "django_bootstrap5",
     "django_extensions",
     "django_summernote",
+    "imagekit",
     # 채팅 관련 앱
     "daphne",
     "chats",
