@@ -50,11 +50,17 @@ def index(request):
                 qna_dict['title'] = q.title
                 qna_dict['content'] = q.content
                 qna_dict['closed'] = q.closed
-                qna_dict['user'] = q.user.username
+                qna_dict['user'] = q.user.nickname
                 qna_dict['region'] = q.region
                 qna_dict['hits'] = q.hits                
                 qna_dict['place'] = q.place
                 qna_dict['created_string'] = q.created_string
+                qna_dict['qna_answers'] = q.qna_answers
+                # try:
+                #     qna_dict['qna_answer'] = len(q.answer_set.all())
+                #     print (len(q.answer_set.all))
+                # except:
+                #     qna_dict['qna_answer'] = 'None'
                 try:
                     qna_dict['profile_image'] = q.user.profile.image.url
                 except:
@@ -78,11 +84,21 @@ def index(request):
                 qna_dict['title'] = q.title
                 qna_dict['content'] = q.content
                 qna_dict['closed'] = q.closed
-                qna_dict['user'] = q.user.username
+                qna_dict['user'] = q.user.nickname
                 qna_dict['region'] = q.region
                 qna_dict['hits'] = q.hits
                 qna_dict['place'] = q.place
                 qna_dict['created_string'] = q.created_string
+                qna_dict['qna_answers'] = q.qna_answers
+
+
+                # try:
+                #     qna_dict['qna_answer'] = len(q.answer_set.all())
+                #     print (len(q.answer_set.all))
+                # except:
+                #     qna_dict['qna_answer'] = 'None'
+                tags = q.tag.all()
+                tag_str = ''
                 try:
                     qna_dict['profile_image'] = q.user.profile.image.url
                     print(q.user.profile.image.url)

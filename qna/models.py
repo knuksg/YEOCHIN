@@ -24,6 +24,15 @@ class Qna(models.Model):
     )
     tag = models.ManyToManyField('tag.Tag', blank=True, verbose_name = "태그")
     
+    @property
+    def qna_answers(self):
+        answers = Answer.objects.filter(qna=self)
+        if len(answers) == 0:
+            return 0
+        else:
+            return len(answers)
+        
+    
     def __str__(self):
         return self.title
 
