@@ -85,7 +85,7 @@
         detailRegionGroup.classList.add('btn-group')
         detailRegionGroup.innerHTML = ''
         detailRegionList.forEach((detailRegion) => {
-          detailRegionGroup.innerHTML += '<input type="button" class="btn" value="' + detailRegion.name + '">'
+          detailRegionGroup.innerHTML += '<input type="button" class="btn detail-region-btn" value="' + detailRegion.name + '">'
         })
         <!-- 호텔 목록 보여주기 -->
         const hotelsGroup = document.querySelector('#hotels-group')
@@ -94,7 +94,7 @@
         console.log(hotels)
         hotels.forEach((hotel) => {
           hotelsGroup.innerHTML += `<div class="col-12 col-sm-6 col-lg-3">
-          <a href="http://127.0.0.1:8000/hotels/` + hotel.pk + `/" class="text-decoration-none text-dark">
+          <a href="/hotels/` + hotel.pk + `/" class="text-decoration-none text-dark">
           <img src="` + hotel.image + `" class="img-fluid rounded my-3" alt="{{ hotel.name }}">
           <div class="ms-1">
           <h5 class="fw-bold my-1" style="word-break: keep-all;">` + hotel.name + `</h5>
@@ -133,13 +133,14 @@
         }
       })
       .then((response) => {
+        
         <!-- 호텔 목록 보여주기 -->
         const hotelsGroup = document.querySelector('#hotels-group')
         hotelsGroup.innerHTML = ''
         const hotels = response.data.hotels
         hotels.forEach((hotel) => {
           hotelsGroup.innerHTML += `<div class="col-12 col-sm-6 col-lg-3">
-          <a href="http://127.0.0.1:8000/hotels/` + hotel.pk + `/" class="text-decoration-none text-dark">
+          <a href="/hotels/` + hotel.pk + `/" class="text-decoration-none text-dark">
           <img src="` + hotel.image + `" class="img-fluid rounded my-3" alt="{{ hotel.name }}">
           <div class="ms-1">
           <h5 class="fw-bold my-1" style="word-break: keep-all;">` + hotel.name + `</h5>
@@ -160,8 +161,6 @@
   const searchForm = document.querySelector('#search-form')
   searchForm.addEventListener('submit', (event) => {
     event.preventDefault()
-
-    console.log('asdf')
 
     const searchKw = searchForm.querySelector('#search-kw').value
     let hiddenKw = searchForm.querySelector('#hidden-kw')
