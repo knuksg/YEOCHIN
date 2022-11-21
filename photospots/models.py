@@ -6,6 +6,7 @@ from django.urls import reverse
 
 # Create your models here.
 class Photospot(models.Model):
+    region = models.TextField()
     place = models.CharField(max_length=30)
     content = models.TextField()
     photo_img = models.ImageField(upload_to="images/%Y/%m/%d", blank=False)
@@ -34,7 +35,7 @@ class Photospot(models.Model):
         else:
             return False
 
-    
+
 class Photocomment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
