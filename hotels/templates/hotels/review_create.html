@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% block body %}
-<div class="container">
-  <h1>{{ hotel.name }} 리뷰 쓰기</h1>
-  <form method="POST" style="width: 720px;">
+<h3 class="fw-bold text-center" style="padding-top: 50px">{{ hotel.name }} 리뷰 작성</h3>
+<div class="container mt-5">
+  <form class="hotel-form mx-auto" method="POST" style="width: 720px;">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <input type="submit">
+    <div class="photo-form-btn">
+      <a class="photo-gray-btn" href="{% url 'hotels:index' %}">취소</a>
+      <button class="photo-green-btn" type="submit">작성완료</button>
+    </div>
   </form>
 </div>
 {% endblock body %}
