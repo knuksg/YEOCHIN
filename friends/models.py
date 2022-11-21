@@ -1,8 +1,6 @@
 from django.db import models
 from datetime import timedelta , datetime, timezone 
 from django.contrib.auth import get_user_model
-from imagekit.models import ProcessedImageField
-from imagekit.processors import ResizeToFill
 
 
 # Create your models here.
@@ -19,13 +17,6 @@ class Friend(models.Model):
     people_number = models.IntegerField()
 
     image = models.ImageField(upload_to="image/", blank=True)
-    thumbnail = ProcessedImageField(
-        upload_to="image/",
-        blank=True,
-        processors=[ResizeToFill(100, 100)],
-        format="JPEG",
-        options={"quality": 80},
-    )
     hits = models.IntegerField(default=0)
     closed = models.BooleanField(default=False)
 
