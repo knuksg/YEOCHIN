@@ -46,10 +46,10 @@ INSTALLED_APPS = [
     "hotels",
     "photospots",
     "qna",
-    "imagekit",
     "django_bootstrap5",
     "django_extensions",
     "django_summernote",
+    "imagekit",
     # 채팅 관련 앱
     "daphne",
     "chats",
