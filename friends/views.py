@@ -197,7 +197,7 @@ import lorem
 from accounts.models import User
 from chats.models import Room
 
-
+@login_required
 def chat_create(request, pk):
     friend = Friend.objects.get(pk=pk)
     friendrequest = FriendRequest.objects.get(friend=friend)
@@ -224,7 +224,7 @@ def chat_create(request, pk):
     context = {"request_users": request_users}
     return render(request, "friends/chat_create.html", context)
 
-
+@login_required
 def request(request, pk):
     friend = Friend.objects.get(pk=pk)
     friendrequest = FriendRequest.objects.get_or_create(friend=friend)
