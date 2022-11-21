@@ -1052,6 +1052,7 @@ input:focus::placeholder {
   font-size: 14px;
   margin: 15px;
   padding: 5px 30px;
+  white-space:pre-line
 }
 
 /* answer update */

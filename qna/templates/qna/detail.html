@@ -4,198 +4,239 @@
 {{ aritcles.click }}
 {% block body %}
 
-  <div class="my-3 p-4 container" style="background-color:white;">
+<div class="my-3 p-4 container" style="background-color:white;">
     <div class="row">
-      <!-- Qna 게시물 -->
-      <div class="col-12 col-lg-8 mx-auto p-0">
-        <div class="d-flex align-items-center">
-          <i class="fa-solid fa-q fa-lg"></i>
-          <span class="qnaTitle">{{ qna.title }}</span>
-        </div>
-        <div class="qnaInfo">
-          <span style="color:#6a6a6a;">상태</span>
-          &nbsp;
-          <span>
-            {% if qna.closed == False %}
-              <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
-            {% else %}
-              답변완료
-            {% endif %}
-          </span>
-          &nbsp;
-          <span>
-            <span style="color:#6a6a6a;">지역</span>
-            &nbsp;
-            <span>{{ qna.region }}
-              &nbsp;
-              {{ qna.place }}
-            </span>
-          </div>
-          <div class="qnaContent2">
-            <p>{{ qna.content }}</p>
-          </div>
-          {% if qna.image %}
-            <img src="{{ qna.image.url }}" alt="{{ qna.image.url }}" style="max-height: 350px;">
-          {% endif %}
-          <div class="d-flex text-align-center">
-            {% for tag in qna.tag.all %}
-              <div class="qTag">
-                #{{ tag }}
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="d-flex justify-content-between">
-            <div class="addex my-1">
-              <span>{{qna.created_at}}</span>
-              &nbsp;
-              <span>조회수{{qna.hits}}</span>
-              &nbsp;
-              <span>답변수{{qna.answer_set.all|length}}</span>
-              &nbsp;
-              <span>
-                <a href="" style="color:#919191 ;">신고하기</a>
-              </span>
+        <!-- Qna 게시물 -->
+        <div class="col-12 col-lg-8 mx-auto p-0">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-q fa-lg"></i>
+                <span class="qnaTitle">{{ qna.title }}</span>
             </div>
-            <!-- <div class="my-2 d-flex justify-content-center"> 로그인 했다면 {% if request.user.is_authenticated %} {% if request.user in qna.like_users.all %} <i id="like-btn" class="fa-solid fa-heart"></i> {% else %} <i id="like-btn" class="fa-regular fa-heart"></i> {% endif %} <span id="like-count">{{ qna.like_users.count }}</span> {% endif %} </div> -->
-            <div class="d-flex">
-              <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);" href="{% url 'qna:index' %}">돌아가기</a>
-              {% if request.user == qna.user %}
-                <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);" href="{% url 'qna:update' qna.pk %}">수정</a>
-                <!-- 삭제 모달 -->
-                <a class="btn btn-link p-0" style="text-decoration: none; color:rgb(0, 206, 124);" data-bs-toggle="modal" data-bs-target="#delete-modal">
-                  삭제
-                </a>
-                <!-- Modal -->
-                <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-liber" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="delete-liber">삭제하시겠습니까?</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        삭제하면 내용을 되돌릴 수 없습니다.
-                      </div>
-                      <div class="modal-footer">
-                        <a class="btn btn-secondary btn-sm" href="{% url 'qna:delete' qna.pk %}">삭제하기</a>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="qnaInfo">
+                <span style="color:#6a6a6a;">상태</span>
+                &nbsp;
+                <span>
+                    {% if qna.closed == False %}
+                    <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
+                    {% else %}
+                    답변완료
+                    {% endif %}
+                </span>
+                &nbsp;
+                <span>
+                    <span style="color:#6a6a6a;">지역</span>
+                    &nbsp;
+                    <span>{{ qna.region }}
+                    </span>
+            </div>
+            <div class="qnaContent2">
+                <p>{{ qna.content }}</p>
+            </div>
+            {% if qna.image %}
+            <img src="{{ qna.image.url }}" alt="{{ qna.image.url }}" style="max-height: 350px;">
             {% endif %}
-          </div>
+            <div class="d-flex text-align-center">
+                {% for tag in qna.tag.all %}
+                <div class="qTag">
+                    #{{ tag }}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <div class="addex my-1">
+                    <span>{{qna.created_at}}</span>
+                    &nbsp;
+                    <span>조회수{{qna.hits}}</span>
+                    &nbsp;
+                    <span>답변수{{qna.answer_set.all|length}}</span>
+                    &nbsp;
+                    <span>
+                        <a class="btn btn-link p-0" style="color: #919191; font-size: 12px;" data-bs-toggle="modal"
+                            data-bs-target="#delete-modal">
+                            신고하기
+                        </a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-liber"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="delete-liber">신고하기</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea name="" id="" cols="60" rows="10"></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="btn btn-secondary btn-sm"
+                                            href="{% url 'qna:delete' qna.pk %}">삭제하기</a>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+                <!-- <div class=" my-2 d-flex justify-content-center"> 로그인 했다면 {% if request.user.is_authenticated %}
+                            {% if request.user in qna.like_users.all %} <i id="like-btn" class="fa-solid fa-heart"></i>
+                            {% else %} <i id="like-btn" class="fa-regular fa-heart"></i> {% endif %} <span
+                                id="like-count">{{ qna.like_users.count }}</span> {% endif %}
+                        </div> -->
+                <div class="d-flex">
+                    <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                        href="{% url 'qna:index' %}">돌아가기</a>
+                    {% if request.user == qna.user %}
+                    <a class="nav_a btn btn-link p-0 me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                        href="{% url 'qna:update' qna.pk %}">수정</a>
+                    <!-- 삭제 모달 -->
+                    <a class="btn btn-link p-0" style="text-decoration: none; color:rgb(0, 206, 124);"
+                        data-bs-toggle="modal" data-bs-target="#delete-modal">
+                        삭제
+                    </a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="delete-modal" tabindex="-1" aria-labelledby="delete-liber"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="delete-liber">삭제하시겠습니까?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    삭제하면 내용을 되돌릴 수 없습니다.
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="btn btn-secondary btn-sm" href="{% url 'qna:delete' qna.pk %}">삭제하기</a>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <h5 class="fw-bold">
+                답변
+                <span class="green-text">{{qna.answer_set.all|length}}</span>
+            </h5>
+            {% for answer in answers %}
+            {% csrf_token %}
+            <div class="px-1 py-3 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center">
+                    <!-- 프로필 사진 / 닉네임 / 작성시간 -->
+                    <div class="d-flex align-items-center">
+                        {% if answer.user.profile.image %}
+                        <a href="{% url 'accounts:detail' answer.pk %}"><img src="{{ answer.user.profile.image.url }}"
+                                alt="{{ answer.user.profile.image }}" class="rounded-circle border border-1 me-2"
+                                width="40" height="40"></a>
+                        {% else %}
+                        <a href="{% url 'accounts:detail' answer.pk %}"><img src="{% static 'image/no_profile.jpg'%}"
+                                alt="" class="rounded-circle border border-1 me-2" width="40" height="40"></a>
+                        {% endif %}
+                        <div class="d-flex flex-column">
+                            <p class="my-0 me-2 fw-bold" style="font-size: 12px;">{{ answer.user.nickname }}</p>
+                            <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">
+                                {{ answer.created_at}}
+                            </p>
+                        </div>
+                    </div>
+                    <!-- 댓글 삭제 -->
+                    <div>
+                        {% if request.user.is_authenticated %}
+                        {% if request.user == answer.user %}
+                        <form action="{% url 'qna:answers_delete' qna.pk answer.pk %}" method="POST" class="d-inline">
+                            {% csrf_token %}
+                            <a class="me-2" style="text-decoration: none; color:rgb(0, 206, 124);"
+                                href="{% url 'qna:answers_update' qna.pk answer.pk %}">수정</a>
+                            <a class="" style="text-decoration: none; color:rgb(0, 206, 124);"
+                                href="{% url 'qna:answers_delete' qna.pk answer.pk %}">삭제</a>
+                        </form>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- 댓글 내용 -->
+                <p class="answerContent">{{ answer.content }}</p>
+            </div>
+            {% empty %}
+            {% endfor %}
         </div>
-        <br>
-        <h5 class="fw-bold">
-          답변
-          <span class="green-text">{{qna.answer_set.all|length}}</span>
-        </h5>
-        {% for answer in answers %}
-          {% csrf_token %}
-          <div class="px-1 py-3 d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-center">
-              <!-- 프로필 사진 / 닉네임 / 작성시간 -->
-              <div class="d-flex align-items-center">
-                {% if answer.user.profile.image %}
-                  <a href="{% url 'accounts:detail' answer.pk %}"><img src="{{ answer.user.profile.image.url }}" alt="{{ answer.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40"></a>
+
+        <!-- 프로필 -->
+        <div class="profileSection col col-lg-3">
+            <div class="d-flex align-items-center">
+                {% if qna.user.profile.image %}
+                <a href="{% url 'accounts:detail' qna.pk %}"><img src="{{ qna.user.profile.image.url }}"
+                        alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40"
+                        height="40"></a>
                 {% else %}
-                  <a href="{% url 'accounts:detail' answer.pk %}"><img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40"></a>
+                <a href="{% url 'accounts:detail' qna.pk %}"><img src="{% static 'image/no_profile.jpg'%}" alt=""
+                        class="rounded-circle border border-1 me-2" width="40" height="40"></a>
                 {% endif %}
                 <div class="d-flex flex-column">
-                  <p class="my-0 me-2 fw-bold" style="font-size: 12px;">{{ answer.user.nickname }}</p>
-                  <p class="my-0" style="font-size: 12px; color:rgb(154, 154, 154)">{{ answer.created_at }}
-                  </p>
+                    <p class="my-0 me-2 fw-bold" style="font-weight:700;">{{ qna.user.nickname }}</p>
+                    <p class="my-0" style="font-size: 13px;">소개글</p>
                 </div>
-              </div>
-              <!-- 댓글 삭제 -->
-              <div>
-                {% if request.user.is_authenticated %}
-                  {% if request.user == answer.user %}
-                    <form action="{% url 'qna:answers_delete' qna.pk answer.pk %}" method="POST" class="d-inline">
-                      {% csrf_token %}
-                      <a class="me-2" style="text-decoration: none; color:rgb(0, 206, 124);" href="{% url 'qna:answers_update' qna.pk answer.pk %}">수정</a>
-                      <a class="" style="text-decoration: none; color:rgb(0, 206, 124);" href="{% url 'qna:answers_delete' qna.pk answer.pk %}">삭제</a>
-                    </form>
-                  {% endif %}
-                {% endif %}
-              </div>
             </div>
-            <!-- 댓글 내용 -->
-            <p class="answerContent">{{ answer.content }}</p>
-          </div>
-          {% empty %}
-        {% endfor %}
-      </div>
-
-      <!-- 프로필 -->
-      <div class="profileSection col col-lg-3">
-        <div class="d-flex align-items-center">
-          {% if qna.user.profile.image %}
-            <a href="{% url 'accounts:detail' qna.pk %}"><img src="{{ qna.user.profile.image.url }}" alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40" height="40"></a>
-          {% else %}
-            <a href="{% url 'accounts:detail' qna.pk %}"><img src="{% static 'image/no_profile.jpg'%}" alt="" class="rounded-circle border border-1 me-2" width="40" height="40"></a>
-          {% endif %}
-          <div class="d-flex flex-column">
-            <p class="my-0 me-2 fw-bold" style="font-weight:700;">{{ qna.user.nickname }}</p>
-            <p class="my-0" style="font-size: 13px;">소개글</p>
-          </div>
+            <div style="height:20px; border-top: 1px solid #e9e9e9; margin-top:20px;"></div>
+            <div class="text-center" style="margin-bottom: 5px; font-size: 14px; font-weight:700;">프로필 사진을 클릭해보세요!
+            </div>
+            <div class="d-flex justify-content-center">
+                {% if request.user == qna.user %}
+                <a class="answerBtn text-center" href="{% url 'qna:qna_closed' qna.pk %}" type="submit">
+                    {% if qna.closed == False %}
+                    채택하기
+                    {% else %}
+                    취소
+                    {% endif %}
+                </a>
+                {% else %}
+                <a href="{% url 'qna:answers_create' qna.pk %}" class="answerBtn text-center" type="submit">답변하기</a>
+                {% endif %}
+            </div>
         </div>
-        <div style="height:20px; border-top: 1px solid #e9e9e9; margin-top:20px;"></div>
-        <div class="text-center" style="margin-bottom: 5px; font-size: 14px; font-weight:700;">프로필 사진을 클릭해보세요!</div>
-        <div class="d-flex justify-content-center">
-          {% if request.user == qna.user %}
-            <a class="answerBtn text-center" href="{% url 'qna:qna_closed' qna.pk %}" type="submit">
-              {% if qna.closed == False %}
-                채택하기
-              {% else %}
-                취소
-              {% endif %}
-            </a>
-          {% else %}
-            <a href="{% url 'qna:answers_create' qna.pk %}" class="answerBtn text-center" type="submit">답변하기</a>
-          {% endif %}
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
     // (1) 도움돼요 버튼
     const likeBtn = document.querySelector('#like-btn')
     // (2) 도움돼요 버튼을 클릭하면, 함수 실행
     likeBtn.addEventListener('click', function (event) {
-      // 서버로 비동기 요청을 하고 싶음
-      console.log(event.target.dataset)
-      axios({method: 'get', url: "{% url 'qna:like' qna.pk %}"}).then(response => {
-        console.log(response)
-        console.log(response.data)
-        // event.target.classList.toggle('bi-heart')
-        // event.target.classList.toggle('bi-heart-fill')
-        if (response.data.isLiked === true) {
-          event
-            .target
-            .classList
-            .add('bi-heart-fill')
-          event
-            .target
-            .classList
-            .remove('bi-heart')
-        } else {
-          event
-            .target
-            .classList
-            .add('bi-heart')
-          event
-            .target
-            .classList
-            .remove('bi-heart-fill')
-        }
-        const likeCount = document.querySelector('#like-count')
-        likeCount.innerText = response.data.likeCount
-      })
+        // 서버로 비동기 요청을 하고 싶음
+        console.log(event.target.dataset)
+        axios({ method: 'get', url: "{% url 'qna:like' qna.pk %}" }).then(response => {
+            console.log(response)
+            console.log(response.data)
+            // event.target.classList.toggle('bi-heart')
+            // event.target.classList.toggle('bi-heart-fill')
+            if (response.data.isLiked === true) {
+                event
+                    .target
+                    .classList
+                    .add('bi-heart-fill')
+                event
+                    .target
+                    .classList
+                    .remove('bi-heart')
+            } else {
+                event
+                    .target
+                    .classList
+                    .add('bi-heart')
+                event
+                    .target
+                    .classList
+                    .remove('bi-heart-fill')
+            }
+            const likeCount = document.querySelector('#like-count')
+            likeCount.innerText = response.data.likeCount
+        })
     })
-  </script>
+</script>
 {% endblock %}
