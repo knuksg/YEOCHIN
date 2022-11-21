@@ -11,7 +11,7 @@ def index(request):
 @login_required
 def rooms(request, pk):
     user = User.objects.get(pk=pk)
-    rooms = Room.objects.filter(name__icontains=user.username)
+    rooms = Room.objects.filter(users=user)
     if rooms:
         room_list = []
         for room in rooms:
