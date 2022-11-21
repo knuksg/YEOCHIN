@@ -144,14 +144,22 @@ def review_detail(request, pk, review_pk):
     hotel = get_object_or_404(Hotel, pk=pk)
     other_hotels = Hotel.objects.filter(detail_region=hotel.detail_region).exclude(pk=pk)[:5]
     review = get_object_or_404(HotelReview, pk=review_pk)
-    profile_image = review.user.profile.image
-    print(profile_image)
+    try:
+        profile_image = review.user.profile.image
+    except:
+        profile_image = None
+    updated = False
+    if naturaltime(review.created_at) != naturaltime(review.updated_at):
+        updated = True
+
     comments = HotelReviewComment.objects.filter(review=review_pk).order_by('created_at')
     context = {
         'hotel': hotel,
         'other_hotels': other_hotels,
         'review': review,
         'comments': comments,
+        'profile_image': profile_image,
+        'updated': updated,
     }
     return render(request, 'hotels/review_detail.html', context)
 
