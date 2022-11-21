@@ -99,16 +99,17 @@
             {% endif %}
           </a>
           <ul class="dropdown-menu text-small">
-            <li>
-              <div>
-                {{user.nickname}}님,
-              </div>
-              <a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}">마이페이지</a>
-            </li>
+            <li> <span style="padding: 4px 16px; font-size:14px;"><span
+                  style="color: rgb(0, 206, 124);">{{user.username}}</span>님,
+                환영합니다.</span></li>
+            <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:detail' user.pk%}"><span
+                  style="font-size:14px;">마이페이지</span></a><span>
+              </span></li>
             <li>
               <hr class="dropdown-divider" />
             </li>
-            <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:logout'%}">로그아웃</a></li>
+            <li><a class="navMenuRight dropdown-item" href="{% url 'accounts:logout'%}"><span
+                  style="font-size:14px;">로그아웃</span></a><span></a></li>
             <li></li>
           </ul>
         </div>
