@@ -103,7 +103,7 @@
           <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">          
             <div class="cardbox">
               <div class="qnaCard d-flex justify-content-between">
-                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
+                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.region}${q.place}${q.place}</span></div>
                   <span class="waitText" font-weight:bord;">채택완료</span>
               </div>
               <div class="qCtit">${q.title}</div>
@@ -138,7 +138,7 @@
           <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">          
             <div class="cardbox">
               <div class="qnaCard d-flex justify-content-between">
-                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
+                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.region}${q.place}${q.place}</span></div>
                   <span class="waitText" font-weight:bord;">채택완료</span>
               </div>
               <div class="qCtit">${q.title}</div>
@@ -175,7 +175,7 @@
           <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">
             <div class="cardbox">
               <div class="qnaCard d-flex justify-content-between">
-                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
+                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.region}${q.place}${q.place}</span></div>
                 <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
               </div>
               <div class="qCtit">${q.title}</div>
@@ -211,7 +211,7 @@
           <a style="text-decoration:none;" href="http://127.0.0.1:8000/qna/detail/${q.pk}/">
             <div class="cardbox">
               <div class="qnaCard d-flex justify-content-between">
-                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.place}</span></div>
+                <div class=""><i class="loIn fa-solid fa-location-dot"></i><span class="cardLocal px-1">${q.region}${q.place}</span></div>
                 <span style="color:#00ce7c; font-weight:bord;">답변대기</span>
               </div>
               <div class="qCtit">${q.title}</div>
@@ -255,7 +255,7 @@
             <div class="cardbox">
               <div class="qnaCard d-flex justify-content-between">
                 <div class=""><i class="loIn fa-solid fa-location-dot" style="width: 12px; height: 9px;"></i><span
-                    class="cardLocal px-1">{{q.place}}</span>
+                    class="cardLocal px-1">{{q.region}}{{q.place}}</span>
                 </div>
                 {% if q.closed == False %}
                 <span style="color:#00ce7c; font-weight:bord;">답변대기</span>

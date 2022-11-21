@@ -255,7 +255,7 @@ def naver_callback(request):
 
     naver_id = naver_user_information["response"]["id"]
     naver_nickname = naver_user_information["response"]["nickname"]
-    naver_email = naver_user_information["response"]["email"]
+    # naver_email = naver_user_information["response"]["email"]
 
     if get_user_model().objects.filter(naver_id=naver_id).exists():
         naver_user = get_user_model().objects.get(naver_id=naver_id)

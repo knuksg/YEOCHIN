@@ -3,16 +3,30 @@
 
 {% block body %}
 
-  <h3 class="fw-bold text-center" style="padding-top: 50px">동행친구 찾기</h3>
-  <div class="container mt-5">
-    <form class="photo-form mx-auto" action="" method="POST" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% bootstrap_form friend_form %}
-      <div class="photo-form-btn">
-        <a class="photo-gray-btn" href="{% url 'friends:index' %}">취소</a>
-        <button class="photo-green-btn" type="submit">작성완료</button>
+<h3 class="fw-bold text-center" style="padding-top: 50px">동행친구 찾기</h3>
+<div class="container my-5">
+  <form class="photo-form mx-auto" action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset>
+      <legend style="font-size: 16px; margin-bottom:16px;">지역</legend>
+      <div class="d-flex justify-content-between" style="margin-bottom:16px;">
+        <input class="radioInp" type="radio" id="서울" name="region" value="서울" checked><label for="서울">서울</label>
+        <input class="radioInp" type="radio" id="제주" name="region" value="제주"><label for="제주">제주</label>
+        <input class="radioInp" type="radio" id="인천" name="region" value="인천"><label for="인천">인천</label>
+        <input class="radioInp" type="radio" id="부산" name="region" value="부산"><label for="부산">부산</label>
+        <input class="radioInp" type="radio" id="경상" name="region" value="경상"><label for="경상">경상</label>
+        <input class="radioInp" type="radio" id="경기" name="region" value="경기"><label for="경기">경기</label>
+        <input class="radioInp" type="radio" id="강원" name="region" value="강원"><label for="강원">강원</label>
+        <input class="radioInp" type="radio" id="전라" name="region" value="전라"><label for="전라">전라</label>
+        <input class="radioInp" type="radio" id="충청" name="region" value="충청"><label for="충청">충청</label>
       </div>
-    </form>
-  </div>
+    </fieldset>
+    {% bootstrap_form friend_form %}
+    <div class="photo-form-btn">
+      <a class="photo-gray-btn" href="{% url 'friends:index' %}">취소</a>
+      <button class="photo-green-btn" type="submit">작성완료</button>
+    </div>
+  </form>
+</div>
 
 {% endblock %}

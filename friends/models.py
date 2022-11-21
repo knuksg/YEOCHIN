@@ -11,6 +11,7 @@ class Friend(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     start_at = models.DateField()
     end_at = models.DateField(null=True)
+    region = models.TextField()
     place = models.CharField(max_length=30)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     like_user = models.ManyToManyField(get_user_model(), related_name="like_friend")
