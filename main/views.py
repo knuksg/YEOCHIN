@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
-    return render(request, "main/index.html")
+    return render(request, "friends/home.html")
 
 def search(request):
     kw = request.GET.get("kw", "")  # 검색어
