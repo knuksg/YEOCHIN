@@ -119,7 +119,7 @@
         <div class="mt-1 text-muted">
           <span>{{ review.created_at | naturalday }}</span> 
           <span class="vertical-bar"></span>
-          <span>{{ review.user }}</span>
+          <span>{{ review.user.nickname }}</span>
         </div>
         <!-- like & comment -->
         <a href="{% url 'hotels:review_detail' hotel.pk review.pk %}" class="text-decoration-none text-black">
