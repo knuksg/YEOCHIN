@@ -130,12 +130,13 @@
                     <!-- 프로필 사진 / 닉네임 / 작성시간 -->
                     <div class="d-flex align-items-center">
                         {% if answer.user.profile.image %}
-                        <a href="{% url 'accounts:detail' answer.pk %}"><img src="{{ answer.user.profile.image.url }}"
-                                alt="{{ answer.user.profile.image }}" class="rounded-circle border border-1 me-2"
-                                width="40" height="40"></a>
+                        <a href="{% url 'accounts:detail' answer.user.pk %}"><img
+                                src="{{ answer.user.profile.image.url }}" alt="{{ answer.user.profile.image }}"
+                                class="rounded-circle border border-1 me-2" width="40" height="40"></a>
                         {% else %}
-                        <a href="{% url 'accounts:detail' answer.pk %}"><img src="{% static 'image/no_profile.jpg'%}"
-                                alt="" class="rounded-circle border border-1 me-2" width="40" height="40"></a>
+                        <a href="{% url 'accounts:detail' answer.user.pk  %}"><img
+                                src="{% static 'image/no_profile.jpg'%}" alt=""
+                                class="rounded-circle border border-1 me-2" width="40" height="40"></a>
                         {% endif %}
                         <div class="d-flex flex-column">
                             <p class="my-0 me-2 fw-bold" style="font-size: 12px;">{{ answer.user.nickname }}</p>
@@ -170,11 +171,11 @@
         <div class="profileSection col col-lg-3">
             <div class="d-flex align-items-center">
                 {% if qna.user.profile.image %}
-                <a href="{% url 'accounts:detail' qna.pk %}"><img src="{{ qna.user.profile.image.url }}"
+                <a href="{% url 'accounts:detail' qna.user.pk %}"><img src="{{ qna.user.profile.image.url }}"
                         alt="{{ qna.user.profile.image }}" class="rounded-circle border border-1 me-2" width="40"
                         height="40"></a>
                 {% else %}
-                <a href="{% url 'accounts:detail' qna.pk %}"><img src="{% static 'image/no_profile.jpg'%}" alt=""
+                <a href="{% url 'accounts:detail'  qna.user.pk %}"><img src="{% static 'image/no_profile.jpg'%}" alt=""
                         class="rounded-circle border border-1 me-2" width="40" height="40"></a>
                 {% endif %}
                 <div class="d-flex flex-column">
@@ -195,8 +196,13 @@
                     {% endif %}
                 </a>
                 {% else %}
+                {% if qna.closed == False %}
                 <a href="{% url 'qna:answers_create' qna.pk %}" class="answerBtn text-center" type="submit">답변하기</a>
+                {% else %}
+                <span class="answerdonBtn">채택이 완료되었습니다.</span>
                 {% endif %}
+                {% endif %}
+
             </div>
         </div>
     </div>
