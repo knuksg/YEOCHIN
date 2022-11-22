@@ -135,8 +135,7 @@
                           <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
                           {% endif %}
                         </div>
-                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">
-                          {{ friend.like_users.count}}</span>
+                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_users.count}}</span>
                         {% endif %}
 
                         <span class="bi bi-chat-dots-fill me-3">
