@@ -129,13 +129,13 @@
                       <div class="text-muted fs-6">
                         {% if request.user.is_authenticated %}
                         <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
-                          {% if request.user in friend.like_users.all %}
+                          {% if request.user in friend.like_user.all %}
                           <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"></i>
                           {% else %}
                           <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
                           {% endif %}
                         </div>
-                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_users.count}}</span>
+                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_user.count}}</span>
                         {% endif %}
 
                         <span class="bi bi-chat-dots-fill me-3">
@@ -204,13 +204,13 @@
                       <div class="text-muted fs-6">
                         {% if request.user.is_authenticated %}
                         <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
-                          {% if request.user in friend.like_users.all %}
+                          {% if request.user in friend.like_user.all %}
                           <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"></i>
                           {% else %}
                           <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
                           {% endif %}
                         </div>
-                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_users.count }}</span>
+                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_user.count }}</span>
                         {% endif %}
 
                         <span class="bi bi-chat-dots-fill me-3">
