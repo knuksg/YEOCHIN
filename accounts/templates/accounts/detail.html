@@ -139,10 +139,10 @@
                         {% endif %}
 
                         <span class="bi bi-chat-dots-fill me-3">
-                          <span class="">{{ friend.comment_set.all.count }}</span>
+                          <span class="">{{ friend.friend_comment_set.all.count }}</span>
                         </span>
                         <span class="bi bi-eye-fill">
-                          <span class="">{{ friend.view_count }}</span>
+                          <span class="">{{ friend.hits_count }}</span>
                         </span>
                       </div>
 
@@ -210,15 +210,14 @@
                           <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart"></i>
                           {% endif %}
                         </div>
-                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">
-                          {{ friend.like_users.count }}</span>
+                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ friend.like_users.count }}</span>
                         {% endif %}
 
                         <span class="bi bi-chat-dots-fill me-3">
-                          <span class="">{{ friend.comment_set.all.count }}</span>
+                          <span class="">{{ friend.friend_comment_set.all.count }}</span>
                         </span>
                         <span class="bi bi-eye-fill">
-                          <span class="">{{ friend.view_count }}</span>
+                          <span class="">{{ friend.hits_count }}</span>
                         </span>
                       </div>
 
@@ -281,22 +280,21 @@
                       <div class="text-muted fs-6">
                         {% if request.user.is_authenticated %}
                         <div class="like-forms d-inline" data-friend-id="{{ friend.pk }}">
-                          {% if request.user in friend.like_users.all %}
+                          {% if request.user in photospot.like_users.all %}
                           <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart-fill text-danger"
                             style="color: #9a9a9a;"></i>
                           {% else %}
                           <i id="btn-like-{{ friend.pk }}" class="btn-none bi bi-heart" style="color: #9a9a9a;"></i>
                           {% endif %}
                         </div>
-                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">
-                          {{ friend.like_users.count }}</span>
+                        <span id="like-{{ friend.pk }}-count" class="text-muted me-3">{{ photospot.like_users.count }}</span>
                         {% endif %}
 
                         <span class="bi bi-chat-dots-fill me-3">
-                          <span class="">{{ friend.comment_set.all.count }}</span>
+                          <span class="">{{ photospot.hits_set.all.count }}</span>
                         </span>
                         <span class="bi bi-eye-fill">
-                          <span class="">{{ friend.view_count }}</span>
+                          <span class="">{{ photospot.hits_count }}</span>
                         </span>
                       </div>
 
